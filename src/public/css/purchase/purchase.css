@@ -1,0 +1,413 @@
+/* 商品購入画面のCSS */
+/* 送付先住所を更新しましたメッセージ */
+.alert-success {
+    padding: 10px 30px;
+    border-color: #badbcc;
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+body {
+    font-family: Inter;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #000000;
+}
+
+.purchase-page {
+    max-width: 1512px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* 左右の列のフォーム */
+.purchase-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.left-column {
+    width: 60%;
+}
+
+.right-column {
+    width: 35%;
+}
+
+.item-image {
+    width: 178px;
+    height: 178px;
+    margin: 93px 80px 50px 80px;
+    object-fit: cover;
+}
+
+/* 商品名、金額 */
+.item_name_price {
+    flex-grow: 1;
+}
+
+/* 左の商品名、支払い方法 */
+.item_row,
+.paymentmethod_row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #000000;
+}
+
+/* 商品名 */
+.item-title {
+    margin-top: 93px;
+
+    font-weight: 700;
+    font-size: 30px;
+}
+
+/* ¥マーク */
+.price {
+    font-weight: 400;
+    font-size: 27px;
+}
+
+/* 金額 */
+.item_price {
+    margin-left: 10px;
+    font-size: 30px;
+}
+
+
+
+/* 支払い方法 */
+.paymentmethod {
+    width: 326px;
+    height: 85px;
+    margin: 30px 0;
+    font-weight: 700;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+/* 支払い方法 */
+.paymentmethod_select {
+    margin: 0 115px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+/* 支払い方法セレクトボックス */
+.form_select {
+    margin: 11px 176px;
+    padding: 10px;
+    width: 265px;
+    font-size: 16px;
+    color: #5F5F5F;
+    border: 1px solid #5F5F5F
+}
+
+/* 配送先のフォーム */
+.delivery_address {
+    margin-left: 115px;
+}
+
+.delivery_address_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* 配送先のタイトル */
+.delivery_address_title {
+
+    font-weight: 700;
+    font-size: 20px;
+    vertical-align: middle;
+    margin: 0;
+}
+
+/* 送付先を変更するリンク */
+.change_link {
+    color: #0073cc;
+    text-decoration: none;
+    margin-right: 20px;
+
+    font-weight: 400;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+/* 郵便番号、住所、建物 */
+.delivery_info {
+    display: inline-block;
+    margin: 20px 61px;
+
+    font-weight: 600;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+/* 右の商品代金、支払い方法のフォーム */
+.purchases_table {
+    border: 1px solid #000000;
+    width: 100%;
+    margin: 93px auto;
+}
+
+/* 右の商品代金、支払い方法それぞれのフォーム */
+.row_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #000;
+}
+
+/* 支払い方法のborder-bottom引かない */
+.row_box:last-child {
+    border-bottom: none;
+}
+
+/* 右の商品代金、支払い方法のタイトル */
+.purchases_table_item_price_title,
+.purchases_table_paymentmethod_title,
+.purchases_table_price {
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 50px;
+}
+
+/* 金額の数字、選択済み支払い方法 */
+.purchases_table_item_price,
+.selected-method {
+    font-weight: 400;
+    font-size: 24px;
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+/* 購入するボタン */
+.purchase_button {
+    margin: 40px auto;
+    background-color: #FF5555;
+    color: #FFFFFF;
+    padding: 12px 30px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+
+    font-weight: 700;
+    font-size: 26px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* 送付先フォーム */
+.delivery_address {
+    margin-bottom: 30px;
+}
+
+@media screen and (max-width: 850px) and (min-width: 768px) {
+    .item_row {
+        margin-bottom: 15px;
+    }
+    /* 商品画像 */
+    .item-image {
+        margin: 30px 25px;
+        width: 125px;
+        height: 125px;
+    }
+    /* 商品名 */
+    .item-title {
+        margin-top: 30px;
+        font-size: 21px;
+    }
+
+    /* ¥マーク */
+    .price {
+        font-size: 19px;
+    }
+    /* 金額 */
+    .item_price {
+        font-size: 21px;
+    }
+
+    /* 支払い方法フォーム */
+    .paymentmethod_select,
+    /* 配送先フォーム */
+    .delivery_address {
+        margin: 0 20px;
+    }
+    /* 支払い方法 */
+    .paymentmethod,
+    .delivery_address_title {
+        font-size: 14px;
+        margin: 10px;
+    }
+    /* セレクトボックス */
+    .form_select {
+        display: flex;
+        margin: 15px 40px;
+        width: 181px;
+        height: 24px;
+        font-size: 11px;
+        padding: 5px;
+    }
+
+    /* 郵便番号、住所、建物名のフォーム */
+    .delivery_info {
+        margin: 0 50px;
+    }
+    /* 郵便番号、住所、建物名 */
+    .delivery_info_title {
+        font-size: 14px;
+        line-height: 70%;
+    }
+    /* 変更するリンク */
+    .change_link {
+        font-size: 14px;
+    }
+
+    /* 右側の商品代金、支払い方法のフォーム */
+    .purchases_table {
+        margin: 30px 0;
+    }
+
+    /* 右の商品代金、支払い方法のそれぞれのフォーム */
+    .row_box {
+        height: 81px;
+    }
+
+    /* 商品代金、¥マーク、支払い方法 */
+    .purchases_table_item_price_title,
+    .purchases_table_price,
+    .purchases_table_paymentmethod_title {
+        font-size: 14px;
+        padding: 0 15px;
+    }
+
+    /* 金額、選択済みの支払い方法 */
+    .purchases_table_item_price,
+    .selected-method {
+        font-size: 17px;
+    }
+
+    /* 購入するボタン */
+    .purchase_button {
+        height: 42px;
+        font-size: 18px;
+        padding: 8px 21px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .purchase-content {
+        flex-direction: column;
+    }
+
+    .left-column,.right-column {
+        width: 100%;
+    }
+    
+    /* 商品画像・商品名・金額のフォーム、支払い方法のフォーム */
+    .item_row,
+    .paymentmethod_row {
+        margin-bottom: 5px;
+    }
+
+    /* 商品画像 */
+    .item-image {
+        margin: 20px;
+        width: 89px;
+        height: 89px;
+    }
+    /* 商品名 */
+    .item-title {
+        font-size: 15px;
+        margin-top: 20px;
+    }
+    /* 金額 */
+    .item_price {
+        font-size: 15px;
+    }
+    /* ¥マーク */
+    .price {
+        font-size: 14px;
+    }
+
+    /* 支払い方法、配送先 */
+    .paymentmethod_select,
+    .delivery_address {
+        margin: 0 25px;
+    }
+
+    /* 支払い方法、配送先、変更するリンク */
+    .paymentmethod,
+    .delivery_address_title,
+    .change_link {
+        font-size: 10px;
+        margin: 15px 0;
+    }
+
+    /* セレクトボックス */
+    .form_select {
+        display: flex;
+        width: 133px;
+        height: 16px;
+        font-size: 8px;
+        padding: 2px;
+        margin: 11px 30px;
+    }
+
+    /* 配送先、変更リンクのフォーム */
+    .delivery_address_header {
+        margin-bottom: 0;
+    }
+    /* 郵便番号、住所、建物名 */
+    .delivery_info {
+        font-size: 10px;
+        margin: 0 30px;
+    }
+
+    /* 郵便番号、住所、建物名 */
+    .delivery_info_title {
+        line-height: 70%;
+    }
+
+    /* 右側の商品代金、支払い方法のフォーム */
+    .purchases_table {
+        margin: 20px auto;
+    }
+
+    /* 右側の商品代金、支払い方法のそれぞれのフォーム */
+    .row_box {
+        height: 60px;
+    }
+
+    /* 商品代金、¥マーク、支払い方法 */
+    .purchases_table_item_price_title,
+    .purchases_table_paymentmethod_title,
+    .purchases_table_price {
+        font-size: 10px;
+        padding: 15px;
+    }
+    /* 金額、選択済み支払い方法 */
+    .purchases_table_item_price,
+    .selected-method {
+        font-size: 12px;
+    }
+
+    .purchase_button {
+        font-size: 13px;
+        margin: 0;
+        height: 30px;
+        padding: 0;
+    }
+}

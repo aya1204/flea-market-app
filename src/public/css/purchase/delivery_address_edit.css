@@ -1,0 +1,158 @@
+/* 送付先変更画面 */
+
+/* 全体 */
+body {
+    font-family: Inter;
+    font-weight: 700;
+    line-height: 100%;
+    letter-spacing: 0%;
+}
+
+/* 住所の変更、郵便番号、住所、建物名のフォーム */
+.profile-container {
+    margin: 128px auto;
+    width: 680px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 住所の変更 */
+.title {
+    font-size: 36px;
+    width: 180px;
+    height: 44px;
+    margin: 0 auto 47px auto;
+    padding-top: 10px;
+}
+
+/* 郵便番号、住所、建物名までのフォーム */
+.profile-detail {
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+/* ユーザーアイコン */
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+/* 画像を選択するボタン風 */
+.user-icon_select {
+    width: 179px;
+    height: 49px;
+    margin: 0 40px;
+    border-radius: 10px;
+    border: 2px solid #FF5555;
+    color: #FF5555;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 15px 20px;
+}
+
+/* ファイルを選択する */
+.hidden-file-input {
+    display: none;
+}
+
+/* 郵便番号、住所、建物名のフォーム */
+.profile-detail_form {
+    margin: 67px 0;
+}
+
+/* 郵便番号、住所、建物名のタイトル */
+.postal_code,
+.address,
+.building {
+    font-size: 24px;
+    vertical-align: middle;
+    display: flex;
+    padding: 20px 0;
+}
+
+/* 入力欄 */
+.text-box {
+    width: 100%;
+    height: 55px;
+    border-width: 1px;
+    border-radius: 4px;
+    color: #000000;
+    font-size: 24px;
+    vertical-align: middle;
+    margin-bottom: 68px;
+}
+
+.update_button {
+    margin: 5px 0;
+    font-size: 26px;
+    text-align: center;
+    vertical-align: middle;
+    color: #FFFFFF;
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    background: #FF5555;
+    border: none;
+}
+
+@media screen and (max-width: 767px) {
+
+    /* 全体のフォーム */
+    .profile-container {
+        max-width: 767px;
+        width: 60%;
+        margin: 64px auto;
+    }
+
+    /* プロフィール設定 */
+    .title {
+        font-size: 18px;
+        width: auto;
+        margin: 0 auto 24px auto;
+        padding-top: 5px;
+    }
+
+    /* ユーザーアイコン */
+    .profile-image {
+        width: 75px;
+        height: 75px;
+    }
+
+    /* 画像を選択するボタン風 */
+    .user-icon_select {
+        font-size: 10px;
+        margin: 0 20px;
+        padding: 8px 10px;
+    }
+
+    /* ユーザー名、郵便番号、住所、建物名のフォーム */
+    .profile-detail_form {
+        margin: 34px 0;
+    }
+
+    /* ユーザー名、郵便番号、住所、建物名のタイトル */
+    .name,
+    .postal_code,
+    .address,
+    .building {
+        font-size: 12px;
+        padding: 10px 0;
+    }
+
+    /* 入力欄 */
+    .text-box {
+        height: 28px;
+        font-size: 12px;
+        margin-bottom: 34px;
+    }
+
+    /* 更新するボタン */
+    .update_button {
+        margin: 3px 0;
+        font-size: 13px;
+        height: 30px;
+    }
+}

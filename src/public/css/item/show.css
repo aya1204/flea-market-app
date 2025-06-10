@@ -1,0 +1,617 @@
+/* 商品詳細画面のCSS */
+
+/* 全体 */
+body {
+    font-family: Inter;
+    line-height: 100%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
+/* 商品画像と商品情報のフォーム */
+.item_detail {
+    max-width: 1380px;
+    max-height: 1702px;
+    width: 100%;
+    height: 100%;
+    margin: 66px auto;
+    display: flex;
+    color: #000000;
+    background: #FFFFFF;
+}
+
+/* 商品画像 */
+.item_image {
+    width: 600px;
+    height: 600px;
+    margin: 45px 36px;
+    border-radius: 4px;
+}
+
+/* 商品画像以外 */
+.col-md-9 {
+    margin: 45px 36px;
+    max-width: 570px;
+    height: 100%;
+}
+
+/* 商品名 */
+.item_title {
+    font-weight: 700;
+    font-size: 45px;
+    margin-top: 0;
+}
+
+/* ブランド名 */
+.item_brand_name {
+    font-weight: 400;
+    font-size: 20px;
+}
+
+/* 金額 */
+.item_price {
+    font-weight: 400;
+    font-size: 45px;
+    margin-top: 40px;
+}
+
+.tax {
+    font-weight: 400;
+    font-size: 30px;
+}
+
+/* お気に入りアイコンとコメントアイコン */
+.icon_group {
+    width: 144px;
+    height: 67px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left: 30px;
+    justify-content: space-between;
+}
+
+/* お気に入りアイコン：全共通 */
+.favorite_button {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #fff;
+    border: none;
+    margin-left: 6px;
+}
+
+/* お気に入り登録済み */
+.favorited_icon {
+    width: 40px;
+    height: 40px;
+    /* 画像を赤色に指定 */
+    filter: invert(15%) sepia(95%) saturate(6932%) hue-rotate(358deg) brightness(95%) contrast(112%);
+}
+
+/* お気に入り解除、登録前 */
+.unfavorite_icon {
+    width: 40px;
+    height: 40px;
+}
+
+.comment_icon_button {
+    margin-left: 20px;
+    border: none;
+    background: #fff;
+}
+
+/* コメントの吹き出し */
+.comment_icon {
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+/* お気に入り登録数とコメント数 */
+.counts {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin: 0 25px;
+    gap: 0 77px;
+
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* 購入手続きへボタン */
+.purchase_button {
+    display: inline-block;
+    background-color: #FF5555;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    width: 100%;
+    margin: 50px 0;
+
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 100%;
+    text-align: center;
+    border-radius: 4px;
+}
+
+/* 商品説明：タイトル */
+.description_title {
+    margin: 24px 0;
+    font-weight: 700;
+    font-size: 36px;
+}
+/* 商品説明 */
+.description {
+    font-weight: 400;
+    font-size: 24px;
+    margin: 74px 0;
+    line-height: 1.6;
+}
+
+/* 商品の情報 */
+.information {
+    /* margin-top: 100px; */
+    margin: 0;
+    font-weight: 700;
+    font-size: 36px;
+}
+
+/* カテゴリー：全共通 */
+.category {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+/* カテゴリー */
+.category_title {
+    font-weight: 700;
+    font-size: 24px;
+}
+/* カテゴリーの枠 */
+.category_list {
+    list-style: none;
+    display: flex;
+}
+/* カテゴリーの名前 */
+.category_name {
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    margin: 18px 10px;
+    padding: 8px;
+    width: 102px;
+
+    border-radius: 15px;
+    background: #D9D9D9;
+}
+
+/* 商品の状態：共通 */
+.conditions {
+    display: flex;
+    flex-wrap: wrap;
+}
+/* 商品の状態：タイトル */
+.item_condition {
+    font-weight: 700;
+    font-size: 24px;
+    margin: 0;
+}
+/* 商品の状態 */
+.condition {
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+    margin: auto;
+}
+
+/* コメント（コメント数） */
+.comment {
+    color: #5F5F5F;
+    font-weight: 700;
+    font-size: 36px;
+    margin-top: 90px;
+}
+/* プロフィールアイコンとユーザーネーム */
+.comment_wrapper {
+    display: flex;
+}
+
+/* プロフィールアイコン */
+.user_icon {
+    width: 70px;
+    height: 70px;
+}
+.user_name {
+    margin: 16px 10px;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 100%;
+    color: #000000;
+}
+/* コメント送信済み */
+.user_comment {
+    margin: 10px 0;
+    padding: 25px 15px;
+    width: 570px;
+    height: 70px;
+    border-radius: 5px;
+    font-weight: 300;
+    font-size: 20px;
+    background: #E5E5E5;
+}
+
+/* 商品へのコメント */
+.comment_title {
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+/* コメント入力欄 */
+.comment_text {
+    width: 100%;
+    height: 246px;
+}
+/* コメントを送信するボタン */
+.send {
+    border: none;
+    margin-top: 22px;
+    border-radius: 4px;
+    background: #FF5555;
+    width: 100%;
+    height: 56px;
+    font-weight: 700;
+    font-size: 25px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+/* バリデーションを赤文字にする */
+.validation_error {
+    color: red;
+}
+
+/* タブレット（768px〜850px）対応 */
+@media screen and (max-width: 850px) and (min-width: 768px) {
+    /* 全体 */
+    .item-detail {
+        flex-direction: column;
+        align-items: center;
+        margin: 20px auto;
+    }
+
+    /* 商品画像 */
+    .item_image {
+        width: 90%;
+        height: auto;
+        margin: 20px 16px;
+    }
+
+    /* 商品画像の列と商品詳細の列 */
+    .col-md-3,.col-md-9 {
+        margin: 0 auto;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    /* 商品名 */
+    .item_title {
+        font-size: 41px;
+    }
+
+    /* アイコンのフォーム */
+    .icon_group {
+        width: 144px;
+        height: 67px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        margin-left: 30px ;
+    }
+
+    .favorited_icon,
+    .unfavorite_icon,
+    .comment_icon {
+        display: block;
+        width: 40px;
+        height: 40px;
+        margin: 0 6px;
+    }
+
+    /* ブランド名 */
+    .item_brand_name {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    /* 金額 */
+    .item_price {
+        font-size: 41px;
+        margin-top: 20px;
+    }
+
+    /* （税込） */
+    .tax {
+        font-size: 32px;
+    }
+
+    /* お気に入り登録数とコメント数の数字 */
+    .counts {
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    /* 購入手続きへボタン */
+    .purchase_button {
+        font-size: 24px;
+        margin: 30px 0;
+    }
+
+    /* 商品説明のタイトル、商品の情報のタイトル、コメント（0） */
+    .description_title,
+    .information,
+    .comment {
+        font-size: 32px;
+    }
+
+    /* 商品説明 */
+    .description {
+        font-size: 22px;
+        margin: 40px 0;
+        flex-wrap: wrap;
+    }
+
+    /* カテゴリー・商品の状態・商品へのコメントのタイトル */
+    .category_title,
+    .item_condition,
+    .comment_title {
+        font-size: 22px;
+        margin: 40px 0;
+    }
+
+    /* カテゴリーのタイトル */
+    .category_title {
+        margin-bottom: 5px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    /* カテゴリーのフォーム */
+    .category_list {
+        padding: 0;
+        margin: auto;
+        margin-bottom: 0;
+    }
+
+    /* カテゴリー名 */
+    .category_name {
+        font-size: 18px;
+        padding: 6px;
+        width: auto;
+        margin: 6px;
+    }
+
+    /* 商品の状態のフォーム */
+    .conditions {
+        margin-bottom: 40px;
+    }
+
+    /* 商品の状態 */
+    .condition {
+        margin: auto;
+        font-size: 18px;
+    }
+
+    /* コメント（0） */
+    .comment {
+        margin: 20px 0;
+    }
+
+    /* ユーザーアイコン */
+    .user_icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* ユーザー名 */
+    .user_name {
+        font-size: 30px;
+        margin: 12px 8px;
+    }
+
+    /* 投稿済みのコメント */
+    .user_comment {
+        width: 100%;
+        font-size: 20px;
+        height: auto;
+    }
+
+    /* コメント入力欄 */
+    .comment_text {
+        height: 150px;
+    }
+
+    /* コメントを送信するボタン */
+    .send {
+        font-size: 18px;
+        height: 50px;
+    }
+}
+
+/* スマホ（767px以下）対応 */
+@media screen and (max-width: 767px) {
+    .item-detail {
+        flex-direction: column;
+        align-items: center;
+        margin: 20px auto;
+    }
+
+    /* 商品画像の列 */
+    .col-md-3 {
+        max-width: 50%;
+    }
+
+    /* 商品画像 */
+    .item_image {
+        width: 90%;
+        height: auto;
+        margin: 20px 8px;
+    }
+
+    /* 商品詳細の列 */
+    .col-md-9 {
+        margin: 10px;
+        max-width: 100%;
+    }
+
+    /* 商品名 */
+    .item_title {
+        font-size: 23px;
+    }
+
+    /* アイコンのフォーム */
+    .icon_group {
+        margin-left: 0;
+    }
+
+    /* ブランド名 */
+    .item_brand_name {
+        font-size: 10px;
+    }
+
+    /* 金額 */
+    .item_price {
+        font-weight: 400;
+        font-size: 23px;
+        margin-top: 20px;
+    }
+
+    /* （税込） */
+    .tax {
+        font-weight: 400;
+        font-size: 15px;
+    }
+
+    /* お気に入りアイコンの位置 */
+    .favorite_button {
+        margin-left: 22px;
+    }
+
+    /* コメントアイコンの位置 */
+    .comment_icon_button {
+        margin-right: 13px;
+    }
+
+    /* お気に入り登録済み・お気に入り解除・コメントアイコン */
+    .favorited_icon,
+    .unfavorite_icon,
+    .comment_icon {
+        width: 20px;
+        height: 18px;
+    }
+
+    /* お気に入り登録数・コメント数 */
+    .counts {
+        justify-content: center;
+        /* margin: 0 10px; */
+    }
+
+    /* 購入手続きへボタン */
+    .purchase_button {
+        font-size: 15px;
+        margin: 30px 0;
+    }
+
+    /* 商品説明・商品の情報のタイトル、コメント（0） */
+    .description_title,
+    .information,
+    .comment {
+        font-size: 18px;
+    }
+
+    /* 商品情報 */
+    .description {
+        font-size: 12px;
+        margin: 40px 0;
+    }
+
+    /* カテゴリー・商品の状態・商品へのコメントのタイトル */
+    .category_title,
+    .item_condition,
+    .comment_title {
+        font-size: 12px;
+        margin: 20px 0;
+    }
+
+    /* カテゴリータイトル */
+    .category_title {
+        margin-bottom: 5px;
+    }
+
+    /* それぞれのカテゴリーのフォーム */
+    .category_list {
+        margin: 0;
+    }
+
+    /* カテゴリー名 */
+    .category_name {
+        font-size: 10px;
+        padding: 3px;
+        width: auto;
+        margin: 18px 6px;
+    }
+
+    /* カテゴリーと商品の状態（横並び） */
+    .category,
+    .conditions {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        flex-wrap: nowrap;
+    }
+
+    /* 商品の状態 */
+    .condition {
+        font-size: 10px;
+    }
+
+    /* コメント（0） */
+    .comment {
+        margin: 20px 0;
+    }
+
+    /* ユーザーアイコン */
+    .user_icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* ユーザー名 */
+    .user_name {
+        font-size: 15px;
+        margin: 12px 8px;
+    }
+
+    /* 投稿済みのコメント */
+    .user_comment {
+        width: 100%;
+        font-size: 10px;
+        height: auto;
+    }
+
+    /* コメント入力欄 */
+    .comment_text {
+        height: 150px;
+    }
+
+    /* コメントを送信するボタン */
+    .send {
+        font-size: 13px;
+        height: 50px;
+    }
+}

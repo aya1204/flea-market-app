@@ -1,0 +1,404 @@
+/* 出品画面 */
+
+body {
+    font-family: Inter;
+    font-weight: 700;
+    line-height: 100%;
+    letter-spacing: 0%;
+}
+
+main {
+    max-height: 1947px;
+    height: 100%;
+}
+
+/* 商品の出品から出品するボタンまで */
+.sell-container {
+    margin: 131px auto;
+    width: 680px;
+    max-height: 1947px;
+    height: 1947px;
+}
+
+.sell_form {
+    height: 100%;
+}
+
+/* 商品の出品 */
+.title {
+    text-align: center;
+    font-size: 36px;
+}
+
+/* 商品画像、カテゴリー、商品の状態、商品名、ブランド名、商品の説明、販売価格 */
+.image-title,
+.category,
+.condition,
+.name,
+.brand,
+.description,
+.price {
+    font-size: 24px;
+    margin: 19px 0;
+}
+
+/* 商品画像、画像を選択するボタンのフォーム */
+.image_form {
+    margin: 69px 0;
+}
+
+/* 画像を選択するボタンの外枠のフォーム */
+.image-select_form {
+    width: 100%;
+    height: 150px;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
+}
+
+/* ファイルを選択するを非表示 */
+.hidden-file-input {
+    display: none;
+}
+
+/* 画像を選択するボタン風 */
+.image-label {
+    display: inline-block;
+    border: 2px dashed red;
+    color: red;
+    padding: 10px 20px;
+    margin: 55px 261px;
+    font-size: 16px;
+}
+
+/* 商品の詳細から商品の状態セレクトボックスまで */
+.item-detail {
+    width: 100%;
+    height: 477px;
+    margin-bottom: 69px;
+}
+
+/* 商品の詳細、商品名と説明のタイトル */
+.item-detail-title,
+.item-group-title {
+    color: #5F5F5F;
+    font-size: 30px;
+    padding: 12px 0;
+    border-bottom: 1px solid #5F5F5F;
+    margin-top: 0;
+}
+
+/* カテゴリーチェックボックスのフォーム */
+.checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 43px 0;
+}
+
+/* カテゴリーチェックボックス1つずつのフォーム */
+.checkbox-label {
+    margin: 24px 13px;
+}
+
+/* カテゴリーチェックボックスの四角(チェック入れる所) */
+label input {
+    display: none;
+}
+
+/* カテゴリーボタン */
+.category-check_button {
+    padding: 10px 20px;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    vertical-align: middle;
+    color: #FF5655;
+    border: 2px solid #FF5655;
+    width: 132px;
+    height: 32px;
+    border-radius: 200px;
+}
+
+/* チェック済みのカテゴリー */
+input:checked + span {
+    color: #FFFFFF;
+    background: #FF5655;
+    border: 2px solid #FF5655;
+}
+
+/* 商品の状態、セレクトボックスのフォーム */
+.select-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 93px;
+    border-width: 1px;
+}
+
+/* 商品の状態を選択するセレクトボックス */
+.condition-select {
+    font-size: 16px;
+    vertical-align: middle;
+    border: 1px solid #5F5F5F;
+    padding: 10px;
+    width: 100%;
+    height: 45px;
+    border-radius: 4px;
+    position: relative;
+        user-select: none;
+        /* width: 100%;
+        margin: 20px 0; */
+}
+
+.item-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 69px;
+    margin-bottom: 118px;
+}
+/* 商品名、ブランド名、商品の説明、販売価格のフォーム */
+.name-group,
+.brand-group,
+.description-group,
+.price-group {
+    display: flex;
+    flex-direction: column;
+    margin: 40px 0;
+}
+
+/* 商品名から販売価格の入力欄まで */
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 商品名とブランド名、販売価格の入力欄 */
+.text-box,
+.price-text-box {
+    width: 100%;
+    height: 45px;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
+    padding: 10px;
+}
+
+/* 商品の説明 入力欄 */
+.textarea {
+    width: 100%;
+    height: 125px;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
+}
+
+/* ¥マーク */
+.price-text-box::placeholder {
+    font-size: 24px;
+    color: #000000;
+    font-weight: 700;
+}
+
+.sell-submit {
+    width: 100%;
+    height: 60px;
+    font-size: 26px;
+    text-align: center;
+    vertical-align: middle;
+    color: #FFFFFF;
+    background: #FF5555;
+    border-radius: 5px;
+    border: none;
+}
+
+/* カスタムセレクト全体 */
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.custom-select-trigger {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    color: #5F5F5F;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ▼矢印追加 */
+.custom-select-trigger-triangle {
+    font-size: 12px;
+}
+
+.custom-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+    background-color: white;
+    display: none;
+    z-index: 10;
+}
+
+.custom-option {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #636769;
+    /* ← ここが背景色 */
+    color: #EAEAEA;
+    font-weight: 600;
+    font-size: 14px;
+    vertical-align: middle;
+    position: relative;
+    cursor: pointer;
+    padding-left: 30px;
+}
+
+/* チェックマークと背景色 */
+.custom-option:hover {
+    background-color: #5599EB;
+    color: white;
+}
+
+.custom-option:hover::before {
+    content: "✔︎";
+    position: absolute;
+    left: 10px;
+    color: white;
+    font-size: 16px;
+    top: 50%;
+        transform: translateY(-50%);
+}
+
+.custom-select-wrapper.open .custom-options {
+    display: block;
+}
+
+@media screen and (max-width: 767px) {
+    /* 商品の出品〜出品するボタンまで */
+    .sell-container {
+        width: 340px;
+        margin: 66px auto;
+    }
+
+    /* 商品の出品 */
+    .title {
+        font-size: 18px;
+    }
+
+    /* 商品画像タイトル、画像を選択するボタンまで */
+    .image_form {
+        margin: 35px 0;
+    }
+
+    /* 商品画像、カテゴリー、商品の状態、商品名、ブランド名、商品の説明、販売価格、￥マーク */
+    .image-title,
+    .category,
+    .condition,
+    .name,
+    .brand,
+    .description,
+    .price,
+    .price-text-box::placeholder {
+        font-size: 12px;
+        margin: 10px 0;
+    }
+
+    /* 画像を選択するボタンの外枠 */
+    .image-select_form {
+        height: 75px;
+    }
+
+    /* 画像を選択するボタン */
+    .image-label {
+        margin: 22px 129px;
+        font-size: 8px;
+        padding: 5px 10px;
+    }
+
+    /* 商品の詳細、商品名と説明のタイトル */
+    .item-detail-title,
+    .item-group-title {
+        font-size: 15px;
+        padding: 6px 0;
+    }
+
+    /* 商品の詳細〜商品の状態カスタムセレクトボックスまで */
+    .item-detail {
+        height: 239px;
+    }
+
+    /* カテゴリーのフォーム */
+    .checkboxes {
+        margin: 11px 0;
+    }
+
+    /* カテゴリー1つずつのフォーム */
+    .checkbox-label {
+        margin: 7px 6px;
+    }
+
+    /* カテゴリー1つずつ */
+    .category-check_button {
+        padding: 5px 10px;
+        font-size: 8px;
+    }
+
+    /* 商品の状態、カスタムセレクトボックス */
+    .select-group {
+        height: 47px;
+    }
+
+    /* セレクトボックスのフォーム */
+    .custom-select-wrapper {
+        margin: 0;
+    }
+
+    /* 商品の状態を選択してください */
+    .custom-select-trigger {
+        padding: 5px;
+        font-size: 8px;
+    }
+
+    /* カスタムセレクトボックスの▼ */
+    .custom-select-trigger-triangle {
+        font-size: 6px;
+    }
+
+    /* 商品名と説明〜出品するボタンまで */
+    .item-group {
+        margin-top: 35px;
+        margin-bottom: 59px;
+    }
+
+    /* 商品名、ブランド名、商品の説明、販売価格のフォーム */
+    .name-group,
+    .brand-group,
+    .description-group,
+    .price-group {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    /* 商品名、ブランド名、販売価格の入力欄 */
+    .text-box,
+    .price-text-box {
+        height: 23px;
+        padding: 5px;
+    }
+
+    /* 商品の説明の入力欄 */
+    .textarea {
+        height: 63px;
+    }
+
+    .sell-submit {
+        height: 30px;
+        font-size: 13px;
+    }
+}
