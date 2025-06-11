@@ -18,8 +18,6 @@ class PurchaseController extends Controller
         $paymentmethods = Paymentmethod::all();
         $item = Item::find($item->id);
 
-        // /** @var \App\Models\User $user */
-        // $user = Auth::user()->fresh();
         $selectedPaymentMethod = request()->query('paymentmethod_id');
 
         // 支払い方法の名前を取得
