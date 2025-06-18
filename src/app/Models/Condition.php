@@ -10,4 +10,10 @@ class Condition extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+    // itemsテーブルと多対1の関係
+    public function item()
+    {
+        return $this->hasMany(Item::class);
+    }
 }
