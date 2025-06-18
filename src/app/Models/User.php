@@ -14,11 +14,17 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'users';
-
+    
     // itemsテーブル(出品)と多対１の関係
     public function itemsForSale()
     {
         return $this->hasMany(Item::class, 'seller_user_id');
+    }
+
+    // itemsテーブル(購入)と多対1の関係
+    public function purchases()
+    {
+        return $this->hasMany(Item::class, 'purchase_user_id');
     }
 
     /**
