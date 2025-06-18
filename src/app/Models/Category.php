@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+    // itemsテーブルと多対多の関係
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'category_item');
+    }
 }
