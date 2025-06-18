@@ -17,10 +17,10 @@ class PurchaseController extends Controller
      */
     public function index(Item $item)
     {
-
         $paymentmethods = Paymentmethod::all();
+        $item = Item::find($item->id);
 
-        $selected_paymentmethod = request()->query('paymentmethod_id');
+        $selectedPaymentMethod = request()->query('paymentmethod_id');
 
         // 支払い方法の名前を取得
         $methodName = optional($paymentmethods->firstWhere('id', $selectedPaymentMethod))->name;
