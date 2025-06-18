@@ -15,6 +15,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $table = 'users';
 
+    // itemsテーブル(出品)と多対１の関係
+    public function itemsForSale()
+    {
+        return $this->hasMany(Item::class, 'seller_user_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
