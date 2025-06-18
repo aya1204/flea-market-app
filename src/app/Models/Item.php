@@ -25,4 +25,10 @@ class Item extends Model
 
     // テーブル名の指定
     protected $table = 'items';
+
+    // 出品者(sellerUser)と多対1の関係
+    public function sellerUser()
+    {
+        return $this->belongsTo(User::class, 'seller_user_id');
+    }
 }
