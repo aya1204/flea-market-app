@@ -16,4 +16,10 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // itemsテーブルと多対1の関係
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
 }
