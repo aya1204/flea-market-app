@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Http\Requests\CommentRequest;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * アイテムコントローラー
@@ -92,5 +94,19 @@ class ItemController extends Controller
     {
         $item->load(['categories', 'condition', 'comments.user', 'favoritedByUsers', 'brand']);
         return view('items.show', compact('item'));
+    }
+
+    /**
+     * コメント投稿
+     */
+    public function comment(CommentRequest $request, Item $item)
+    {
+
+        $item->comments()->create([
+            'user_id' => Auth::id(),
+            'comment' => $request->input('comment'),
+        ]);
+
+        return redirect()->route('items.show', $item)->with('success', 'コメントを投稿しました');
     }
 }
