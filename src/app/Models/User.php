@@ -33,6 +33,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
     }
 
+    // commentsテーブルと1対多の関係
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
