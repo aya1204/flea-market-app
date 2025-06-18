@@ -43,4 +43,10 @@ class Item extends Model
     {
         return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
+
+    // categoriesテーブルと多対多の関係
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_item');
+    }
 }
