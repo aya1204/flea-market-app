@@ -57,5 +57,11 @@ class ProfileController extends Controller
             $path = $profileRequest->file('image')->store('public/images');
             $image_data['image'] = basename($path);
         }
+
+        //住所情報の更新
+        $user->fill(array_merge($image_data, $address_data));
+        $user->save();
+
+        return redirect()->route('items.index', ['tab' => 'recommend'])->with('success', 'プロフィールを更新しました');
     }
 }
