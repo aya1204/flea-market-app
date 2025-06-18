@@ -57,4 +57,20 @@ class ItemController extends Controller
 
         return view('items.mylist', compact('items', 'tab', 'show_message'));
     }
+    /** 
+     * お気に入り追加
+     */
+    public function favorite(Item $item)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        // お気に入り追加
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $user->favorites()->attach($item->id);
+
+        return redirect()->back()->with('message', 'お気に入りに追加しました');
+    }
 }
