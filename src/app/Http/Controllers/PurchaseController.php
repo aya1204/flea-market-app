@@ -8,6 +8,7 @@ use App\Http\Requests\PurchaseRequest;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use App\Http\Requests\AddressRequest;
 
 class PurchaseController extends Controller
 {
@@ -121,5 +122,29 @@ class PurchaseController extends Controller
     {
         $user = Auth::user();
         return view('purchase.delivery_address_edit', compact('user', 'item'));
+    }
+
+    /**
+     * 住所変更保存
+     */
+    public function update(AddressRequest $request, Item $item)
+    {
+
+        // 購入者を設定し、商品側にも住所を保存
+        /** @var \App\Models\Item $item */
+        $item->update([
+            'is_sold' => true,
+            'purchase_user_id' => Auth::id(),
+            'postal_code' => $request->input('postal_code'),
+            'address' => $request->input('address'),
+            'building' => $request->input('building'),
+        ]);
+
+        // 購入者のプロフィール住所も更新
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->update($request->validated());
+
+        return redirect()->route('purchase.index', ['item' => $item->id])->with('success', '送付先住所を更新しました');
     }
 }
