@@ -31,4 +31,10 @@ class Item extends Model
     {
         return $this->belongsTo(User::class, 'seller_user_id');
     }
+
+    // 購入者(purchaseUser)と多対1の関係
+    public function purchaseUser()
+    {
+        return $this->belongsTo(User::class, 'purchase_user_id');
+    }
 }
