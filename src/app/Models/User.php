@@ -27,6 +27,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Item::class, 'purchase_user_id');
     }
 
+    // favoritesテーブルと多対多の関係
+    public function favorites()
+    {
+        return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
+    }
+
     /**
      * The attributes that are mass assignable.
      *
