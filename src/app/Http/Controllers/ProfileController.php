@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -63,5 +64,15 @@ class ProfileController extends Controller
         $user->save();
 
         return redirect()->route('items.index', ['tab' => 'recommend'])->with('success', 'プロフィールを更新しました');
+    }
+
+    /**
+     * プロフィール：購入済み商品
+     */
+    public function purchasedItem()
+    {
+        $user = Auth::user();
+        $items = $user->purchases;
+        return view('items.mylist', compact('items'));
     }
 }
