@@ -11,4 +11,8 @@ class Favorite extends Model
 
     protected $fillable = ['user_id', 'item_id'];
 
+    // usersテーブルと多対1の関係
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }
