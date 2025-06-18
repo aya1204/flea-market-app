@@ -40,4 +40,22 @@ class AuthController extends Controller
         Auth::login($user);
         return redirect()->route('profile.edit');
     }
+
+    /**
+     * ログイン処理
+     */
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/');
+        }
+
+        return back()->withErrors([
+            'email' => 'ログイン情報が登録されていません。',
+            'password' => 'ログイン情報が登録されていません。',
+        ]);
+    }
 }
