@@ -55,4 +55,10 @@ class Item extends Model
     {
         return $this->is_sold;
     }
+
+    // conditionsテーブルと多対1の関係
+    public function condition()
+    {
+        return $this->belongsTo(Condition::class);
+    }
 }
