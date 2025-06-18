@@ -28,4 +28,13 @@ class ProfileController extends Controller
         }
         return view('profile.mypage', compact('user', 'tab', 'items'));
     }
+
+    /**
+     * プロフィール編集ページ
+     */
+    public function edit()
+    {
+        $user = auth()->user();
+        return view('profile.mypage_profile', compact('user'))->with('success', 'プロフィールを更新しました！');
+    }
 }
