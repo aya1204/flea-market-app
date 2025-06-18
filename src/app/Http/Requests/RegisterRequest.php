@@ -29,15 +29,4 @@ class RegisterRequest extends FormRequest
             'password' => ['required', 'string', 'min:8', 'confirmed'],//確認用パスワード対応
         ];
     }
-
-    public function messages()
-    {
-        return[
-            'name.required' => 'お名前を入力してください',
-            'email.required' => 'メールアドレスを入力してください',
-            'password.required' => 'パスワードを入力してください',
-            'password.min:8' => 'パスワードを8文字以上で入力してください',
-            'password.confirmed' => 'パスワードと一致しません',
-        ];
-    }
 }
