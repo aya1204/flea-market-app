@@ -75,4 +75,14 @@ class ProfileController extends Controller
         $items = $user->purchases;
         return view('items.mylist', compact('items'));
     }
+
+    /**
+     * プロフィール：出品済み商品
+     */
+    public function soldItem()
+    {
+        $user = Auth::user();
+        $items = $user->sales;
+        return view('items.mylist', compact('items'));
+    }
 }
