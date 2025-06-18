@@ -28,4 +28,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'address',
         'building',
     ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 }
