@@ -8,16 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class Condition extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
-
-    public static $rules = array(
-        'name' => 'required|string|max:255',
-    );
-
-    // itemsテーブルと多対1の関係
-    public function item()
-    {
-        return $this->hasMany(Item::class);
-    }
-
 }
