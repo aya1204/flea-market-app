@@ -14,4 +14,11 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    /**
+     * 登録画面表示
+     */
+    public function register()
+    {
+        return view('auth.register');
+    }
 }
