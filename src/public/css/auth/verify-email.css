@@ -1,5 +1,12 @@
 /* メール認証画面のCSS */
 
+.alert {
+    padding: 10px 30px;
+    border-color: #badbcc;
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
 /* メッセージのフォーム */
 .messages{
     font-family: Inter;

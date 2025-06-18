@@ -4,6 +4,16 @@
 <link rel="stylesheet" href="{{ asset('css/sell/sell.css') }}">
 @endsection
 
+@if ($errors->any())
+<div class="alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 @section('content')
 <div class="sell-container">
     <h1 class="title">商品の出品</h1>
@@ -17,6 +27,7 @@
             <div class="image-select_form">
                 <label for="image" class="image-label">画像を選択する</label>
                 <input type="file" id="image" name="image" class="hidden-file-input">
+                <img id="image-preview" src="" alt="画像プレビュー" class="image-preview">
             </div>
         </div>
 
@@ -44,31 +55,20 @@
             <!-- セレクトボックス -->
             <!-- カスタムセレクトボックス -->
             <div class="select-group">
-                <label for="condition" class="condition">商品の状態</label>
+                <label for="condition_id" class="condition">商品の状態</label>
                 <div class="custom-select-wrapper">
                     <div class="custom-select-trigger">商品の状態を選択してください
                         <span class="custom-select-trigger-triangle">▼</span>
                     </div>
                     <div class="custom-options">
-                        <div class="custom-option" data-value="良好">良好</div>
-                        <div class="custom-option" data-value="目立った傷や汚れなし">目立った傷や汚れなし</div>
-                        <div class="custom-option" data-value="やや傷や汚れあり">やや傷や汚れあり</div>
-                        <div class="custom-option" data-value="状態が悪い">状態が悪い</div>
+                        <div class="custom-option" data-value="1">良好</div>
+                        <div class="custom-option" data-value="2">目立った傷や汚れなし</div>
+                        <div class="custom-option" data-value="3">やや傷や汚れあり</div>
+                        <div class="custom-option" data-value="4">状態が悪い</div>
                     </div>
-                    <input type="hidden" name="condition" id="condition">
+                    <input type="hidden" name="condition_id" id="condition_id" value="{{ old('condition_id') }}">
                 </div>
             </div>
-
-            <!-- <div class="select-group">
-                    <label for="condition" class="condition">商品の状態</label>
-                    <select name="condition" id="condition" class="condition-select">
-                        <option value="" style="display: none">選択してください</option>
-                        <option value="良好">良好</option>
-                        <option value="目立った傷や汚れなし">目立った傷や汚れなし</option>
-                        <option value="やや傷や汚れあり">やや傷や汚れあり</option>
-                        <option value="状態が悪い">状態が悪い</option>
-                    </select>
-                </div> -->
         </div>
 
         <!-- 商品名と説明 -->
@@ -76,13 +76,13 @@
             <h3 class="item-group-title">商品名と説明</h3>
             <div class="input-group">
                 <div class="name-group">
-                    <label for="name" class="name">商品名</label>
-                    <input type="text" id="name" name="name" class="text-box">
+                    <label for="title" class="title">商品名</label>
+                    <input type="text" id="title" name="title" class="text-box" value="{{ old('title') }}">
                 </div>
 
                 <div class="brand-group">
-                    <label for="brand" class="brand">ブランド名</label>
-                    <input type="text" id="brand" name="brand" class="text-box">
+                    <label for="brand_id" class="brand">ブランド名</label>
+                    <input type="text" id="brand_id" name="brand_id" class="text-box">
                 </div>
 
                 <div class="description-group">
@@ -93,7 +93,7 @@
                 <div class="price-group">
                     <label for="price" class="price">販売価格</label>
                     <div class="price-wrapper">
-                        <input type="number" id="price" name="price" placeholder="¥" class="price-text-box">
+                        <input type="text" id="price" name="price" placeholder="¥" class="price-text-box">
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
         const wrapper = document.querySelector('.custom-select-wrapper');
         const trigger = document.querySelector('.custom-select-trigger');
         const options = document.querySelector('.custom-options');
-        const hiddenInput = document.querySelector('input[name="condition"]');
+        const hiddenInput = document.querySelector('input[name="condition_id"]');
         const optionItems = document.querySelectorAll('.custom-option');
 
         // クリック時にセレクトを開閉
@@ -124,7 +124,8 @@
         optionItems.forEach(option => {
             option.addEventListener('click', (e) => {
                 const value = option.getAttribute('data-value');
-                trigger.innerHTML = value + '<span class="custom-select-tigger-triangle">▼</span>';
+                const text = option.textContent.trim();
+                trigger.innerHTML = text + '<span class="custom-select-trigger-triangle">▼</span>';
                 hiddenInput.value = value;
                 options.style.display = 'none';
                 e.stopPropagation();
@@ -135,6 +136,27 @@
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.custom-select-wrapper')) {
                 options.style.display = 'none';
+            }
+        });
+
+        const imageInput = document.getElementById('image');
+        const preview = document.getElementById('image-preview');
+        const label = document.querySelector('.image-label');
+
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    preview.src = event.target.result;
+                    preview.style.display = 'block';
+                    label.classList.add('hidden'); // 画像を選択ボタンを非表示
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+                label.classList.remove('hidden'); // 選択ボタンを際表示
             }
         });
     });

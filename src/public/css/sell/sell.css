@@ -68,6 +68,22 @@ main {
     padding: 10px 20px;
     margin: 55px 261px;
     font-size: 16px;
+
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.image-label.hidden {
+    display: none;
+}
+
+.image-preview {
+    display: none;
+    max-width: 300px;
+    width: auto;
+    max-height: 100%;
+    height: auto;
+    margin: 0 auto;
 }
 
 /* 商品の詳細から商品の状態セレクトボックスまで */
@@ -233,6 +249,7 @@ input:checked + span {
     font-size: 12px;
 }
 
+/* カスタムセレクトボックスのフォーム */
 .custom-options {
     position: absolute;
     top: 100%;
@@ -245,6 +262,7 @@ input:checked + span {
     z-index: 10;
 }
 
+/* カスタムセレクトボックスの１行ずつ */
 .custom-option {
     padding: 10px;
     cursor: pointer;
@@ -265,6 +283,7 @@ input:checked + span {
     color: white;
 }
 
+/* カスタムセレクトボックス：左端のチェックマーク */
 .custom-option:hover::before {
     content: "✔︎";
     position: absolute;
@@ -272,8 +291,9 @@ input:checked + span {
     color: white;
     font-size: 16px;
     top: 50%;
-        transform: translateY(-50%);
+    transform: translateY(-50%);
 }
+
 
 .custom-select-wrapper.open .custom-options {
     display: block;

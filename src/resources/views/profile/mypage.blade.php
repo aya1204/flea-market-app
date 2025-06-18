@@ -5,12 +5,25 @@
 <link rel="stylesheet" href="{{ asset('css/profile/mypage.css') }}">
 @endsection
 
+<!-- 購入が完了しましたメッセージ -->
 @section('content')
+@if (session('success') && $tab === 'buy')
+<div class="alert-success">
+    {{ session('success')}}
+</div>
+@endif
+
+<!-- 出品が完了しましたメッセージ -->
+@if (session('success') && $tab === 'sell')
+    <div class="alert-success">
+        {{ session('success')}}
+    </div>
+@endif
 
 <div class="profile">
     <img src="{{ asset('storage/images/' . $user->image) }}" alt="ユーザー画像" class="user_icon">
     <p class="user_name">{{ $user->name }}</p>
-    <a class="edit_link" href="{{ route('profile.mypage_profile') }}">
+    <a class="edit_link" href="{{ route('profile.edit') }}">
         <button class="profile_edit_button">プロフィールを編集</button>
     </a>
 </div>
@@ -22,7 +35,7 @@
 
 {{-- 出品・購入タブのときだけ商品を表示 --}}
 @if (in_array($tab, ['buy', 'sell']) && isset($items))
-    <div class="item_row">
+    <div class="item-row">
         @forelse($items as $item)
             <a href="{{ route('items.show', $item->id) }}" class="item-card-link">
                 <div class="item-card">

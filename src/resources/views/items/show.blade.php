@@ -50,7 +50,7 @@
                 {{-- お気に入り登録数とコメント --}}
                 <div class="counts">
                     {{-- お気に入り登録数 --}}
-                    <p class="favorite_count">{{ optional($item->favoritedByUsers)->count() ?? 0 }}</p>
+                    <p class="favorite_count">{{ optional($item->favorited_by_users)->count() ?? 0 }}</p>
                     {{-- コメント数 --}}
                     <p class="comment_count"> {{ optional($item->comments)->count() ?? 0 }}</p>
                 </div>

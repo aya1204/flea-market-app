@@ -10,7 +10,7 @@ class Item extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'price', 'detail', 'image', 'description', 'paymentmethod_id', 'purchase_user_id', 'is_sold'];
+    protected $fillable = ['title', 'price', 'image', 'description', 'paymentmethod_id', 'purchase_user_id', 'is_sold'];
 
     public static $rules = array(
         'image' => 'required|mimes:jpeg,png',

@@ -41,7 +41,7 @@
                     @if(request('tab') === 'mylist')
                         <input type="hidden" name="tab" value="mylist">
                     @endif
-                        <input class="keyword" type="text" name="keyword" value="{{ request('item_name') }}" placeholder="なにをお探しですか？">
+                        <input class="keyword" type="text" name="item_name" value="{{ request('item_name') }}" placeholder="なにをお探しですか？">
                 </form>
             </div>
 

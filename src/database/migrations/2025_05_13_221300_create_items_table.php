@@ -25,12 +25,12 @@ class CreateItemsTable extends Migration
             $table->foreignId('paymentmethod_id')->nullable()->constrained('paymentmethods')->OnDelete('cascade');
             $table->string('image');
             $table->string('title');
-            
             $table->text('description');
             $table->integer('price');
-
-            
-            
+            $table->boolean('is_sold')->default(false);
+            $table->string('postal_code')->nullable(); // 購入時郵便番号
+            $table->string('address')->nullable();     // 購入時住所
+            $table->string('building')->nullable();    // 購入時建物名
             $table->timestamps();
         });
     }

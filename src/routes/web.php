@@ -9,6 +9,7 @@ use App\Http\Controllers\PurchaseController;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\EmailVerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,10 +54,19 @@ Route::middleware(['auth'])->group(function () {
     //プロフィール設定（認証とメール認証が必要）
     Route::middleware(['auth', 'verified'])->group(function () {
         // プロフィール設定画面表示
-        Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.mypage_profile');
+        Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         // プロフィール設定完了処理
-        Route::post('/profile/mypage_profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
     });
+
+    // 新規登録後、メール認証画面を表示
+    Route::get('/email/verify',[EmailVerificationController::class, 'index'] )
+    ->middleware('auth')->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', // どのユーザーが対象か識別
+    EmailVerificationController::class) // メール認証処理
+        ->middleware(['auth', 'signed', 'throttle:6,1']) // ログインしているか、改ざんされていないか、1時間に６回までのアクセス制限
+        ->name('verification.verify');
 });
 
 // 商品詳細ページ
@@ -67,11 +77,11 @@ Route::get('/register', [AuthController::class, 'register'])->middleware('guest'
 
 //会員登録
 Route::post('/register', [AuthController::class, 'create'])->middleware('guest');
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])
-->middleware('guest');
 
 // ログイン画面表示
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 
 //商品一覧ページ表示
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
@@ -81,7 +91,4 @@ Route::get('/search', [ItemController::class, 'search'])->name('items.search');
 
 
 //ログアウト機能
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

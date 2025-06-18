@@ -5,20 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Purchase extends Model
+class Favorite extends Model
 {
     use HasFactory;
 
-    //テーブル名の指定
-    protected $table = 'purchases';
+    protected $fillable = ['user_id', 'item_id'];
 
-    //ユーザーとの多対1の関係
-    public function user()
-    {
+    // User↔︎Favoriteの関係（多対1）
+    public function user() {
         return $this->belongsTo(User::class);
     }
 
-    //アイテムとの多対1の関係
+    // Item↔︎Favoriteの関係（多対1）
     public function item()
     {
         return $this->belongsTo(Item::class);

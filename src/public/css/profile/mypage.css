@@ -78,7 +78,7 @@ body {
 }
 
 /* 商品一覧1列のフォーム */
-.item_row {
+.item-row {
     width: 100%;
     /* height: 320px; */
     display: flex;

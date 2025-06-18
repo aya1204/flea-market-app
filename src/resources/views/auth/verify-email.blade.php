@@ -9,7 +9,7 @@
 <div class="container">
 
     @if (session('status') === 'verification-link-sent')
-    <div class="alert">認証メールを再送しました。メールをご確認ください。
+    <div class="alert">認証メールを送信しました。メールをご確認ください。
     </div>
     @endif
 
