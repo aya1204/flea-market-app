@@ -15,4 +15,10 @@ class Favorite extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    // itemsテーブルとの多対1の関係
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
 }
