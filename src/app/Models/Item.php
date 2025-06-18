@@ -67,4 +67,10 @@ class Item extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+
+    // commentsテーブルと1対多の関係
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
