@@ -49,4 +49,10 @@ class Item extends Model
     {
         return $this->belongsToMany(Category::class, 'category_item');
     }
+
+    // itemが売り切れかチェック
+    public function isSold(): bool
+    {
+        return $this->is_sold;
+    }
 }
