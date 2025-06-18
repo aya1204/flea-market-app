@@ -113,4 +113,13 @@ class PurchaseController extends Controller
             return redirect()->back()->with('error', '支払い方法が選択されていません。');
         }
     }
+
+    /**
+     * 住所変更画面を表示
+     */
+    public function address(Item $item)
+    {
+        $user = Auth::user();
+        return view('purchase.delivery_address_edit', compact('user', 'item'));
+    }
 }
