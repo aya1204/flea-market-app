@@ -84,4 +84,13 @@ class ItemController extends Controller
 
         return redirect()->back()->with('message', 'お気に入りを解除しました');
     }
+
+    /**
+     * 商品詳細画面
+     */
+    public function show(Item $item)
+    {
+        $item->load(['categories', 'condition', 'comments.user', 'favoritedByUsers', 'brand']);
+        return view('items.show', compact('item'));
+    }
 }
