@@ -61,4 +61,10 @@ class Item extends Model
     {
         return $this->belongsTo(Condition::class);
     }
+
+    // brandsテーブルと多対1の関係
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
 }
