@@ -29,4 +29,11 @@ class AddressRequest extends FormRequest
             'building' => 'nullable|string|max:255',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'お名前を入力してください',
+        ];
+    }
 }
