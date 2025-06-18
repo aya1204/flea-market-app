@@ -22,4 +22,7 @@ class Item extends Model
         'condition_id',
         'seller_user_id',
     ];
+
+    // テーブル名の指定
+    protected $table = 'items';
 }
