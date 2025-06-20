@@ -99,3 +99,64 @@ body {
     background: #FF5555;
     border: none;
 }
+
+/* スマホ（767px以下）対応 */
+@media screen and (max-width: 767px) {
+    /* 全体のフォーム */
+    .profile-container {
+        max-width: 767px;
+        width: 60%;
+        margin: 70px auto;
+    }
+
+    /* プロフィール設定 */
+    .title {
+        font-size: 18px;
+        width: auto;
+        margin: 0 auto 24px auto;
+        padding-top: 10px;
+    }
+
+    /* ユーザーアイコン */
+    .profile-image {
+        width: 75px;
+    }
+
+    /* 画像を選択するボタン風 */
+    .user-icon_select {
+        font-size: 10px;
+        margin: 0 20px;
+        padding: 8px 10px;
+    }
+    .profile_form {
+        width: 100%;
+    }
+
+    /* ユーザー名、郵便番号、住所、建物名のフォーム */
+    .profile-detail_form {
+        margin: 34px 0;
+    }
+
+    /* ユーザー名、郵便番号、住所、建物名のタイトル */
+    .name,
+    .postal_code,
+    .address,
+    .building {
+        font-size: 12px;
+        padding: 10px 0;
+    }
+
+    /* 入力欄 */
+    .text-box {
+        height: 28px;
+        font-size: 12px;
+        margin-bottom: 31px;
+    }
+
+    /* 更新するボタン */
+    .update_button {
+        margin: 3px 0;
+        font-size: 13px;
+        height: 30px;
+    }
+}
