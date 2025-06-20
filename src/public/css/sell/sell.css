@@ -304,3 +304,129 @@ input:checked + span {
     border-radius: 5px;
     border: none;
 }
+
+/* スマホ（767px以下）対応 */
+@media screen and (max-width: 767px) {
+    /* 商品の出品〜出品するボタンまで */
+    .sell-container {
+        width: 340px;
+        margin: 66px auto;
+    }
+
+    /* 商品の出品 */
+    .title {
+        font-size: 18px;
+    }
+
+    /* 商品画像タイトル、画像を選択するボタンまで */
+    .image_form {
+        margin: 35px 0;
+    }
+
+    /* 商品画像、カテゴリー、商品の状態、商品名、ブランド名、商品の説明、販売価格、￥マーク */
+    .image-title,
+    .category,
+    .condition,
+    .name,
+    .brand,
+    .description,
+    .price,
+    .price-text-box::placeholder {
+        font-size: 12px;
+        margin: 10px 0;
+    }
+
+    /* 画像を選択するボタンの外枠 */
+    .image-select_form {
+        height: 75px;
+    }
+
+    /* 画像を選択するボタン */
+    .image-label {
+        margin: 22px 129px;
+        font-size: 8px;
+        padding: 5px 10px;
+    }
+
+    /* 商品の詳細、商品名と説明のタイトル */
+    .item-detail-title,
+    .item-group-title {
+        font-size: 15px;
+        padding: 6px 0;
+    }
+
+    /* 商品の詳細〜商品の状態カスタムセレクトボックスまで */
+    .item-detail {
+        height: 239px;
+    }
+
+    /* カテゴリーのフォーム */
+    .checkboxes {
+        margin: 11px 0;
+    }
+
+    /* カテゴリー1つずつのフォーム */
+    .checkbox-label {
+        margin: 7px 6px;
+    }
+
+    /* カテゴリー1つずつ */
+    .category-check_button {
+        padding: 5px 10px;
+        font-size: 8px;
+    }
+
+    /* 商品の状態、カスタムセレクトボックス */
+    .select-group {
+        height: 47px;
+    }
+
+    /* セレクトボックスのフォーム */
+    .custom-select-wrapper {
+        margin: 0;
+    }
+
+    /* 商品の状態を選択してください */
+    .custom-select-trigger {
+        padding: 5px;
+        font-size: 8px;
+    }
+
+    /* カスタムセレクトボックスの▼ */
+    .custom-select-trigger-triangle {
+        font-size: 6px;
+    }
+
+    /* 商品名と説明〜出品するボタンまで */
+    .item-group {
+        margin-top: 35px;
+        margin-bottom: 59px;
+    }
+
+    /* 商品名、ブランド名、商品の説明、販売価格のフォーム */
+    .name-group,
+    .brand-group,
+    .description-group,
+    .price-group {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    /* 商品名、ブランド名、販売価格の入力欄 */
+    .text-box,
+    .price-text-box {
+        height: 23px;
+        padding: 5px;
+    }
+
+    /* 商品の説明の入力欄 */
+    .textarea {
+        height: 63px;
+    }
+
+    /* 出品するボタン */
+    .sell-submit {
+        height: 30px;
+        font-size: 13px;
+    }
+}
