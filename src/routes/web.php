@@ -36,3 +36,6 @@ Route::get('/', [ItemController::class, 'index'])->name('items.index');
 
 // 検索機能（誰でもアクセス可、キーワード保持）
 Route::get('/search', [ItemController::class, 'search'])->name('items.search');
+
+// 商品詳細ページ表示
+Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
