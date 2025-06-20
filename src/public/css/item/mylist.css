@@ -168,3 +168,70 @@
     }
 
 }
+
+/* スマホ（767px以下）対応 */
+@media screen and (max-width: 767px) {
+
+    /* おすすめ・マイリスト（選択されていない方） */
+    .coachtech__button-submit-second {
+        font-size: 16px;
+        width: 120px;
+        height: 35px;
+        margin: 0 5px;
+        padding: 5px;
+        text-align: center;
+    }
+
+    /* おすすめ・マイリストタブ */
+    .coachtech__tab-buttons {
+        align-items: center;
+    }
+
+    /* 商品画像・商品名の全体フォーム */
+    .item {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    /* 商品画像・商品名の列 */
+    .item-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    /* 商品カードのリンク */
+    .item-card-link {
+        width: 45%;
+        height: auto;
+        margin: 0;
+        text-decoration: none;
+    }
+
+    /* 一つ一つの商品カード */
+    .item-card {
+        width: 100%;
+        box-shadow: 0px 4px 4px 0px #00000040;
+        border-radius: 4px;
+    }
+
+    /* 商品画像 */
+    .item-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        padding-bottom: 10px;
+    }
+
+    /* 商品名のフォーム */
+    .title-header {
+        margin: 5px 0;
+    }
+
+    /* 商品名 */
+    .title {
+        font-size: 18px;
+        color: #000000;
+    }
+}
