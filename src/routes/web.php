@@ -24,6 +24,14 @@ Route::middleware(['auth'])->group(function () {
     // 新規登録後、メール認証画面を表示
     Route::get('/email/verify', [EmailVerificationController::class, 'index'])
         ->middleware('auth')->name('verification.notice');
+
+    // メール認証処理
+    Route::get(
+        '/email/verify/{id}/{hash}', // どのユーザーが対象か識別
+        EmailVerificationController::class
+    )
+        ->middleware(['auth', 'signed', 'throttle:6,1']) // ログインしているか、改ざんされていないか、1時間に６回までのアクセス制限
+        ->name('verification.verify');
 });
 
 
