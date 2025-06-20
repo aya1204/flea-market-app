@@ -133,7 +133,6 @@ class PurchaseController extends Controller
         // 購入者を設定し、商品側にも住所を保存
         /** @var \App\Models\Item $item */
         $item->update([
-            'is_sold' => true,
             'purchase_user_id' => Auth::id(),
             'postal_code' => $request->input('postal_code'),
             'address' => $request->input('address'),
