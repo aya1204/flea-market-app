@@ -41,6 +41,9 @@ Route::middleware(['auth'])->group(function () {
         // プロフィール設定完了処理
         Route::post('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
     });
+
+    //マイページ（タブ切り替え：出品した商品｜購入した商品）
+    Route::get('/mypage', [ProfileController::class, 'index'])->name('mypage');
 });
 
 
