@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,6 @@ Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 
 //ログアウト機能
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+//商品一覧ページ表示
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
