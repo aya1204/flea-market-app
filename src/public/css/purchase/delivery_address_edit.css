@@ -85,6 +85,7 @@ body {
     margin-bottom: 68px;
 }
 
+/* 更新するボタン */
 .update_button {
     margin: 5px 0;
     font-size: 26px;
@@ -96,63 +97,4 @@ body {
     border-radius: 5px;
     background: #FF5555;
     border: none;
-}
-
-@media screen and (max-width: 767px) {
-
-    /* 全体のフォーム */
-    .profile-container {
-        max-width: 767px;
-        width: 60%;
-        margin: 64px auto;
-    }
-
-    /* プロフィール設定 */
-    .title {
-        font-size: 18px;
-        width: auto;
-        margin: 0 auto 24px auto;
-        padding-top: 5px;
-    }
-
-    /* ユーザーアイコン */
-    .profile-image {
-        width: 75px;
-        height: 75px;
-    }
-
-    /* 画像を選択するボタン風 */
-    .user-icon_select {
-        font-size: 10px;
-        margin: 0 20px;
-        padding: 8px 10px;
-    }
-
-    /* ユーザー名、郵便番号、住所、建物名のフォーム */
-    .profile-detail_form {
-        margin: 34px 0;
-    }
-
-    /* ユーザー名、郵便番号、住所、建物名のタイトル */
-    .name,
-    .postal_code,
-    .address,
-    .building {
-        font-size: 12px;
-        padding: 10px 0;
-    }
-
-    /* 入力欄 */
-    .text-box {
-        height: 28px;
-        font-size: 12px;
-        margin-bottom: 34px;
-    }
-
-    /* 更新するボタン */
-    .update_button {
-        margin: 3px 0;
-        font-size: 13px;
-        height: 30px;
-    }
 }
