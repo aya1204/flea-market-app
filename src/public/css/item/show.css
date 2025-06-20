@@ -442,3 +442,178 @@ body {
         height: 50px;
     }
 }
+
+/* スマホ（767px以下）対応 */
+@media screen and (max-width: 767px) {
+    /* 全体 */
+    .item-detail {
+        flex-direction: column;
+        align-items: center;
+        margin: 20px auto;
+    }
+
+    /* 商品画像の列 */
+    .col-md-3 {
+        max-width: 50%;
+    }
+
+    /* 商品画像 */
+    .item_image {
+        width: 90%;
+        height: auto;
+        margin: 20px 8px;
+    }
+
+    /* 商品詳細の列 */
+    .col-md-9 {
+        margin: 10px;
+        max-width: 100%;
+    }
+
+    /* 商品名 */
+    .item_title {
+        font-size: 23px;
+    }
+
+    /* アイコンのフォーム */
+    .icon_group {
+        margin-left: 0;
+    }
+
+    /* ブランド名 */
+    .item_brand_name {
+        font-size: 10px;
+    }
+
+    /* 金額 */
+    .item_price {
+        font-weight: 400;
+        font-size: 23px;
+        margin-top: 20px;
+    }
+
+    /* （税込） */
+    .tax {
+        font-weight: 400;
+        font-size: 15px;
+    }
+
+    /* お気に入りアイコンの位置 */
+    .favorite_button {
+        margin-left: 22px;
+    }
+
+    /* コメントアイコンの位置 */
+    .comment_icon_button {
+        margin-right: 13px;
+    }
+
+    /* お気に入り登録済み・お気に入り解除・コメントアイコン */
+    .favorited_icon,
+    .unfavorite_icon,
+    .comment_icon {
+        width: 20px;
+        height: 18px;
+    }
+
+    /* お気に入り登録数・コメント数 */
+    .counts {
+        justify-content: center;
+        /* margin: 0 10px; */
+    }
+
+    /* 購入手続きへボタン */
+    .purchase_button {
+        font-size: 15px;
+        margin: 30px 0;
+    }
+
+    /* 商品説明・商品の情報のタイトル、コメント（0） */
+    .description_title,
+    .information,
+    .comment {
+        font-size: 18px;
+    }
+
+    /* 商品情報 */
+    .description {
+        font-size: 12px;
+        margin: 40px 0;
+    }
+
+    /* カテゴリー・商品の状態・商品へのコメントのタイトル */
+    .category_title,
+    .item_condition,
+    .comment_title {
+        font-size: 12px;
+        margin: 20px 0;
+    }
+
+    /* カテゴリータイトル */
+    .category_title {
+        margin-bottom: 5px;
+    }
+
+    /* それぞれのカテゴリーのフォーム */
+    .category_list {
+        margin: 0;
+    }
+
+    /* カテゴリー名 */
+    .category_name {
+        font-size: 10px;
+        padding: 3px;
+        width: auto;
+        margin: 18px 6px;
+    }
+
+    /* カテゴリーと商品の状態（横並び） */
+    .category,
+    .conditions {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        flex-wrap: nowrap;
+    }
+
+    /* 商品の状態 */
+    .condition {
+        font-size: 10px;
+    }
+
+    /* コメント（0） */
+    .comment {
+        margin: 20px 0;
+    }
+
+    /* ユーザーアイコン */
+    .user_icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* ユーザー名 */
+    .user_name {
+        font-size: 15px;
+        margin: 12px 8px;
+    }
+
+    /* 投稿済みのコメント */
+    .user_comment {
+        width: 100%;
+        font-size: 10px;
+        height: auto;
+    }
+
+    /* コメント入力欄 */
+    .comment_text {
+        height: 150px;
+    }
+
+    /* コメントを送信するボタン */
+    .send {
+        font-size: 13px;
+        height: 50px;
+    }
+}
