@@ -65,8 +65,10 @@ Route::middleware(['auth'])->group(function () {
     // 送付先住所変更保存
     Route::post('/purchase/address/{item}', [PurchaseController::class, 'update'])->name('purchase.update');
 
-    //出品画面
+    // 出品画面
     Route::get('/sell', [SellController::class, 'index'])->name('sell');
+    // 出品処理
+    Route::post('/sell', [SellController::class, 'create'])->name('sell.create');
 });
 
 
