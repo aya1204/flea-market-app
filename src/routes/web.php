@@ -23,3 +23,6 @@ Route::post('/register', [AuthController::class, 'create'])->middleware('guest')
 
 // ログイン画面表示
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
+
+// ログイン処理
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
