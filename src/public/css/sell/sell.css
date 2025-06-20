@@ -20,6 +20,7 @@ main {
     height: 1947px;
 }
 
+/* 商品画像〜出品するまで */
 .sell_form {
     height: 100%;
 }
@@ -73,10 +74,12 @@ main {
     transition: opacity 0.3s ease;
 }
 
+/* 選択済み商品画像を表示した際、画像を選択するを非表示 */
 .image-label.hidden {
     display: none;
 }
 
+/* 選択済み商品画像を表示 */
 .image-preview {
     display: none;
     max-width: 300px;
@@ -165,65 +168,6 @@ input:checked + span {
         margin: 20px 0; */
 }
 
-.item-group {
-    display: flex;
-    flex-direction: column;
-    margin-top: 69px;
-    margin-bottom: 118px;
-}
-/* 商品名、ブランド名、商品の説明、販売価格のフォーム */
-.name-group,
-.brand-group,
-.description-group,
-.price-group {
-    display: flex;
-    flex-direction: column;
-    margin: 40px 0;
-}
-
-/* 商品名から販売価格の入力欄まで */
-.input-group {
-    display: flex;
-    flex-direction: column;
-}
-
-/* 商品名とブランド名、販売価格の入力欄 */
-.text-box,
-.price-text-box {
-    width: 100%;
-    height: 45px;
-    border-radius: 4px;
-    border: 1px solid #5F5F5F;
-    padding: 10px;
-}
-
-/* 商品の説明 入力欄 */
-.textarea {
-    width: 100%;
-    height: 125px;
-    border-radius: 4px;
-    border: 1px solid #5F5F5F;
-}
-
-/* ¥マーク */
-.price-text-box::placeholder {
-    font-size: 24px;
-    color: #000000;
-    font-weight: 700;
-}
-
-.sell-submit {
-    width: 100%;
-    height: 60px;
-    font-size: 26px;
-    text-align: center;
-    vertical-align: middle;
-    color: #FFFFFF;
-    background: #FF5555;
-    border-radius: 5px;
-    border: none;
-}
-
 /* カスタムセレクト全体 */
 .custom-select-wrapper {
     position: relative;
@@ -232,6 +176,7 @@ input:checked + span {
     margin: 20px 0;
 }
 
+/* 商品状態のカスタムセレクトボックス */
 .custom-select-trigger {
     padding: 10px;
     font-size: 16px;
@@ -294,131 +239,68 @@ input:checked + span {
     transform: translateY(-50%);
 }
 
-
 .custom-select-wrapper.open .custom-options {
     display: block;
 }
 
-@media screen and (max-width: 767px) {
-    /* 商品の出品〜出品するボタンまで */
-    .sell-container {
-        width: 340px;
-        margin: 66px auto;
-    }
+/* 商品名と説明〜販売価格 */
+.item-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 69px;
+    margin-bottom: 118px;
+}
 
-    /* 商品の出品 */
-    .title {
-        font-size: 18px;
-    }
+/* 商品名、ブランド名、商品の説明、販売価格のフォーム */
+.name-group,
+.brand-group,
+.description-group,
+.price-group {
+    display: flex;
+    flex-direction: column;
+    margin: 40px 0;
+}
 
-    /* 商品画像タイトル、画像を選択するボタンまで */
-    .image_form {
-        margin: 35px 0;
-    }
+/* 商品名から販売価格の入力欄まで */
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
 
-    /* 商品画像、カテゴリー、商品の状態、商品名、ブランド名、商品の説明、販売価格、￥マーク */
-    .image-title,
-    .category,
-    .condition,
-    .name,
-    .brand,
-    .description,
-    .price,
-    .price-text-box::placeholder {
-        font-size: 12px;
-        margin: 10px 0;
-    }
+/* 商品名とブランド名、販売価格の入力欄 */
+.text-box,
+.price-text-box {
+    width: 100%;
+    height: 45px;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
+    padding: 10px;
+}
 
-    /* 画像を選択するボタンの外枠 */
-    .image-select_form {
-        height: 75px;
-    }
+/* 商品の説明 入力欄 */
+.textarea {
+    width: 100%;
+    height: 125px;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
+}
 
-    /* 画像を選択するボタン */
-    .image-label {
-        margin: 22px 129px;
-        font-size: 8px;
-        padding: 5px 10px;
-    }
+/* ¥マーク */
+.price-text-box::placeholder {
+    font-size: 24px;
+    color: #000000;
+    font-weight: 700;
+}
 
-    /* 商品の詳細、商品名と説明のタイトル */
-    .item-detail-title,
-    .item-group-title {
-        font-size: 15px;
-        padding: 6px 0;
-    }
-
-    /* 商品の詳細〜商品の状態カスタムセレクトボックスまで */
-    .item-detail {
-        height: 239px;
-    }
-
-    /* カテゴリーのフォーム */
-    .checkboxes {
-        margin: 11px 0;
-    }
-
-    /* カテゴリー1つずつのフォーム */
-    .checkbox-label {
-        margin: 7px 6px;
-    }
-
-    /* カテゴリー1つずつ */
-    .category-check_button {
-        padding: 5px 10px;
-        font-size: 8px;
-    }
-
-    /* 商品の状態、カスタムセレクトボックス */
-    .select-group {
-        height: 47px;
-    }
-
-    /* セレクトボックスのフォーム */
-    .custom-select-wrapper {
-        margin: 0;
-    }
-
-    /* 商品の状態を選択してください */
-    .custom-select-trigger {
-        padding: 5px;
-        font-size: 8px;
-    }
-
-    /* カスタムセレクトボックスの▼ */
-    .custom-select-trigger-triangle {
-        font-size: 6px;
-    }
-
-    /* 商品名と説明〜出品するボタンまで */
-    .item-group {
-        margin-top: 35px;
-        margin-bottom: 59px;
-    }
-
-    /* 商品名、ブランド名、商品の説明、販売価格のフォーム */
-    .name-group,
-    .brand-group,
-    .description-group,
-    .price-group {
-        margin-top: 0;
-        margin-bottom: 20px;
-    }
-
-    /* 商品名、ブランド名、販売価格の入力欄 */
-    .text-box,
-    .price-text-box {
-        height: 23px;
-        padding: 5px;
-    }
-
-    /* 商品の説明の入力欄 */
-    .textarea {
-        height: 63px;
-    }
-
-    .sell-submit {
-        height: 30px;
-        font-size: 13px;
-    }
+/* 出品するボタン */
+.sell-submit {
+    width: 100%;
+    height: 60px;
+    font-size: 26px;
+    text-align: center;
+    vertical-align: middle;
+    color: #FFFFFF;
+    background: #FF5555;
+    border-radius: 5px;
+    border: none;
 }
