@@ -135,3 +135,61 @@
     text-align: center;
     vertical-align: middle;
 }
+
+/* タブレット (768-850px)対応 */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    /* 商品一覧（おすすめやマイリスト）・詳細・購入・、支払い、送付先住所変更、プロフィール・プロフィール編集、出品のヘッダー */
+    .header__container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    /* COACHTECHのロゴのフォーム */
+    .header__logo {
+        width: 30%;
+    }
+
+    /* COACHTECHのロゴ */
+    .header__logo img {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* 検索の全体フォーム */
+    .header__search {
+        width: 38%;
+        max-width: none;
+        margin: 0 13px;
+    }
+
+    /* なにをお探しですか？ */
+    .keyword {
+        font-size: 16px;
+    }
+
+    /* ログインorログアウト、マイページ、出品のフォーム */
+    .header__nav {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+    /* ログインorログアウト、マイページ */
+    .header__nav a,
+    .logout-button {
+        font-size: 14px;
+        width: auto;
+        text-align: center;
+    }
+
+    .logout-button {
+        font-size: 14px;
+        padding: 0;
+    }
+
+    .header__nav .nav-button {
+        font-size: 14px;
+        padding: 6px 10px;
+        width: auto;
+    }
+}
