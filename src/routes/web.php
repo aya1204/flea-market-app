@@ -44,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
 
     //マイページ（タブ切り替え：出品した商品｜購入した商品）
     Route::get('/mypage', [ProfileController::class, 'index'])->name('mypage');
+
+    // お気に入り登録
+    Route::post('/item/{item}/favorite', [ItemController::class, 'favorite'])->name('favorites.store');
 });
 
 
