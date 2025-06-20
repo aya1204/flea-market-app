@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,12 @@ Route::middleware(['auth'])->group(function () {
     )
         ->middleware(['auth', 'signed', 'throttle:6,1']) // ログインしているか、改ざんされていないか、1時間に６回までのアクセス制限
         ->name('verification.verify');
+
+    //プロフィール設定（認証とメール認証が必要）
+    Route::middleware(['auth', 'verified'])->group(function () {
+        // プロフィール設定画面表示
+        Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    });
 });
 
 
