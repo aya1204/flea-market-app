@@ -6,6 +6,7 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,9 @@ Route::middleware(['auth'])->group(function () {
 
     // コメントを送信する
     Route::post('/item/{item}/comment', [ItemController::class, 'comment'])->name('item.comment');
+
+    // 商品購入画面表示
+    Route::get('/purchase/{item}', [PurchaseController::class, 'index'])->name('purchase.index');
 });
 
 
