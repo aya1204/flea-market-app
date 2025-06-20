@@ -17,18 +17,17 @@ class PurchaseController extends Controller
      */
     public function index(Item $item)
     {
-
         $paymentmethods = Paymentmethod::all();
+        $item = Item::find($item->id);
 
-        $selected_paymentmethod = request()->query('paymentmethod_id');
+        $selectedPaymentMethod = request()->query('paymentmethod_id');
 
         // 支払い方法の名前を取得
-        $method_name = optional($paymentmethods->firstWhere('id', $selected_paymentmethod))->name;
+        $methodName = optional($paymentmethods->firstWhere('id', $selectedPaymentMethod))->name;
 
-        $user = auth()->user();
-
-        return view('purchase.purchase', compact('item', 'paymentmethods', 'user', 'selected_paymentmethod', 'method_name'));
+        return view('purchase.purchase', compact('item', 'paymentmethods', 'user', 'selectedPaymentMethod', 'methodName'));
     }
+
 
     /**
      * 商品購入処理
