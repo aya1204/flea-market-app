@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\EmailVerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,16 @@ use App\Http\Controllers\ItemController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// 認証
+Route::middleware(['auth'])->group(function () {
+    // 認証のみ必要なページ
+
+    // 新規登録後、メール認証画面を表示
+    Route::get('/email/verify', [EmailVerificationController::class, 'index'])
+        ->middleware('auth')->name('verification.notice');
+});
+
 
 //会員登録ページ表示
 Route::get('/register', [AuthController::class, 'register'])->middleware('guest')->name('register');
