@@ -26,3 +26,6 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create'])->middlew
 
 // ログイン処理
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+
+//ログアウト機能
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
