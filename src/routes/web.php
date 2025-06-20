@@ -47,6 +47,8 @@ Route::middleware(['auth'])->group(function () {
 
     // お気に入り登録
     Route::post('/item/{item}/favorite', [ItemController::class, 'favorite'])->name('favorites.store');
+    // お気に入りから外す
+    Route::delete('/item/{item}/favorite', [ItemController::class, 'unfavorite'])->name('favorites.destroy');
 });
 
 
