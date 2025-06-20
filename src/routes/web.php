@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,5 @@ Route::get('/register', [AuthController::class, 'register'])->middleware('guest'
 //会員登録処理
 Route::post('/register', [AuthController::class, 'create'])->middleware('guest');
 
+// ログイン画面表示
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
