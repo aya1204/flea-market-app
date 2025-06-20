@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StripeWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +14,7 @@ use App\Http\Controllers\StripeWebhookController;
 |
 */
 
+// ログイン中のユーザー情報をAPIで取得するためのエンドポイント
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle']);
