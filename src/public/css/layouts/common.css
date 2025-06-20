@@ -1,4 +1,6 @@
 /* ヘッダー部分のCSS */
+
+/* ヘッダー全体のフォーム */
 .header{
     background: #000;
     max-width: 1540px;
@@ -22,12 +24,14 @@
     padding: 10px 20px;
 }
 
+/* COACHTECHのロゴのフォーム */
 .header__logo {
     flex-shrink: 0;
     width: 370px;
     height: 36px;
 }
 
+/* 検索の全体フォーム */
 .header__search {
     display: flex;
     align-items: center;
@@ -38,6 +42,7 @@
     margin: 0 auto;
 }
 
+/* 検索フォーム */
 .header__search form {
     display: flex;
     align-items: center;
@@ -45,6 +50,7 @@
     max-width: 500px;
 }
 
+/* なにをお探しですか？ */
 .keyword {
     width: 100%;
     height: 50px;
@@ -60,6 +66,7 @@
     text-align: left;
 }
 
+/* なにをお探しですか？の最初に表示する文字色 */
 .keyword::placeholder {
     color: #000000;
     opacity: 1;
@@ -72,11 +79,13 @@
     gap: 16px;
 }
 
+/* ログアウトのフォーム */
 .header__nav form {
     display: flex;
     align-items: center;
 }
 
+/* ログアウト */
 .logout-button {
     all: unset;
     font-size: 24px;
@@ -125,116 +134,4 @@
     letter-spacing: 0%;
     text-align: center;
     vertical-align: middle;
-}
-
-/* タブレット (768-850px)対応 */
-@media screen and (min-width: 768px) and (max-width: 850px) {
-
-    .header__container {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .header__logo {
-        width: 30%;
-    }
-
-    .header__logo img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .header__search {
-        width: 38%;
-        max-width: none;
-        margin: 0 13px;
-    }
-
-    .keyword {
-        font-size: 16px;
-    }
-
-    .header__nav {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-end;
-        gap: 8px;
-    }
-
-    .header__nav a,
-    .logout-button {
-        font-size: 14px;
-        width: auto;
-        text-align: center;
-    }
-
-    .logout-button {
-        font-size: 14px;
-        padding: 0;
-    }
-
-    .header__nav .nav-button {
-        font-size: 14px;
-        padding: 6px 10px;
-        width: auto;
-    }
-}
-
-/* スマホ（767px以下）対応 */
-@media screen and (max-width: 767px) {
-    .header__container {
-        width: 100%;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px;
-        gap: 6px;
-        box-sizing: border-box;
-    }
-
-    .header__logo {
-        width: 25%;
-        margin: 10px 0;
-    }
-
-    .header__logo img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .header__search {
-        width: 40%;
-        margin: 0;
-    }
-
-    .keyword {
-        font-size: 10px;
-        padding: 6px;
-    }
-
-    .header__nav {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 3px;
-        width: 30%;
-        flex-wrap: nowrap;
-    }
-
-    .header__nav a,
-    .logout-button {
-        font-size: 10px;
-        width: auto;
-        text-align: center;
-        white-space: nowrap;
-    }
-
-    .header__nav .nav-button {
-        font-size: 10px;
-        padding: 4px 7px;
-        width: auto;
-        box-sizing: border-box;
-        white-space: nowrap;
-    }
 }
