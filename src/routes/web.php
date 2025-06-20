@@ -38,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth', 'verified'])->group(function () {
         // プロフィール設定画面表示
         Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        // プロフィール設定完了処理
+        Route::post('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
     });
 });
 
