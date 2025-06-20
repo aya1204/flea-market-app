@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
 
     // 商品購入画面表示
     Route::get('/purchase/{item}', [PurchaseController::class, 'index'])->name('purchase.index');
+    // 商品購入処理
+    Route::post('/purchase/{item}', [PurchaseController::class, 'create'])->name('purchase.create');
 });
 
 
