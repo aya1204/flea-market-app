@@ -185,3 +185,62 @@ body {
         font-size: 18px;
     }
 }
+
+/* スマホ（767px以下）対応 */
+@media screen and (max-width: 767px) {
+
+    /* ユーザー画像、名前、プロフィールを編集ボタン */
+    .profile {
+        margin: 20px 60px;
+    }
+
+    /* ユーザー画像 */
+    .user_icon {
+        width: 75px;
+        height: 75px;
+    }
+
+    /* 名前 */
+    .user_name {
+        width: 125px;
+        height: 33px;
+        font-size: 18px;
+    }
+
+    /* プロフィールを編集ボタン */
+    .profile_edit_button {
+        font-size: 13px;
+        width: 155px;
+        height: 30px;
+    }
+
+    /* タブのフォーム */
+    .item__tab-buttons {
+        padding: 0 65px;
+        border-bottom: 1px solid #5F5F5F;
+    }
+
+    /* 選択済みタブ、未選択タブ */
+    .item__button-submit-second.active,
+    .item__button-submit-second {
+        font-size: 12px;
+        padding: 10px 15px;
+    }
+
+    /* 商品カードのフォーム */
+    .item-card-link {
+        width: 145px;
+        height: 160px;
+        margin: 12px;
+    }
+
+    /* 商品画像 */
+    .item-image {
+        width: 145px;
+        height: 145px;
+    }
+
+    .title {
+        font-size: 13px;
+    }
+}
