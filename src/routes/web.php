@@ -61,6 +61,8 @@ Route::middleware(['auth'])->group(function () {
 
     // 送付先住所変更画面（アイコンなし）
     Route::get('/purchase/address/{item}', [PurchaseController::class, 'address'])->name('purchase.address');
+    // 送付先住所変更保存
+    Route::post('/purchase/address/{item}', [PurchaseController::class, 'update'])->name('purchase.update');
 });
 
 
