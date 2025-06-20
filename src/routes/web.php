@@ -33,3 +33,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //商品一覧ページ表示
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
+
+// 検索機能（誰でもアクセス可、キーワード保持）
+Route::get('/search', [ItemController::class, 'search'])->name('items.search');
