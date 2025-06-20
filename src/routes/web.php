@@ -58,6 +58,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/purchase/{item}', [PurchaseController::class, 'index'])->name('purchase.index');
     // 商品購入処理
     Route::post('/purchase/{item}', [PurchaseController::class, 'create'])->name('purchase.create');
+
+    // 送付先住所変更画面（アイコンなし）
+    Route::get('/purchase/address/{item}', [PurchaseController::class, 'address'])->name('purchase.address');
 });
 
 
