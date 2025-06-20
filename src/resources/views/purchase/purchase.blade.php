@@ -24,13 +24,20 @@
                 </div>
             </div>
             <div class="paymentmethod_row">
+
+                @php
+                $selected_paymentmethod_id = request('paymentmethod_id');
+                @endphp
+
                 <form action="{{ route('purchase.index', ['item' => $item->id]) }}" method="GET">
                     <div class="paymentmethod_select">
                         <label class="paymentmethod" for="paymentmethod_id">支払い方法
                             <select name="paymentmethod_id" id="paymentmethod_id" class="form_select" onchange="this.form.submit()">
                                 <option value="">選択してください</option>
                                 @foreach ($paymentmethods as $method)
-                                <option value="{{ $method->id }}" {{ request('paymentmethod_id') == $method->id ? 'selected' : '' }}>{{ $method->name }}</option>
+                                <option value="{{ $method->id }}" {{ $selected_paymentmethod_id == $method->id ? 'selected' : '' }}>
+                                    {{ $method->name }}
+                                </option>
                                 @endforeach
                             </select>
                         </label>
@@ -63,16 +70,25 @@
                 </div>
                 <div class="row_box">
                     <p class="purchases_table_paymentmethod_title">支払い方法</p>
-                    <p class="selected-method">{{ $methodName ?? '選択してください' }}</p>
+                    <p class="selected-method">{{ $method_name ?? '選択してください' }}</p>
                 </div>
             </div>
-            <form action="{{ route('purchase.create', ['item' => $item->id]) }}" method="POST">
+            @if (!$item->is_sold)
+            <form action="{{ route('purchase.create', ['item' => $item->id]) }}" method="POST" id="purchase-form">
                 @csrf
-                <input type="hidden" name="paymentmethod_id" value="{{ request('paymentmethod_id') }}">
-                <input type="hidden" name="postal_code" value="{{ $user->postal_code }}">
-                <input type="hidden" name="address" value="{{ $user->address }}">
-                <button type="submit" class="purchase_button">購入する</button>
+                {{-- hiddenに確実にIDを入れる --}}
+                <input type="hidden" name="paymentmethod_id" value="{{ $selected_paymentmethod_id }}">
+                <input type="hidden" name="postal_code" value="{{ old('postal_code', $user->postal_code) }}">
+                <input type="hidden" name="address" value="{{ old('address', $user->address) }}">
+                <input type="hidden" name="building" value="{{ old('building', $user->building) }}">
+
+                <button type="submit" class="purchase_button" id="purchase-button" {{ $selected_paymentmethod_id ? '' : 'disabled' }}>
+                    購入する
+                </button>
             </form>
+            @else
+            <p class="sold-text">Sold</p>
+            @endif
             @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -92,19 +108,32 @@
 @section('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('purchase-form');
+        const button = document.getElementById('purchase-button');
         const select = document.getElementById('paymentmethod_id');
-        const display = document.getElementById('selected-method');
+
+        // 初期状態の切り替え
+        toggleButton(select.value);
 
         select.addEventListener('change', function() {
-            const selectedOption = select.options[select.selectedIndex];
-            const methodName = selectedOption.textContent.trim();
+            toggleButton(this.value);
+        });
 
-            if (selectedOption.value === "") {
-                display.textContent = '選択してください';
+        function toggleButton(value) {
+            if (!value) {
+                button.disabled = true;
+                button.classList.add('disabled');
             } else {
-                display.textContent = methodName;
+                button.disabled = false;
+                button.classList.remove('disabled');
             }
+        }
+
+        form.addEventListener('submit', function() {
+            button.disabled = true;
+            button.classList.add('disabled');
         });
     });
 </script>
+
 @endsection

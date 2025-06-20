@@ -2,62 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
-use Illuminate\Support\Facades\Storage;
 use App\Models\User;
-use App\Models\Item;
-use App\Models\Purchase;
-
-use function PHPUnit\Framework\returnSelf;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    // プロフィール情報を表示（mypage含む）
-    public function index()
+    /**
+     * プロフィール情報を表示（mypage含む）
+     */
+    public function index(Request $request)
     {
         $user = auth()->user();
-        $tab = request('tab', 'sell');
+
+        $tab = $request->query('tab', 'sell');
 
         if ($tab === 'buy') {
             $items = $user->purchases;
         } elseif ($tab === 'sell') {
-            $items = $user->sales;
+            $items = $user->itemsForSale;
         } else {
             $items = null;
+        }
+
+        if ($request->query('status') === 'success' && $request->query('session_id')) {
+            session()->flash('success', '商品を購入しました。');
         }
         return view('profile.mypage', compact('user', 'tab', 'items'));
     }
 
-    public function edit ()
+    /**
+     * プロフィール編集ページ
+     */
+    public function edit()
     {
         $user = auth()->user();
         return view('profile.mypage_profile', compact('user'))->with('success', 'プロフィールを更新しました！');
     }
 
+    /**
+     * プロフィール編集処理
+     */
     public function update(ProfileRequest $profileRequest, AddressRequest $addressRequest)
     {
-        $user = \App\Models\User::findOrFail(auth()->id());
+        $user = User::findOrFail(auth()->id());
 
         //バリデーション済みデータ取得
-        $imageData = $profileRequest->validated();
-        $addressData = $addressRequest->validated();
+        $image_data = $profileRequest->validated();
+        $address_data = $addressRequest->validated();
 
         //プロフィール画像のアップロード
         if ($profileRequest->hasFile('image')) {
             $path = $profileRequest->file('image')->store('public/images');
-            $imageData['image'] = basename($path);
+            $image_data['image'] = basename($path);
         }
 
         //住所情報の更新
-        $user->fill(array_merge($imageData, $addressData));
+        $user->fill(array_merge($image_data, $address_data));
         $user->save();
 
         return redirect()->route('items.index', ['tab' => 'recommend'])->with('success', 'プロフィールを更新しました');
     }
 
+    /**
+     * プロフィール：購入済み商品
+     */
     public function purchasedItem()
     {
         $user = Auth::user();
@@ -65,6 +76,9 @@ class ProfileController extends Controller
         return view('items.mylist', compact('items'));
     }
 
+    /**
+     * プロフィール：出品済み商品
+     */
     public function soldItem()
     {
         $user = Auth::user();

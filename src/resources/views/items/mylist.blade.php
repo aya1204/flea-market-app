@@ -30,7 +30,7 @@ $keyword = request('item_name') ?? session('search_keyword');
     <div class="item">
         <div class="item-row">
 
-            @if ($tab === 'mylist' && $showMessage)
+            @if ($tab === 'mylist' && $show_message)
             <p class="show_message">マイリストを表示するにはログインしてください。</p>
             @endif
             @foreach($items as $item)

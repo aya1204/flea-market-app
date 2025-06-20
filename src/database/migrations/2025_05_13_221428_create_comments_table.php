@@ -1,4 +1,4 @@
-<!-- 商品コメントテーブル -->
+<!-- commentsテーブル(商品コメント) -->
 <?php
 
 use Illuminate\Database\Migrations\Migration;

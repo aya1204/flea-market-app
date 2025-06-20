@@ -1,6 +1,14 @@
 /* メール認証画面のCSS */
 
-/* メッセージのフォーム */
+/* 認証メールを送信しましたのメッセージ */
+.alert {
+    padding: 10px 30px;
+    border-color: #badbcc;
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+/* 認証メールを送りました。メール認証を完了してください。のフォーム */
 .messages{
     font-family: Inter;
     font-weight: 700;
@@ -40,6 +48,7 @@
     margin: 20px 25px;
 }
 
+/* 認証メールを再送するリンク */
 .btn.btn-link {
     background: none;
     border: none;

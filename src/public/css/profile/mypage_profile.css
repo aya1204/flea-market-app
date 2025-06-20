@@ -100,6 +100,7 @@ body {
     border: none;
 }
 
+/* スマホ（767px以下）対応 */
 @media screen and (max-width: 767px) {
     /* 全体のフォーム */
     .profile-container {

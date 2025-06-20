@@ -1,4 +1,4 @@
-<!-- ブランドテーブル -->
+<!-- brandsテーブル -->
 <?php
 
 use Illuminate\Database\Migrations\Migration;

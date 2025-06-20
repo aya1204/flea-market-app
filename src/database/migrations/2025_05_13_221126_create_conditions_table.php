@@ -1,4 +1,4 @@
-<!-- コンディションテーブル（商品の状態） -->
+<!-- conditionsテーブル（商品の状態） -->
 <?php
 
 use Illuminate\Database\Migrations\Migration;

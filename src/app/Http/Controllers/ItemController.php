@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
-use App\Models\User;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\Routing\Loader\Configurator\CollectionConfigurator;
 
 /**
  * アイテムコントローラー
@@ -16,13 +14,12 @@ class ItemController extends Controller
 {
     /**
      * 商品一覧ページ表示
-     * 
      */
     public function index(Request $request)
     {
         $tab = $request->query('tab', 'recommend');
         $items = collect(); // 空のコレクション
-        $showMessage = false;
+        $show_message = false;
 
         // セッションからキーワードを取得
         $keyword = session('search_keyword');
@@ -31,9 +28,11 @@ class ItemController extends Controller
         if ($tab === 'mylist') {
             // ログイン済みかチェック
             if (!auth()->check()) {
-                $showMessage = true;
+                $show_message = true;
             } else {
-                $query = auth()->user()->favorites()->with('categories');
+                /** @var \App\Models\User $user */
+                $user = auth()->user();
+                $query = $user->favorites()->with('categories');
 
                 if (!empty($keyword)) {
                     $query->where('title', 'like', '%' . $keyword . '%');
@@ -57,12 +56,11 @@ class ItemController extends Controller
             $items = $query->get();
         }
 
-        return view('items.mylist', compact('items', 'tab', 'showMessage'));
+        return view('items.mylist', compact('items', 'tab', 'show_message'));
     }
-
-    /** 
+    /**
      * お気に入り追加
-    */
+     */
     public function favorite(Item $item)
     {
         if (!auth()->check()) {
@@ -70,7 +68,9 @@ class ItemController extends Controller
         }
 
         // お気に入り追加
-        auth()->user()->favorites()->attach($item->id);
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $user->favorites()->attach($item->id);
 
         return redirect()->back()->with('message', 'お気に入りに追加しました');
     }
@@ -78,9 +78,11 @@ class ItemController extends Controller
     /**
      * お気に入り解除
      */
-    public function unFavorite(Item $item)
+    public function unfavorite(Item $item)
     {
-        auth()->user()->favorites()->detach($item->id);
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $user->favorites()->detach($item->id);
 
         return redirect()->back()->with('message', 'お気に入りを解除しました');
     }
@@ -116,13 +118,13 @@ class ItemController extends Controller
     public function search(Request $request)
     {
         $tab = $request->query('tab', 'recommend');
-        $showMessage = false;
+        $show_message = false;
         $items = collect(); // 空のコレクション
         $keyword = null;
 
         // 1. キーワードが入力されている場合
-        if ($request->has('keyword')) {
-            $keyword = $request->input('keyword');
+        if ($request->has('item_name')) {
+            $keyword = $request->input('item_name');
 
             if ($keyword !== '') {
                 session(['search_keyword' => $keyword]); // セッションに保存（共通キー）
@@ -131,16 +133,18 @@ class ItemController extends Controller
             }
         }
         // 2. リクエストにキーワードがない場合、セッションから取得
-        $keyword =$keyword ?? session('search_keyword');
+        $keyword = $keyword ?? session('search_keyword');
 
         // 3. mylistタブの場合
         if ($tab === 'mylist') {
             // ログイン済みかチェック
             if (!auth()->check()) {
-                $showMessage = true;
+                $show_message = true;
                 $items = collect();
             } else {
-                $query = auth()->user()->favorites()->with('categories');
+                /** @var \App\Models\User $user */
+                $user = auth()->user();
+                $query = $user->favorites()->with('categories');
 
                 // 商品名を検索（部分一致）
                 if (!empty($keyword)) {
@@ -150,7 +154,7 @@ class ItemController extends Controller
                 $items = $query->get();
             }
 
-        // 4. recommendタブ（デフォルト）
+            // 4. recommendタブ（デフォルト）
         } else {
             $query = Item::query();
 
@@ -166,8 +170,7 @@ class ItemController extends Controller
             }
 
             $items = $query->get();
-
         }
-        return view('items.mylist', compact('items', 'tab', 'showMessage'));
+        return view('items.mylist', compact('items', 'tab', 'show_message'));
     }
 }

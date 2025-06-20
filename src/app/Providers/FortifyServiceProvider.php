@@ -17,7 +17,10 @@ use App\Http\Responses\CustomVerifyEmailViewResponse;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+
+use function PHPUnit\Framework\returnSelf;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -53,8 +56,6 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.verify-email');
         });
 
-        // $this->app->singleton(VerifyEmailViewResponse::class, CustomVerifyEmailViewResponse::class);
-
         Fortify::authenticateUsing(function ($request) {
             $user = User::where('email', $request->email)->first();
 
@@ -64,5 +65,18 @@ class FortifyServiceProvider extends ServiceProvider
 
             return null;
         });
+
+        // メール認証画面を表示
+        Route::get('/email/verify', function () {
+            $user = auth()->user();
+            return view('auth.verify-email');
+        });
+
+        // メール認証処理
+        Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+            $request->fulfill();
+
+            return redirect('/mypage/profile');
+        })->middleware(['auth', 'signed'])->name('verification.verify');
     }
 }

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Item;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -20,7 +18,6 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-
     /**
      * 登録画面表示
      */
@@ -29,7 +26,9 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    //ユーザー登録処理
+    /**
+     * ユーザー登録処理
+     */
     public function create(RegisterRequest $request)
     {
         $user = User::create([
@@ -39,13 +38,7 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
-
-        return redirect()->route('profile.mypage_profile'); //プロフィール設定画面へ
-
-        event(new Registered($user));//Fortifyのメール認証用イベント
-        Auth::login($user);//ログイン状態にする
-
-        return redirect()->route('verification.notice'); //メール認証画面にリダイレクト
+        return redirect()->route('profile.edit');
     }
 
     /**
@@ -66,7 +59,6 @@ class AuthController extends Controller
         ]);
     }
 
-
     /**
      * ログアウト処理
      */
@@ -75,6 +67,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/');
     }
 }

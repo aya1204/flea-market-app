@@ -14,6 +14,7 @@ body {
     color: #000000;
 }
 
+/* 全体のフォーム */
 .purchase-page {
     max-width: 1512px;
     margin: 40px auto;
@@ -27,14 +28,17 @@ body {
     gap: 40px;
 }
 
+/* 左側のフォーム */
 .left-column {
     width: 60%;
 }
 
+/* 右側のフォーム */
 .right-column {
     width: 35%;
 }
 
+/* 商品画像 */
 .item-image {
     width: 178px;
     height: 178px;
@@ -76,8 +80,6 @@ body {
     font-size: 30px;
 }
 
-
-
 /* 支払い方法 */
 .paymentmethod {
     width: 326px;
@@ -112,6 +114,7 @@ body {
     margin-left: 115px;
 }
 
+/* 配送先と変更するリンクのフォーム */
 .delivery_address_header {
     display: flex;
     justify-content: space-between;
@@ -214,6 +217,13 @@ body {
     margin-bottom: 30px;
 }
 
+/* 購入するボタン */
+button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* タブレット（768-850px）対応 */
 @media screen and (max-width: 850px) and (min-width: 768px) {
     .item_row {
         margin-bottom: 15px;
@@ -307,6 +317,7 @@ body {
     }
 }
 
+/* スマホ（767px以下）対応 */
 @media screen and (max-width: 767px) {
     .purchase-content {
         flex-direction: column;

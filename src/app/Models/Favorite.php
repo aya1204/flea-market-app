@@ -5,19 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Favorite extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'item_id', 'comment'];
+    protected $fillable = ['user_id', 'item_id'];
 
     // usersテーブルと多対1の関係
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 
-    // itemsテーブルと多対1の関係
+    // itemsテーブルとの多対1の関係
     public function item()
     {
         return $this->belongsTo(Item::class);

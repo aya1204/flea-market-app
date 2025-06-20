@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StripeWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// ログイン中のユーザー情報をAPIで取得するためのエンドポイント
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Stripe（決済サービス）からの通知（Webhook）を受け取るためのエンドポイント
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle']);

@@ -85,6 +85,7 @@ body {
     margin-bottom: 68px;
 }
 
+/* 更新するボタン */
 .update_button {
     margin: 5px 0;
     font-size: 26px;
@@ -98,6 +99,7 @@ body {
     border: none;
 }
 
+/* スマホ（767px以下）対応 */
 @media screen and (max-width: 767px) {
 
     /* 全体のフォーム */

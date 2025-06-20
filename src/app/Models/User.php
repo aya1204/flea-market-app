@@ -8,13 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Item;
-use App\Models\Purchase;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'users';
+    
     // itemsテーブル(出品)と多対１の関係
     public function itemsForSale()
     {
@@ -27,18 +27,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Item::class, 'purchase_user_id');
     }
 
-    // itemsテーブル（出品）と多対1の関係
-    public function sales() {
-        return $this->hasMany(Item::class, 'seller_user_id');
-    }
-
     // favoritesテーブルと多対多の関係
     public function favorites()
     {
         return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
     }
 
-    // user↔︎comment 1対多の関係
+    // commentsテーブルと1対多の関係
     public function comments()
     {
         return $this->hasMany(Comment::class);

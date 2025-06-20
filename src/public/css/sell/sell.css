@@ -20,6 +20,7 @@ main {
     height: 1947px;
 }
 
+/* 商品画像〜出品するまで */
 .sell_form {
     height: 100%;
 }
@@ -68,6 +69,24 @@ main {
     padding: 10px 20px;
     margin: 55px 261px;
     font-size: 16px;
+
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+/* 選択済み商品画像を表示した際、画像を選択するを非表示 */
+.image-label.hidden {
+    display: none;
+}
+
+/* 選択済み商品画像を表示 */
+.image-preview {
+    display: none;
+    max-width: 300px;
+    width: auto;
+    max-height: 100%;
+    height: auto;
+    margin: 0 auto;
 }
 
 /* 商品の詳細から商品の状態セレクトボックスまで */
@@ -149,12 +168,89 @@ input:checked + span {
         margin: 20px 0; */
 }
 
+/* カスタムセレクト全体 */
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+    margin: 20px 0;
+}
+
+/* 商品状態のカスタムセレクトボックス */
+.custom-select-trigger {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    color: #5F5F5F;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ▼矢印追加 */
+.custom-select-trigger-triangle {
+    font-size: 12px;
+}
+
+/* カスタムセレクトボックスのフォーム */
+.custom-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+    background-color: white;
+    display: none;
+    z-index: 10;
+}
+
+/* カスタムセレクトボックスの１行ずつ */
+.custom-option {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #636769;
+    /* ← ここが背景色 */
+    color: #EAEAEA;
+    font-weight: 600;
+    font-size: 14px;
+    vertical-align: middle;
+    position: relative;
+    cursor: pointer;
+    padding-left: 30px;
+}
+
+/* チェックマークと背景色 */
+.custom-option:hover {
+    background-color: #5599EB;
+    color: white;
+}
+
+/* カスタムセレクトボックス：左端のチェックマーク */
+.custom-option:hover::before {
+    content: "✔︎";
+    position: absolute;
+    left: 10px;
+    color: white;
+    font-size: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.custom-select-wrapper.open .custom-options {
+    display: block;
+}
+
+/* 商品名と説明〜販売価格 */
 .item-group {
     display: flex;
     flex-direction: column;
     margin-top: 69px;
     margin-bottom: 118px;
 }
+
 /* 商品名、ブランド名、商品の説明、販売価格のフォーム */
 .name-group,
 .brand-group,
@@ -196,6 +292,7 @@ input:checked + span {
     font-weight: 700;
 }
 
+/* 出品するボタン */
 .sell-submit {
     width: 100%;
     height: 60px;
@@ -208,77 +305,7 @@ input:checked + span {
     border: none;
 }
 
-/* カスタムセレクト全体 */
-.custom-select-wrapper {
-    position: relative;
-    user-select: none;
-    width: 100%;
-    margin: 20px 0;
-}
-
-.custom-select-trigger {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #5F5F5F;
-    border-radius: 4px;
-    background-color: white;
-    cursor: pointer;
-    color: #5F5F5F;
-    display: flex;
-    justify-content: space-between;
-}
-
-/* ▼矢印追加 */
-.custom-select-trigger-triangle {
-    font-size: 12px;
-}
-
-.custom-options {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    border: 1px solid #5F5F5F;
-    border-radius: 4px;
-    background-color: white;
-    display: none;
-    z-index: 10;
-}
-
-.custom-option {
-    padding: 10px;
-    cursor: pointer;
-    background-color: #636769;
-    /* ← ここが背景色 */
-    color: #EAEAEA;
-    font-weight: 600;
-    font-size: 14px;
-    vertical-align: middle;
-    position: relative;
-    cursor: pointer;
-    padding-left: 30px;
-}
-
-/* チェックマークと背景色 */
-.custom-option:hover {
-    background-color: #5599EB;
-    color: white;
-}
-
-.custom-option:hover::before {
-    content: "✔︎";
-    position: absolute;
-    left: 10px;
-    color: white;
-    font-size: 16px;
-    top: 50%;
-        transform: translateY(-50%);
-}
-
-.custom-select-wrapper.open .custom-options {
-    display: block;
-}
-
+/* スマホ（767px以下）対応 */
 @media screen and (max-width: 767px) {
     /* 商品の出品〜出品するボタンまで */
     .sell-container {
@@ -397,6 +424,7 @@ input:checked + span {
         height: 63px;
     }
 
+    /* 出品するボタン */
     .sell-submit {
         height: 30px;
         font-size: 13px;

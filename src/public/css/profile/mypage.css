@@ -1,4 +1,4 @@
-/* プロフィール画面のCSS */
+/* プロフィール画面(マイページ)のCSS */
 body {
     font-family: Inter;
     letter-spacing: 0%;
@@ -78,7 +78,7 @@ body {
 }
 
 /* 商品一覧1列のフォーム */
-.item_row {
+.item-row {
     width: 100%;
     /* height: 320px; */
     display: flex;
@@ -125,7 +125,9 @@ body {
     color: #000000;
 }
 
+/* タブレット（768-850px）対応 */
 @media screen and (min-width: 768px) and (max-width: 850px) {
+
     /* ユーザー画像、名前、プロフィールを編集ボタンのフォーム */
     .profile {
         display: flex;
@@ -184,7 +186,9 @@ body {
     }
 }
 
+/* スマホ（767px以下）対応 */
 @media screen and (max-width: 767px) {
+
     /* ユーザー画像、名前、プロフィールを編集ボタン */
     .profile {
         margin: 20px 60px;

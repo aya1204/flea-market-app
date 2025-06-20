@@ -1,3 +1,4 @@
+<!-- category_itemテーブル（中間テーブル） -->
 <?php
 
 use Illuminate\Database\Migrations\Migration;

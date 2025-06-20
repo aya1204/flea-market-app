@@ -1,5 +1,4 @@
 <!-- 送付先変更ページ -->
-<!-- プロフィール設定画面 -->
 @extends('layouts.app')
 
 @section('css')
