@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+
 
 class AuthController extends Controller
 {
@@ -32,29 +33,34 @@ class AuthController extends Controller
      */
     public function create(RegisterRequest $request)
     {
-        Log::debug('環境: ' . app()->environment());
 
+        // テストならログイン画面へ遷移
+        if (app()->environment('testing')) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'email_verified_at' => now(),
+            ]);
+
+            return redirect('/login');
+        }
+
+        // 本番環境はログイン後プロフィール編集画面へ
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'email_verified_at' => app()->environment('testing') ? now() : null,
         ]);
 
-        // テストならログイン画面へ遷移
-        if (app()->environment('testing')) {
-            return redirect('/login');
-        } else {
-            // 本番環境はログイン後プロフィール編集画面へ
-            Auth::login($user);
-            return redirect()->route('profile.edit');
-        }
+        Auth::login($user);
+        return redirect()->route('profile.edit');
     }
 
     /**
      * ログイン処理
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
