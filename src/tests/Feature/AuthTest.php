@@ -40,4 +40,21 @@ class AuthTest extends TestCase
         $response->assertSee('会員登録'); // ページ内に「会員登録」という文字があるか
     }
 
+
+    /**
+     * 会員登録処理テスト
+     */
+    public function testUserCanCreate()
+    {
+        $response = $this->post('/register', [
+            'name' => 'テストユーザー',
+            'email' => 'test@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]); // 会員登録処理
+
+        $response->assertRedirect('/email/verify'); // 登録後にメール認証ページにリダイレクト
+        $this->assertAuthenticated(); // ログインされているか
+    }
+
 }
