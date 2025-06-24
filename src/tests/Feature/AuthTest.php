@@ -36,7 +36,7 @@ class AuthTest extends TestCase
         $response = $this->post('/register', [
             'name' => '',
             'email' => 'test@example.com',
-            'password' => 'password',
+            'password' => 'password123',
             'password_confirmation' => 'password123',
         ]);
 
