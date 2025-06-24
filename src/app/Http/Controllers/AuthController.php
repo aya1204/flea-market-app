@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -31,6 +32,8 @@ class AuthController extends Controller
      */
     public function create(RegisterRequest $request)
     {
+        Log::debug('環境: ' . app()->environment());
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -38,11 +41,12 @@ class AuthController extends Controller
             'email_verified_at' => app()->environment('testing') ? now() : null,
         ]);
 
-        Auth::login($user);
-
+        // テストならログイン画面へ遷移
         if (app()->environment('testing')) {
-            return redirect()->route('login');
+            return redirect('/login');
         } else {
+            // 本番環境はログイン後プロフィール編集画面へ
+            Auth::login($user);
             return redirect()->route('profile.edit');
         }
     }
