@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function () {
     //プロフィール設定（認証とメール認証が必要）
     Route::middleware(['auth', 'verified'])->group(function () {
         // プロフィール設定画面表示
-        Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::get('/mypage/profile', [ProfileController::class, 'edit'])->middleware(['auth', 'verified'])->name('profile.edit');
         // プロフィール設定完了処理
         Route::post('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
     });
