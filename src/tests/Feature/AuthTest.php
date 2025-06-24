@@ -148,7 +148,7 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertRedirect('/'); // ログイン後に商品一覧ページにリダイレクト
-        $response->assertAuthenticatedAs($user);
+        $this->assertAuthenticatedAs($user);
     }
 
 
@@ -165,6 +165,6 @@ class AuthTest extends TestCase
         $response = $this->post('/logout');
 
         $response->assertRedirect('/'); // ログアウト後、商品一覧ページ（未ログイン）にリダイレクト
-        $response->assertGuest(); // ログアウトされているか
+        $this->assertGuest(); // ログアウトされているか
     }
 }
