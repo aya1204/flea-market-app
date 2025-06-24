@@ -104,7 +104,7 @@ class AuthTest extends TestCase
     }
 
     /**
-     * 会員登録処理テスト
+     * 正常に会員登録できる場合のテスト
      */
     public function testUserCanCreate()
     {
