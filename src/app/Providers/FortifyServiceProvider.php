@@ -40,6 +40,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Fortify::ignoreRoutes();
 
         Fortify::registerView(function () {
             return view('auth.register');
