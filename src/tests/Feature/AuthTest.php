@@ -35,7 +35,7 @@ class AuthTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => '',
-            'email' => 'test@example.com',
+            'email' => 'testabc@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ]);
@@ -65,7 +65,7 @@ class AuthTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
-            'email' => 'test@example.com',
+            'email' => 'testabc@example.com',
             'password' => '',
             'password_confirmation' => '',
         ]);
@@ -80,7 +80,7 @@ class AuthTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
-            'email' => 'test@example.com',
+            'email' => 'testabc@example.com',
             'password' => 'pass123',
             'password_confirmation' => 'pass123',
         ]);
@@ -95,7 +95,7 @@ class AuthTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
-            'email' => 'test@example.com',
+            'email' => 'testabc@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password',
         ]);
@@ -110,9 +110,9 @@ class AuthTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
-            'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'email' => 'testabc@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
         ]); // 会員登録処理
 
         $response->assertRedirect('/mypage/profile'); // 登録後に商品一覧ページにリダイレクト
