@@ -73,6 +73,22 @@ class AuthTest extends TestCase
         $response->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
     }
 
+
+    /**
+     * パスワードが7文字以下の場合のバリデーションテスト
+     */
+    public function testRegisterFailsWhenPasswordIsTooShort()
+    {
+        $response = $this->post('/register', [
+            'name' => 'テストユーザー',
+            'email' => 'test@example.com',
+            'password' => 'pass123',
+            'password_confirmation' => 'pass123',
+        ]);
+
+        $response->assertSessionHasErrors(['password' => 'パスワードは8文字以上で入力してください']);
+    }
+
     /**
      * 会員登録処理テスト
      */
