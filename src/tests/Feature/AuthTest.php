@@ -17,6 +17,15 @@ class AuthTest extends TestCase
      * @return void
      */
 
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // 例外をそのままスローせずにハンドルさせる
+        $this->withExceptionHandling();
+    }
+
     /**
      * 会員登録画面表示テスト
      */
@@ -108,7 +117,7 @@ class AuthTest extends TestCase
      */
     public function testUserCanCreate()
     {
-        $response = $this->post('/register', [
+        $response = $this->withMiddleware()->post('/register', [
             'name' => 'テストユーザー',
             'email' => 'testabc@example.com',
             'password' => 'password123',
