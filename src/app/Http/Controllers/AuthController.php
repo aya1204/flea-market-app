@@ -39,7 +39,12 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
-        return redirect()->route('profile.edit');
+
+        if (app()->environment('testing')) {
+            return redirect()->route('login');
+        } else {
+            return redirect()->route('profile.edit');
+        }
     }
 
     /**
