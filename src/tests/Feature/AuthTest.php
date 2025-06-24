@@ -57,4 +57,24 @@ class AuthTest extends TestCase
         $this->assertAuthenticated(); // ログインされているか
     }
 
+    /**
+     * ログイン処理テスト
+     */
+    public function testUserCanLogin()
+    {
+        // 事前にユーザーを作成
+        $user = \App\Models\User::factory()->create([
+            'email' => 'loginuser@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => 'loginuser@example.com',
+            'password' => 'password'
+        ]);
+
+        $response->assertRedirect('/'); // ログイン後に商品一覧ページにリダイレクト
+        $response->assertAuthenticatedAs($user);
+    }
+
 }
