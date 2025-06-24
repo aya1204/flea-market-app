@@ -77,4 +77,19 @@ class AuthTest extends TestCase
         $response->assertAuthenticatedAs($user);
     }
 
+    /**
+     * ログアウト処理テスト
+     */
+    public function testUserCanLogout()
+    {
+        /** @var \App\Models\User $user */
+        $user = \App\Models\User::factory()->create();
+
+        $this->actingAs($user); // ログイン状態にする
+
+        $response = $this->post('/logout');
+
+        $response->assertRedirect('/'); // ログアウト後、商品一覧ページ（未ログイン）にリダイレクト
+        $response->assertGuest(); // ログアウトされているか
+    }
 }
