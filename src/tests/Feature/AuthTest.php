@@ -57,7 +57,22 @@ class AuthTest extends TestCase
 
         $response->assertSessionHasErrors(['email' => 'メールアドレスを入力してください']);
     }
-    
+
+    /**
+     * パスワードが入力されていない場合のバリデーションテスト
+     */
+    public function testRegisterFailsWhenPasswordIsEmpty()
+    {
+        $response = $this->post('/register', [
+            'name' => 'テストユーザー',
+            'email' => 'test@example.com',
+            'password' => '',
+            'password_confirmation' => '',
+        ]);
+
+        $response->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
+    }
+
     /**
      * 会員登録処理テスト
      */
