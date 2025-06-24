@@ -115,7 +115,7 @@ class AuthTest extends TestCase
             'password_confirmation' => 'password123',
         ]); // 会員登録処理
 
-        $response->assertRedirect('/mypage/profile'); // 登録後に商品一覧ページにリダイレクト
+        $response->assertRedirect('/'); // 登録後に商品一覧ページにリダイレクト
         $this->assertAuthenticated(); // ログインされているか
     }
 
