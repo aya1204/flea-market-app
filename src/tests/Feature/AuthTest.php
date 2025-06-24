@@ -138,7 +138,7 @@ class AuthTest extends TestCase
     {
         // 事前にユーザーを作成
         $user = \App\Models\User::factory()->create([
-            'email' => 'loginuser@example.com',
+            'email' => 'loginuser' . uniqid() . '@example.com', // 毎回ユニークに（被らないように）
             'password' => bcrypt('password'),
         ]);
 
