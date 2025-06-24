@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
-
+use Laravel\Fortify\Features;
 use function PHPUnit\Framework\returnSelf;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -29,7 +29,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Fortifyの登録機能を無効にする
+        config(['fortify.features' => array_diff(config('fortify.features'), [
+            Features::registration(),
+            ])]);
     }
 
     /**
@@ -37,7 +40,6 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Fortify::createUsersUsing(CreateNewUser::class);
 
         Fortify::registerView(function () {
             return view('auth.register');
@@ -52,6 +54,7 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(10)->by($email . $request->ip());
         });
+
         Fortify::verifyEmailView(function () {
             return view('auth.verify-email');
         });
