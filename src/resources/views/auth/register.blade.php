@@ -52,7 +52,10 @@
                 </div>
                 <div class="form__error">
                     @error('password')
-                    {{ $message }}
+                    <!-- 「一致」系以外（8文字以内だけ）ここに表示 -->
+                        @if (!Str::contains($message, '一致'))
+                            {{ $message }}
+                        @endif
                     @enderror
                 </div>
             </div>
@@ -64,6 +67,14 @@
             <div class="form__group-content">
                 <div class="form__input--text">
                     <input type="password" class="registration-items" name="password_confirmation" />
+                </div>
+                <div class="form__error">
+                    @error('password')
+                    <!-- 「一致」系エラー（8文字以内）だけここに表示 -->
+                        @if (Str::contains($message, '一致'))
+                        {{ $message }}
+                        @endif
+                    @enderror
                 </div>
             </div>
         </div>
