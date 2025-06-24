@@ -17,4 +17,15 @@ class AuthTest extends TestCase
      * @return void
      */
 
+    /**
+     * ログインページ表示テスト
+     */
+    public function testUserCanViewLoginPage()
+    {
+        $response = $this->get('/login'); // ログインページ
+
+        $response->assertStatus(200);
+        $response->assertSee('ログイン'); //ページ内に「ログイン」という文字があるか
+    }
+
 }
