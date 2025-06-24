@@ -29,6 +29,21 @@ class AuthTest extends TestCase
     }
 
     /**
+     * 名前が入力されていない場合のバリデーションテスト
+     */
+    public function testRegisterFailsWhenNameIsEmpty()
+    {
+        $response = $this->post('/register', [
+            'name' => '',
+            'email' => 'test@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertSessionHasErrors(['name' => 'お名前を入力してください']);
+    }
+
+    /**
      * 会員登録処理テスト
      */
     public function testUserCanCreate()
