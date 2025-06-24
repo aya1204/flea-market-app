@@ -73,7 +73,6 @@ class AuthTest extends TestCase
         $response->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
     }
 
-
     /**
      * パスワードが7文字以下の場合のバリデーションテスト
      */
@@ -87,6 +86,21 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['password' => 'パスワードは8文字以上で入力してください']);
+    }
+
+    /**
+     * パスワードと確認用パスワードが一致しない場合のバリデーションテスト
+     */
+    public function testRegisterFailsWhenPasswordConfirmationDoesNotMatch()
+    {
+        $response = $this->post('/register', [
+            'name' => 'テストユーザー',
+            'email' => 'test@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password',
+        ]);
+
+        $response->assertSessionHasErrors(['password' => 'パスワードと一致しません']);
     }
 
     /**
