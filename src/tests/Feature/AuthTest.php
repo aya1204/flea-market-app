@@ -44,6 +44,21 @@ class AuthTest extends TestCase
     }
 
     /**
+     * メールアドレスが入力されていない場合のバリデーションテスト
+     */
+    public function testRegisterFailsWhenEmailIsEmpty()
+    {
+        $response = $this->post('/register', [
+            'name' => 'テストユーザー',
+            'email' => '',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertSessionHasErrors(['email' => 'メールアドレスを入力してください']);
+    }
+    
+    /**
      * 会員登録処理テスト
      */
     public function testUserCanCreate()
