@@ -18,18 +18,6 @@ class AuthTest extends TestCase
      */
 
     /**
-     * ログインページ表示テスト
-     */
-    public function testUserCanViewLoginPage()
-    {
-        $response = $this->get('/login'); // ログインページ
-
-        $response->assertStatus(200);
-        $response->assertSee('ログイン'); //ページ内に「ログイン」という文字があるか
-    }
-
-
-    /**
      * 会員登録画面表示テスト
      */
     public function testUserCanViewRegisterPage()
@@ -39,7 +27,6 @@ class AuthTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('会員登録'); // ページ内に「会員登録」という文字があるか
     }
-
 
     /**
      * 会員登録処理テスト
@@ -55,6 +42,18 @@ class AuthTest extends TestCase
 
         $response->assertRedirect('/email/verify'); // 登録後にメール認証ページにリダイレクト
         $this->assertAuthenticated(); // ログインされているか
+    }
+
+
+    /**
+     * ログインページ表示テスト
+     */
+    public function testUserCanViewLoginPage()
+    {
+        $response = $this->get('/login'); // ログインページ
+
+        $response->assertStatus(200);
+        $response->assertSee('ログイン'); //ページ内に「ログイン」という文字があるか
     }
 
     /**
@@ -76,6 +75,7 @@ class AuthTest extends TestCase
         $response->assertRedirect('/'); // ログイン後に商品一覧ページにリダイレクト
         $response->assertAuthenticatedAs($user);
     }
+
 
     /**
      * ログアウト処理テスト
