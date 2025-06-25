@@ -149,7 +149,7 @@ class AuthTest extends TestCase
      */
     public function testLoginFailsWhenEmailIsEmpty()
     {
-        $response = $this->from('/login')->post('login', [
+        $response = $this->from('/login')->post('/login', [
             'email' => '',
             'password' => 'password123',
         ]);
@@ -164,7 +164,7 @@ class AuthTest extends TestCase
      */
     public function testLoginFailsWhenPasswordIsEmpty()
     {
-        $response = $this->from('/login')->post('login', [
+        $response = $this->from('/login')->post('/login', [
             'email' => 'abc@example.com',
             'password' => '',
         ]);
