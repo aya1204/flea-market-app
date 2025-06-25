@@ -158,6 +158,20 @@ class AuthTest extends TestCase
     }
 
     /**
+     * パスワードが入力されていない場合のバリデーションテスト
+     */
+    public function testLoginFailsWhenPasswordIsEmpty()
+    {
+        $response = $this->from('/login')->post('login', [
+            'email' => 'testabc@example.com',
+            'password' => '',
+        ]);
+
+        $response->assertRedirect('/login');
+        $response->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
+    }
+
+    /**
      * ログイン処理テスト
      */
     public function testUserCanLogin()
