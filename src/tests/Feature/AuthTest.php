@@ -125,11 +125,14 @@ class AuthTest extends TestCase
             'password_confirmation' => 'password123',
         ]); // 会員登録処理
 
-        // todo確認 $user = \App\Models\User::where('email', 'testabc@example.com')->first();
-        // todo確認 $this->actingAs($user);
+        // 登録後にログインページにリダイレクト
+        $response->assertRedirect(route('profile.edit'));
 
-        $response->assertRedirect('/login'); // 登録後にログインページにリダイレクト
-        // $this->assertAuthenticatedAs($user); // ログインされているか
+        // 登録したユーザーを取得
+        $user = \App\Models\User::where('email', 'testabc@example.com')->first();
+
+        // ログインされているか
+        $this->assertAuthenticatedAs($user);
     }
 
 
