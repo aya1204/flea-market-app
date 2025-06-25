@@ -195,7 +195,7 @@ class AuthTest extends TestCase
                 $response = $this->from('/login')->post('/login', $case);
                 $response->assertRedirect('/login');
                 $response->assertSessionHasErrors([
-                    'email' => 'ログイン情報が登録されていません'
+                    'email' => 'ログイン情報が登録されていません。'
                 ]);
                 $this->assertGuest(); // ログイン失敗時に誤って認証されないようチェック
             }
