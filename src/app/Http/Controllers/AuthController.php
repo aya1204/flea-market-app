@@ -34,7 +34,7 @@ class AuthController extends Controller
     public function create(RegisterRequest $request)
     {
 
-        // テストならログイン画面へ遷移
+        // テストならメール認証スキップ後プロフィール編集画面へ遷移
         if (app()->environment('testing')) {
             $user = User::create([
                 'name' => $request->name,
@@ -43,7 +43,10 @@ class AuthController extends Controller
                 'email_verified_at' => now(),
             ]);
 
-            return redirect('/login');
+            // テスト環境でも自動ログインさせる
+            Auth::login($user);
+
+            return redirect()->route('profile.edit');
         }
 
         // 本番環境はログイン後プロフィール編集画面へ
