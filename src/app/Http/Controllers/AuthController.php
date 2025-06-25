@@ -71,7 +71,6 @@ class AuthController extends Controller
 
         return back()->withErrors([
             'email' => 'ログイン情報が登録されていません。',
-            'password' => 'ログイン情報が登録されていません。',
         ]);
     }
 
