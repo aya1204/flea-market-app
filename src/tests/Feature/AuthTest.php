@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Database\Schema\ForeignIdColumnDefinition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -170,6 +171,32 @@ class AuthTest extends TestCase
         $response->assertRedirect('/login');
         $response->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
     }
+
+    /**
+     * 登録していないメールアドレスやパスワードでログインした場合のバリデーションテスト
+     */
+    public function testLoginFailsWithInvalidCredentials()
+        {
+            $user = \App\Models\User::factory()->create([
+                'email' => 'login@example.com',
+                'password' => bcrypt('password123'),
+            ]);
+
+            $cases = [
+            ['email' => 'wrong1@example.com', 'password' => 'password123'], // メールアドレスが間違っている場合
+            ['email' => 'login@example.com', 'password' => 'wrongpass'], // パスワードが間違っている場合
+            ['email' => 'wrong3@example.com', 'password' => 'wrongpass'], // どちらも間違っている場合
+            ];
+
+            foreach ($cases as $case) {
+                $response = $this->from('/login')->post('/login', $case);
+                $response->assertRedirect('/login');
+                $response->assertSessionHasErrors([
+                    'email' => 'ログイン情報が登録されていません'
+                ]);
+                $this->assertGuest(); // ログイン失敗時に誤って認証されないようチェック
+            }
+        }
 
     /**
      * ログイン処理テスト
