@@ -29,7 +29,7 @@ class LoginRequest extends FormRequest
         ];
     }
 
-    public function message()
+    public function messages()
     {
         return [
             'email.required' => 'メールアドレスを入力してください',
