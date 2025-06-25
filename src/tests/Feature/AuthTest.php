@@ -179,18 +179,19 @@ class AuthTest extends TestCase
      */
     public function testLoginFailsWithInvalidCredentials()
         {
+            // 正しいユーザー作成
             $user = \App\Models\User::factory()->create([
                 'email' => 'login@example.com',
                 'password' => bcrypt('password123'),
             ]);
 
-            $cases = [
+            $invalidCases = [
             ['email' => 'wrong1@example.com', 'password' => 'password123'], // メールアドレスが間違っている場合
             ['email' => 'login@example.com', 'password' => 'wrongpass'], // パスワードが間違っている場合
             ['email' => 'wrong3@example.com', 'password' => 'wrongpass'], // どちらも間違っている場合
             ];
 
-            foreach ($cases as $case) {
+            foreach ($invalidCases as $case) {
                 $response = $this->from('/login')->post('/login', $case);
                 $response->assertRedirect('/login');
                 $response->assertSessionHasErrors([
