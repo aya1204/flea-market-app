@@ -171,6 +171,7 @@ class AuthTest extends TestCase
 
         $response->assertRedirect('/login');
         $response->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
+        $this->assertGuest(); // ログイン失敗時に誤って認証されないようチェック
     }
 
     /**
