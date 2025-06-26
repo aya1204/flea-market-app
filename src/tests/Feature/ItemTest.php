@@ -135,4 +135,25 @@ class ItemTest extends TestCase
             'items_id' => $item->id,
         ]);
     }
+
+    /**
+     * お気に入り済みのアイコンの色が変化するテスト
+     */
+    public function testTheColorChangeOfTheFavoritedIcon()
+    {
+        /** @var \App\Models\User $user */
+
+        // ユーザーと商品を作成
+        $user = \App\Models\User::factory()->create();
+        $item = \App\Models\Item::factory()->create();
+
+        // お気に入り登録
+        $user->favorites()->attach($item->id);
+
+        // ログイン状態で商品詳細ページにアクセス
+        $response = $this->actingAs($user)->get('/item/{$item}');
+
+        // 色付きアイコン(例: class="favorited_icon"))が表示されていることを確認
+        $response->assertSee('class="favoritedicon"', false);
+    }
 }
