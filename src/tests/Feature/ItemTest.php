@@ -26,7 +26,11 @@ class ItemTest extends TestCase
     /**
      * 商品一覧ページ表示
      */
-    public function testGuestCanViewRecommendlist()
+
+     /**
+      * ログインしていないユーザーがrecommendタブで商品一覧を見ることができる
+      */
+    public function testGuestCanViewRecommendTab()
     {
         // 商品作成
         $item = \App\Models\Item::factory()->create(['title' => 'テスト商品']);
@@ -37,5 +41,37 @@ class ItemTest extends TestCase
         // ステータスと画面内に商品名が表示されていることを確認
         $response->assertStatus(200);
         $response->assertSee('テスト商品');
+    }
+
+    /**
+     * ログイン済みユーザーがrecommendタブで自分が出品した商品以外見ることができる
+     */
+    public function testLoggedInUserDoesNotSeeOwnItemsInRecommendTab()
+    {
+        /** @var \App\Models\User $user */
+
+        // ログインユーザーを作成
+        $user = \App\Models\User::factory()->create();
+
+        // ログインユーザーが出品した商品(非表示)
+        \App\Models\Item::factory()->create([
+            'seller_user_id' => $user->id,
+            'title' => '自分の商品',
+        ]);
+
+        // 他人が出品した商品(表示)
+        \App\Models\Item::factory()->create([
+            'seller_user_id' => \App\Models\User::factory()->create()->id,
+            'title' => '他人の商品',
+        ]);
+
+        // ログイン状態でrecommendタブにアクセス
+        $response = $this->actingAs($user)->get('/?tab=recommend');
+
+        // 自分の商品が表示されていない
+        $response->assertDontSee('自分の商品');
+
+        // 他人の商品は表示されている
+        $response->assertSee('他人の商品');
     }
 }
