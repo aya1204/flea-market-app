@@ -85,4 +85,29 @@ class ItemTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('マイリストを表示するにはログインしてください。');
     }
+
+    /**
+     * ログイン済みのユーザーはmylistタブでお気に入り商品を見ることができるテスト
+     */
+    public function testLoggedInUserCanViewFavoritesInMylistTab()
+    {
+        /** @var \App\Models\User $user */
+
+        // ユーザーと商品を作成
+        $user = \App\Models\User::factory()->create();
+        $item = \App\Models\Item::factory()->create([
+            'title' => 'お気に入りの商品',
+        ]);
+
+        // お気に入りに登録
+        $user->favorites()->attach($item->id);
+
+        // ログインしてmylistタブにアクセス
+        $response = $this->actingAs($user)->get('/?tab=mylist');
+
+        $response->assertStatus(200);
+
+        // ←商品名が表示されている確認
+        $response->assertSee('お気に入りの商品');
+    }
 }
