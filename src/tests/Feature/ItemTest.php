@@ -110,4 +110,29 @@ class ItemTest extends TestCase
         // ←商品名が表示されている確認
         $response->assertSee('お気に入りの商品');
     }
+
+
+    /**
+     * ログインしているユーザーがお気に入り追加できるテスト
+     */
+    public function testUserCanAddItemToFavorites()
+    {
+        /** @var \App\Models\User $user */
+
+        // ユーザーと商品を作成
+        $user = \App\Models\User::factory()->create();
+        $item = \App\Models\Item::factory()->create();
+
+        //ログインしてお気に入り追加処理を実行
+        $response = $this->actingAs($user)->post("/item/{item}/favorite");
+
+        // リダイレクト確認(通常は元のページへ)
+        $response->assertRedirect();
+
+        // お気に入り登録されたかデータベースで確認
+        $this->assertDatabaseHas('favorites', [
+            'user_id' => $user->id,
+            'items_id' => $item->id,
+        ]);
+    }
 }
