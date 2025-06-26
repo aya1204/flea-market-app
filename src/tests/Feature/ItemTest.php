@@ -28,7 +28,7 @@ class ItemTest extends TestCase
      */
 
      /**
-      * ログインしていないユーザーがrecommendタブで商品一覧を見ることができる
+      * ログインしていないユーザーがrecommendタブで商品一覧を見ることができるテスト
       */
     public function testGuestCanViewRecommendTab()
     {
@@ -44,7 +44,7 @@ class ItemTest extends TestCase
     }
 
     /**
-     * ログイン済みユーザーがrecommendタブで自分が出品した商品以外見ることができる
+     * ログイン済みユーザーがrecommendタブで自分が出品した商品以外見ることができるテスト
      */
     public function testLoggedInUserDoesNotSeeOwnItemsInRecommendTab()
     {
