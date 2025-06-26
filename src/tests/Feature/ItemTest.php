@@ -74,4 +74,15 @@ class ItemTest extends TestCase
         // 他人の商品は表示されている
         $response->assertSee('他人の商品');
     }
+
+    /**
+     * ログインしていない状態でmylistタブにアクセスするとメッセージが表示されるテスト
+     */
+    public function testGuestUserSeesMessageOnMylistTab()
+    {
+        $response = $this->get('/?tab=mylist');
+
+        $response->assertStatus(200);
+        $response->assertSee('マイリストを表示するにはログインしてください。');
+    }
 }
