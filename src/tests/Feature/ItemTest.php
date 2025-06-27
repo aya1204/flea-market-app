@@ -248,6 +248,39 @@ class ItemTest extends TestCase
     }
 
     /**
+     * 商品検索機能
+     */
+
+    /**
+     * 商品名で部分一致検索ができるテスト
+     */
+    public function testCanSearchItemsByPartialMatchInTitle()
+    {
+        // 商品を複数作成（部分一致のものと一致しないもの）
+        \App\Models\Item::factory()->create(['title' => '青森のりんご']);
+        \App\Models\Item::factory()->create(['title' => 'りんごジュース']);
+        \App\Models\Item::factory()->create(['title' => '完熟バナナ']);
+
+        // 検索リクエスト（セッションにキーワードを保存する形式ならPOSTで）
+        $response = $this->post('/items/search', [
+            'item_name' => 'りんご',
+        ]);
+
+        // 検索結果ページにリダイレクトしている（GET /?tab=recommend に飛ぶ想定なら調整）
+        $response->assertRedirect('/?tab=recommend');
+
+        // リダイレクト先で内容を確認するため、再リクエスト
+        $response = $this->get('/?tab=recommend');
+
+        // 部分一致する商品は表示される
+        $response->assertSee('青森のりんご');
+        $response->assertSee('りんごジュース');
+
+        // 一致しない商品は表示されない
+        $response->assertDontSee('完熟バナナ');
+    }
+
+    /**
      * お気に入り機能
      */
 
