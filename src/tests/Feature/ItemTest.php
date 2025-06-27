@@ -53,10 +53,10 @@ class ItemTest extends TestCase
         // ログインユーザーを作成
         $user = \App\Models\User::factory()->create();
 
-        // 購入済み商品(seller_user_idが設定されている)
+        // 購入済み商品(purchase_user_idが設定されている)
         $item = \App\Models\Item::factory()->create([
             'title' => '購入済み商品',
-            'seller_user_id' => $user->id,
+            'purchase_user_id' => $user->id,
         ]);
 
         // お気に入りに追加
@@ -141,10 +141,10 @@ class ItemTest extends TestCase
         // ログインユーザーを作成
         $user = \App\Models\User::factory()->create();
 
-        // 購入済み商品(seller_user_idが設定されている)
+        // 購入済み商品(purchase_user_idが設定されている)
         $item = \App\Models\Item::factory()->create([
         'title' => '購入済み商品',
-        'seller_user_id' => $user->id,
+        'purchase_user_id' => $user->id,
         ]);
 
         // お気に入りに追加
