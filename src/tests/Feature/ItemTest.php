@@ -159,6 +159,38 @@ class ItemTest extends TestCase
     }
 
     /**
+     * ログイン済みユーザーがmylistタブで自分が出品した商品以外見ることができるテスト
+     */
+    public function testLoggedInUserDoesNotSeeOwnItemsInMylistTab()
+    {
+        /** @var \App\Models\User $user */
+
+        // ログインユーザーを作成
+        $user = \App\Models\User::factory()->create();
+
+        // ログインユーザーが出品した商品(非表示)
+        \App\Models\Item::factory()->create([
+            'seller_user_id' => $user->id,
+            'title' => '自分の商品',
+        ]);
+
+        // 他人が出品した商品(表示)
+        \App\Models\Item::factory()->create([
+            'seller_user_id' => \App\Models\User::factory()->create()->id,
+            'title' => '他人の商品',
+        ]);
+
+        // ログイン状態でrecommendタブにアクセス
+        $response = $this->actingAs($user)->get('/?tab=mylist');
+
+        // 自分の商品が表示されていない
+        $response->assertDontSee('自分の商品');
+
+        // 他人の商品は表示されている
+        $response->assertSee('他人の商品');
+    }
+
+    /**
      * ログインしていない状態でmylistタブにアクセスするとメッセージが表示されるテスト
      */
     public function testGuestUserSeesMessageOnMylistTab()
