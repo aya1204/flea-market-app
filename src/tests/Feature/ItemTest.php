@@ -51,7 +51,7 @@ class ItemTest extends TestCase
     }
 
     /**
-     * recommendタブで購入済み商品はSoldと表示されるテスト
+     * ログイン済みユーザーがrecommendタブで購入済み商品はSoldと表示されるテスト
      */
     public function testSoldItemIsLabeledSoldInRecommendTab()
     {
@@ -69,7 +69,7 @@ class ItemTest extends TestCase
         // お気に入りに追加
         $user->favorites()->attach($item->id);
 
-        // mylistタブにアクセス
+        // recommendタブにアクセス
         $response = $this->actingAs($user)->get('/?tab=recommend');
 
         // 「Sold」が表示されていることを確認
