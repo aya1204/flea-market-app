@@ -111,6 +111,9 @@ class ItemTest extends TestCase
         $response->assertSee('お気に入りの商品');
     }
 
+    /**
+     * お気に入り機能
+     */
 
     /**
      * ログインしているユーザーがお気に入り追加できるテスト
