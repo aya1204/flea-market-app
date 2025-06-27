@@ -105,6 +105,33 @@ class ItemTest extends TestCase
     }
 
     /**
+     * 購入済み商品はSoldと表示されるテスト
+     */
+    public function testSoldItemIsLabeledSoldInMylist()
+    {
+        /** @var \App\Models\User $user */
+
+        // ログインユーザーを作成
+        $user = \App\Models\User::factory()->create();
+
+        // 購入済み商品(seller_user_idが設定されている)
+        $item = \App\Models\Item::factory()->create([
+        'title' => '購入済み商品',
+        'seller_user_id' => $user->id,
+        ]);
+
+        // お気に入りに追加
+        $user->favorites()->attach($item->id);
+
+        // mylistタブにアクセス
+        $response = $this->actingAs($user)->get('/?tab=mylist');
+
+        // 「Sold」が表示されていることを確認
+        $response->assertStatus(200);
+        $response->assertSee('Sold');
+    }
+
+    /**
      * ログインしていない状態でmylistタブにアクセスするとメッセージが表示されるテスト
      */
     public function testGuestUserSeesMessageOnMylistTab()
