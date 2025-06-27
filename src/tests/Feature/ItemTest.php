@@ -27,7 +27,28 @@ class ItemTest extends TestCase
      * 商品一覧ページ表示
      */
 
-    
+    /**
+     * recommendタブで全商品を見ることができるテスト
+     */
+    public function testGuestCanViewAllItemsInRecommendTab()
+    {
+        /** @var \Illuminate\Support\Collection $items */
+        // 複数件商品作成(タイトルを個別に設定)
+        $items = collect([
+            \App\Models\Item::factory()->create(['title' => 'テスト商品1']),
+            \App\Models\Item::factory()->create(['title' => 'テスト商品2']),
+            \App\Models\Item::factory()->create(['title' => 'テスト商品3']),
+        ]);
+
+        // 商品一覧ページにアクセス
+        $response = $this->get('/');
+
+        // ステータスと画面内に商品名が表示されていることを確認
+        $response->assertStatus(200);
+        foreach ($items as $item) {
+            $response->assertSee($item->title);
+        }
+    }
 
     /**
      * recommendタブで購入済み商品はSoldと表示されるテスト
