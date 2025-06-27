@@ -13,16 +13,12 @@ use Illuminate\Support\Facades\Auth;
 class ItemController extends Controller
 {
     /**
-     * 商品一覧ページ表示
+     * 共通処理をまとめる
      */
-    public function index(Request $request)
+    private function getFilteredItems($tab, $keyword)
     {
-        $tab = $request->query('tab', 'recommend');
         $items = collect(); // 空のコレクション
         $show_message = false;
-
-        // セッションからキーワードを取得
-        $keyword = session('search_keyword');
 
         // mylistタブの場合
         if ($tab === 'mylist') {
@@ -56,8 +52,23 @@ class ItemController extends Controller
             $items = $query->get();
         }
 
+        return $items;
+    }
+
+    /**
+     * 商品一覧ページ表示
+     */
+    public function index(Request $request)
+    {
+        $tab = $request->query('tab', 'recommend');
+        $keyword = session('search_keyword');
+        $show_message = false;
+
+        $items = $this->getFilteredItems($tab, $keyword, $show_message);
+
         return view('items.mylist', compact('items', 'tab', 'show_message'));
     }
+
     /**
      * お気に入り追加
      */
@@ -119,7 +130,6 @@ class ItemController extends Controller
     {
         $tab = $request->query('tab', 'recommend');
         $show_message = false;
-        $items = collect(); // 空のコレクション
         $keyword = null;
 
         // 1. キーワードが入力されている場合
@@ -135,42 +145,7 @@ class ItemController extends Controller
         // 2. リクエストにキーワードがない場合、セッションから取得
         $keyword = $keyword ?? session('search_keyword');
 
-        // 3. mylistタブの場合
-        if ($tab === 'mylist') {
-            // ログイン済みかチェック
-            if (!auth()->check()) {
-                $show_message = true;
-                $items = collect();
-            } else {
-                /** @var \App\Models\User $user */
-                $user = auth()->user();
-                $query = $user->favorites()->with('categories');
-
-                // 商品名を検索（部分一致）
-                if (!empty($keyword)) {
-                    $query->where('title', 'like', '%' . $keyword . '%');
-                }
-
-                $items = $query->get();
-            }
-
-            // 4. recommendタブ（デフォルト）
-        } else {
-            $query = Item::query();
-
-            // ログインしているかチェック
-            if (auth()->check()) {
-                // 自分が出品した商品を除く
-                $query->where('seller_user_id', '!=', auth()->id());
-            }
-
-            // 商品名を検索（部分一致）
-            if (!empty($keyword)) {
-                $query->where('title', 'like', '%' . $keyword . '%');
-            }
-
-            $items = $query->get();
-        }
+        $items = $this->getFilteredItems($tab, $keyword, $show_message);
         return view('items.mylist', compact('items', 'tab', 'show_message'));
     }
 }
