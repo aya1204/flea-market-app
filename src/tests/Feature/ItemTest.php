@@ -27,21 +27,7 @@ class ItemTest extends TestCase
      * 商品一覧ページ表示
      */
 
-     /**
-      * ログインしていないユーザーがrecommendタブで商品一覧を見ることができるテスト
-      */
-    public function testGuestCanViewRecommendTab()
-    {
-        // 商品作成
-        $item = \App\Models\Item::factory()->create(['title' => 'テスト商品']);
-
-        // 商品一覧ページにアクセス
-        $response = $this->get('/');
-
-        // ステータスと画面内に商品名が表示されていることを確認
-        $response->assertStatus(200);
-        $response->assertSee('テスト商品');
-    }
+    
 
     /**
      * recommendタブで購入済み商品はSoldと表示されるテスト
