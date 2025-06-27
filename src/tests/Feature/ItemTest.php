@@ -105,7 +105,7 @@ class ItemTest extends TestCase
     }
 
     /**
-     * 購入済み商品はSoldと表示されるテスト
+     * mylistタブで購入済み商品はSoldと表示されるテスト
      */
     public function testSoldItemIsLabeledSoldInMylist()
     {
