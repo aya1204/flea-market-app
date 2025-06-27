@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Item;
 
 /**
  * 商品一覧取得、マイリスト一覧取得、商品検索機能、商品詳細情報取得、いいね機能、コメント送信機能のテスト
@@ -50,7 +51,24 @@ class ItemTest extends TestCase
         }
     }
 
-    
+    /**
+     * ゲストがrecommendタブで購入済み商品はSoldと表示されるテスト
+     */
+    public function testGuestCanSeeSoldLabelInRecommendTab()
+    {
+        // 購入済み商品(purchase_user_idが設定されている)
+        $item = Item::factory()->create([
+            'title' => '購入済み商品',
+            'purchase_user_id' => 1,
+        ]);
+
+        // recommendタブにアクセス
+        $response = $this->get('/?tab=recommend');
+
+        // 「Sold」が表示されていることを確認
+        $response->assertStatus(200);
+        $response->assertSee('Sold');
+    }
 
     /**
      * ログイン済みユーザーがrecommendタブで購入済み商品はSoldと表示されるテスト
