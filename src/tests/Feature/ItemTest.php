@@ -281,6 +281,57 @@ class ItemTest extends TestCase
     }
 
     /**
+     * recommendタブで部分一致検索した結果がmylistにも保持されているテスト
+     */
+    public function testPartialSearchWorksInRecommendAndMylistTabs()
+    {
+        /** @var \App\Models\User $user */
+
+        // ログインユーザー作成
+        $user = \App\Models\User::factory()->create();
+
+        // 商品を複数作成(部分一致のものと一致しないもの)
+        $item1 = \App\Models\Item::factory()->create(['title' => '青森のりんご']);
+        $item2 = \App\Models\Item::factory()->create(['title' => 'りんごジュース']);
+        $item3 = \App\Models\Item::factory()->create(['title' => '完熟バナナ']);
+
+        // ユーザーのお気に入りにitem1,item3を登録
+        $user->favorites()->attach([$item1->id, $item3->id]);
+
+        // 1.recommendタブで検索(部分一致)
+        $responseRecommend = $this->actingAs($user)->get('/search?tab=recommend&item_name=りんご');
+        $responseRecommend->assertStatus(200);
+
+        // 検索結果「りんご」を含む商品が表示される(item1とitem2)
+        $responseRecommend->assertSee('青森のりんご');
+        $responseRecommend->assertSee('りんごジュース');
+
+        // 含まれない商品は表示されない(item3)
+        $responseRecommend->assertDontSee('完熟バナナ');
+
+        // 2.mylistタブで「りんご」を検索(部分一致)
+        $responseMylist = $this->actingAs($user)->get('/search?tab=mylist&item_name=リンゴ');
+
+        $responseMylist->assertStatus(200);
+
+        // mylistはお気に入りのみ表示→お気に入りはitem1,item3なのでtitleに「りんご」を含むitem1だけ表示される
+        $responseMylist->assertSee('青森のりんご');
+        $responseMylist->assertDontSee('りんごジュース'); // お気に入りじゃないので非表示
+        $responseMylist->assertDontSee('完熟バナナ');
+
+        // リダイレクト先で内容を確認するため、再リクエスト
+        $response = $this->get('/?tab=recommend');
+
+        // 部分一致する商品は表示される
+        $response->assertSee('青森のりんご');
+        $response->assertSee('りんごジュース');
+
+        // 一致しない商品は表示されない
+        $response->assertSee('完熟バナナ');
+    }
+
+
+    /**
      * お気に入り機能
      */
 
