@@ -76,15 +76,8 @@ class ItemTest extends TestCase
     }
 
     /**
-     * ログインしていない状態でmylistタブにアクセスするとメッセージが表示されるテスト
+     * マイリスト一覧取得
      */
-    public function testGuestUserSeesMessageOnMylistTab()
-    {
-        $response = $this->get('/?tab=mylist');
-
-        $response->assertStatus(200);
-        $response->assertSee('マイリストを表示するにはログインしてください。');
-    }
 
     /**
      * ログイン済みのユーザーはmylistタブでお気に入り商品を見ることができるテスト
@@ -109,6 +102,17 @@ class ItemTest extends TestCase
 
         // ←商品名が表示されている確認
         $response->assertSee('お気に入りの商品');
+    }
+
+    /**
+     * ログインしていない状態でmylistタブにアクセスするとメッセージが表示されるテスト
+     */
+    public function testGuestUserSeesMessageOnMylistTab()
+    {
+        $response = $this->get('/?tab=mylist');
+
+        $response->assertStatus(200);
+        $response->assertSee('マイリストを表示するにはログインしてください。');
     }
 
     /**
