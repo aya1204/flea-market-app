@@ -50,10 +50,12 @@ class ItemTest extends TestCase
         }
     }
 
+    
+
     /**
      * ログイン済みユーザーがrecommendタブで購入済み商品はSoldと表示されるテスト
      */
-    public function testSoldItemIsLabeledSoldInRecommendTab()
+    public function testAuthenticatedUserCanSeeSoldLabelInRecommendTab()
     {
         /** @var \App\Models\User $user */
 
