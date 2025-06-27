@@ -244,7 +244,7 @@ class ItemTest extends TestCase
         $user->favorites()->attach($item->id);
 
         // ログイン状態で商品詳細ページにアクセス
-        $response = $this->actingAs($user)->get("/item/{$item->id}");
+        $response = $this->actingAs($user)->get("/item/{$item->id}/favorite");
 
         // 色付きアイコン(例: class="favorited_icon"))が表示されていることを確認
         $response->assertSee('class="favoritedicon"', false);
