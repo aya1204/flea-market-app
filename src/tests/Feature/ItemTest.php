@@ -216,6 +216,9 @@ class ItemTest extends TestCase
         $user = \App\Models\User::factory()->create();
         $item = \App\Models\Item::factory()->create();
 
+        // お気に入り登録前は0件
+        $this->assertEquals(0, $item->favoritedByUsers()->count());
+
         //ログインしてお気に入り追加処理を実行
         $response = $this->actingAs($user)->post("/item/{item->id}/favorite");
 
@@ -225,8 +228,11 @@ class ItemTest extends TestCase
         // お気に入り登録されたかデータベースで確認
         $this->assertDatabaseHas('favorites', [
             'user_id' => $user->id,
-            'items_id' => $item->id,
+            'item_id' => $item->id,
         ]);
+
+        // お気に入り登録後は1件に増えているかチェック
+        $this->assertEquals(1, $item->fresh()->favoritedByUsers()->count());
     }
 
     /**
@@ -264,6 +270,9 @@ class ItemTest extends TestCase
         // 事前にお気に入り追加しておく
         $user->favorites()->attach($item->id);
 
+        // お気に入り登録済みで1件
+        $this->assertEquals(1, $item->favoritedByUsers()->count());
+
         // ログイン状態でお気に入り解除リクエストを送る
         $response = $this->actingAs($user)->delete("/item/{$item->id}/favorite");
 
@@ -275,5 +284,8 @@ class ItemTest extends TestCase
             'user_id' => $user->id,
             'item_id' => $item->id,
         ]);
+
+        // お気に入り解除後は0件に減っているかチェック
+        $this->assertEquals(0, $item->fresh()->favoritedByUsers()->count());
     }
 }
