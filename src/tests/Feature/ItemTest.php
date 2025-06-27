@@ -93,7 +93,7 @@ class ItemTest extends TestCase
     {
         /** @var \App\Models\User $user */
 
-        // ユーザーと商品を作成
+        // ログインユーザーと商品を作成
         $user = \App\Models\User::factory()->create();
         $item = \App\Models\Item::factory()->create([
             'title' => 'お気に入りの商品',
@@ -119,7 +119,7 @@ class ItemTest extends TestCase
     {
         /** @var \App\Models\User $user */
 
-        // ユーザーと商品を作成
+        // ログインユーザーと商品を作成
         $user = \App\Models\User::factory()->create();
         $item = \App\Models\Item::factory()->create();
 
@@ -143,7 +143,7 @@ class ItemTest extends TestCase
     {
         /** @var \App\Models\User $user */
 
-        // ユーザーと商品を作成
+        // ログインユーザーと商品を作成
         $user = \App\Models\User::factory()->create();
         $item = \App\Models\Item::factory()->create();
 
@@ -155,5 +155,32 @@ class ItemTest extends TestCase
 
         // 色付きアイコン(例: class="favorited_icon"))が表示されていることを確認
         $response->assertSee('class="favoritedicon"', false);
+    }
+
+    /**
+     * ログインユーザーがお気に入り解除できるテスト
+     */
+    public function testUserCanUnfavoriteAnItem()
+    {
+        /** @var \App\Models\User $user */
+
+        // ログインユーザーと商品を作成
+        $user = \App\Models\User::factory()->create();
+        $item = \App\Models\Item::factory()->create();
+
+        // 事前にお気に入り追加しておく
+        $user->favorites()->attach($item->id);
+
+        // ログイン状態でお気に入り解除リクエストを送る
+        $response = $this->actingAs($user)->delete("/item/{$item->id}/favorite");
+
+        // リダイレクトの確認
+        $response->assertRedirect();
+
+        // favoritesテーブルから削除されていることを確認
+        $this->assertDatabaseMissing('favorites', [
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+        ]);
     }
 }
