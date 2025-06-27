@@ -124,7 +124,7 @@ class ItemTest extends TestCase
         $item = \App\Models\Item::factory()->create();
 
         //ログインしてお気に入り追加処理を実行
-        $response = $this->actingAs($user)->post("/item/{item}/favorite");
+        $response = $this->actingAs($user)->post("/item/{item->id}/favorite");
 
         // リダイレクト確認(通常は元のページへ)
         $response->assertRedirect();
