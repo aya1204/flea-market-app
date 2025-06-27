@@ -46,7 +46,7 @@ class ItemTest extends TestCase
     /**
      * recommendタブで購入済み商品はSoldと表示されるテスト
      */
-    public function testSoldItemIsLabeledSoldInRecommend()
+    public function testSoldItemIsLabeledSoldInRecommendTab()
     {
         /** @var \App\Models\User $user */
 
