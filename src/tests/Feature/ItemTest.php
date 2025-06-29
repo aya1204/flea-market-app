@@ -17,6 +17,8 @@ class ItemTest extends TestCase
      *
      * @return void
      */
+    use RefreshDatabase;
+
     public function test_example()
     {
         $response = $this->get('/');
@@ -59,7 +61,7 @@ class ItemTest extends TestCase
         // 購入済み商品(purchase_user_idが設定されている)
         $item = Item::factory()->create([
             'title' => '購入済み商品',
-            'purchase_user_id' => 1,
+            'purchase_user_id' => \App\Models\User::factory()->create()->id, //実在するユーザーのIDを指定
         ]);
 
         // recommendタブにアクセス
@@ -166,7 +168,7 @@ class ItemTest extends TestCase
         // 購入済み商品(purchase_user_idが設定されている)
         $item = Item::factory()->create([
             'title' => '購入済み商品',
-            'purchase_user_id' => 1,
+            'purchase_user_id' => \App\Models\User::factory()->create()->id, // 実在するユーザーIDを指定
         ]);
 
         // recommendタブにアクセス
@@ -262,15 +264,8 @@ class ItemTest extends TestCase
         \App\Models\Item::factory()->create(['title' => '完熟バナナ']);
 
         // 検索リクエスト（セッションにキーワードを保存する形式ならPOSTで）
-        $response = $this->post('/items/search', [
-            'item_name' => 'りんご',
-        ]);
+        $response = $this->get('/search?item_name=りんご');
 
-        // 検索結果ページにリダイレクトしている（GET /?tab=recommend に飛ぶ想定なら調整）
-        $response->assertRedirect('/?tab=recommend');
-
-        // リダイレクト先で内容を確認するため、再リクエスト
-        $response = $this->get('/?tab=recommend');
 
         // 部分一致する商品は表示される
         $response->assertSee('青森のりんご');
@@ -295,11 +290,13 @@ class ItemTest extends TestCase
         $item2 = \App\Models\Item::factory()->create(['title' => 'りんごジュース']);
         $item3 = \App\Models\Item::factory()->create(['title' => '完熟バナナ']);
 
+        $user->favorites()->detach(); // 念のため全削除
         // ユーザーのお気に入りにitem1,item3を登録
         $user->favorites()->attach([$item1->id, $item3->id]);
 
         // 1.recommendタブで検索(部分一致)
         $responseRecommend = $this->actingAs($user)->get('/search?tab=recommend&item_name=りんご');
+
         $responseRecommend->assertStatus(200);
 
         // 検索結果「りんご」を含む商品が表示される(item1とitem2)
@@ -310,7 +307,7 @@ class ItemTest extends TestCase
         $responseRecommend->assertDontSee('完熟バナナ');
 
         // 2.mylistタブで「りんご」を検索(部分一致)
-        $responseMylist = $this->actingAs($user)->get('/search?tab=mylist&item_name=リンゴ');
+        $responseMylist = $this->actingAs($user)->get('/search?tab=mylist&item_name=りんご');
 
         $responseMylist->assertStatus(200);
 
@@ -327,9 +324,70 @@ class ItemTest extends TestCase
         $response->assertSee('りんごジュース');
 
         // 一致しない商品は表示されない
-        $response->assertSee('完熟バナナ');
+        $response->assertDontSee('完熟バナナ');
     }
 
+    /**
+     * 商品詳細情報取得
+     */
+
+    /**
+     * 必要な情報が表示される(商品画像、商品名、ブランド名、価格、いいね数、コメント数、商品説明、商品情報(カテゴリ、商品の状態)、コメント数、コメントしたユーザー情報、コメント内容)
+     */
+    public function testItemDetailDisplaysAllNecessaryInformation()
+    {
+        // ユーザーとカテゴリと商品を作成
+        $user = \App\Models\User::factory()->create(['name' => 'テストユーザー', 'image' => 'test_user_icon.jpg']);
+        $category = \App\Models\Category::factory()->create(['name' => 'テストカテゴリー']);
+        $condition = \App\Models\Condition::factory()->create(['name' => '良好']);
+        $brand = \App\Models\Brand::factory()->create(['name' => 'ブランド名']);
+
+        $item = \App\Models\Item::factory()->create([
+            'title' => 'テスト商品',
+            'price' => 3000,
+            'description' => 'これはテスト用の商品説明文です。',
+            'image' => 'images/test.jpg',
+            'brand_id' => $brand->id,
+            'condition_id' => $condition->id,
+        ]);
+
+        // カテゴリー登録
+        $item->categories()->attach($category->id);
+
+        // お気に入り追加(いいね)
+        $item->favoritedByUsers()->attach($user->id);
+
+        // コメントを追加
+        $item->comments()->create([
+            'user_id' => $user->id,
+            'comment' => 'これはテストコメントです。',
+        ]);
+
+        // 商品詳細画面(/item/{item})にアクセス
+        $response = $this->get("/item/{$item->id}");
+
+        $response->assertStatus(200);
+
+        // 商品に関する必要な情報が画面に表示されているか確認
+        $response->assertSee('テスト商品');
+        $response->assertSee('¥3,000');
+        $response->assertSee('ブランド名');
+        $response->assertSee('これはテスト用の商品説明文です');
+        $response->assertSee('テストカテゴリー');
+        $response->assertSee('良好');
+
+        // いいね・コメント数
+        $response->assertSee('class="favorite_count"', false);
+        $response->assertSee('class="comment_count"', false);
+
+        // コメント情報
+        $response->assertSee('コメント(1)');
+        $response->assertSee('テストユーザー');
+        $response->assertSee('これはテストコメントです。');
+
+        // 画像が表示されているか
+        $response->assertSee('storage/images/test.jpg');
+    }
 
     /**
      * お気に入り機能
@@ -350,7 +408,7 @@ class ItemTest extends TestCase
         $this->assertEquals(0, $item->favoritedByUsers()->count());
 
         //ログインしてお気に入り追加処理を実行
-        $response = $this->actingAs($user)->post("/item/{item->id}/favorite");
+        $response = $this->actingAs($user)->post("/item/{$item->id}/favorite");
 
         // リダイレクト確認(通常は元のページへ)
         $response->assertRedirect();
@@ -379,11 +437,16 @@ class ItemTest extends TestCase
         // お気に入り登録
         $user->favorites()->attach($item->id);
 
-        // ログイン状態で商品詳細ページにアクセス
-        $response = $this->actingAs($user)->get("/item/{$item->id}/favorite");
+        // 再度リレーションをロードしておく(特にfavorites)
+        $user->load('favorites');
 
-        // 色付きアイコン(例: class="favorited_icon"))が表示されていることを確認
-        $response->assertSee('class="favoritedicon"', false);
+        // ログイン状態で商品詳細ページにアクセス
+        $response = $this->actingAs($user)->get("/item/{$item->id}");
+
+        $response->dump();
+
+        // 色付きアイコン(例: class="favorited_icon")が表示されていることを確認
+        $response->assertSee('class="favorited_icon"', false);
     }
 
     /**
