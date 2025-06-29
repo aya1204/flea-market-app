@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 use App\Models\Item;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Support\Facades\Auth;
+
 
 /**
  * アイテムコントローラー
@@ -28,14 +31,15 @@ class ItemController extends Controller
             } else {
                 /** @var \App\Models\User $user */
                 $user = auth()->user();
-                $query = $user->favorites()->with('categories');
+                $favoriteIds = $user->favorites()->pluck('items.id');
+                $query = Item::whereIn('id', $favoriteIds);
 
                 if (!empty($keyword)) {
                     $query->where('title', 'like', '%' . $keyword . '%');
                 }
                 $items = $query->get();
             }
-            // 4. recommendタブ（デフォルト）
+        // 4. recommendタブ（デフォルト）
         } else {
             $query = Item::query();
 
@@ -50,6 +54,7 @@ class ItemController extends Controller
             }
 
             $items = $query->get();
+            Log::info('filtered items:', $items->pluck('title')->toArray());
         }
 
         return $items;
