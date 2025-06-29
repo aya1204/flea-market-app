@@ -53,10 +53,12 @@ class ItemController extends Controller
             }
 
             $items = $query->get();
-            Log::info('filtered items:', $items->pluck('title')->toArray());
         }
 
-        return $items;
+        return [
+            'items' => $items,
+            'show_message' => $show_message,
+        ];
     }
 
     /**
@@ -66,11 +68,17 @@ class ItemController extends Controller
     {
         $tab = $request->query('tab', 'recommend');
         $keyword = session('search_keyword');
-        $show_message = false;
 
-        $items = $this->getFilteredItems($tab, $keyword, $show_message);
+        $result = $this->getFilteredItems($tab, $keyword);
 
-        return view('items.mylist', compact('items', 'tab', 'show_message'));
+        $items = $result['items'];
+        $show_message = $result['show_message'];
+
+        return view('items.mylist', [
+        'items' => $items,
+        'tab' => $tab,
+        'show_message' => $show_message,
+    ]);
     }
 
     /**
@@ -133,7 +141,7 @@ class ItemController extends Controller
     public function search(Request $request)
     {
         $tab = $request->query('tab', 'recommend');
-        $show_message = false;
+        // $show_message = false;
         $keyword = null;
 
         // 1. キーワードが入力されている場合
@@ -149,7 +157,12 @@ class ItemController extends Controller
         // 2. リクエストにキーワードがない場合、セッションから取得
         $keyword = $keyword ?? session('search_keyword');
 
-        $items = $this->getFilteredItems($tab, $keyword, $show_message);
-        return view('items.mylist', compact('items', 'tab', 'show_message'));
+        $result = $this->getFilteredItems($tab, $keyword);
+
+        return view('items.mylist', [
+            'items' => $result['items'],
+            'tab' => $tab,
+            'show_message' => $result['show_message'],
+        ]);
     }
 }
