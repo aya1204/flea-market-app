@@ -31,8 +31,7 @@ class ItemController extends Controller
             } else {
                 /** @var \App\Models\User $user */
                 $user = auth()->user();
-                $favoriteIds = $user->favorites()->pluck('items.id');
-                $query = Item::whereIn('id', $favoriteIds);
+                $query = $user->favorites()->with('categories');
 
                 if (!empty($keyword)) {
                     $query->where('title', 'like', '%' . $keyword . '%');
