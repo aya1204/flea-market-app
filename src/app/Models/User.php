@@ -30,7 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
     // favoritesテーブルと多対多の関係
     public function favorites()
     {
-        return $this->belongsToMany(Item::class, 'favorites')->withTimestamps();
+        return $this->belongsToMany(Item::class, 'favorites', 'user_id', 'item_id')->withTimestamps();
     }
 
     // commentsテーブルと1対多の関係
