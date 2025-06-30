@@ -380,6 +380,32 @@ class ItemTest extends TestCase
         $response->assertSee('storage/images/test.jpg');
     }
 
+    // 複数選択されたカテゴリが表示されているか
+    public function testItemDetailPageDisplaysMultipleSelectedCategories()
+    {
+        // カテゴリを3つ作成
+        $categories = Category::factory()->count(3)->create();
+
+        // 商品を作成
+        $item = Item::factory()->create([
+            'title' => 'テスト商品',
+        ]);
+
+        // 商品にカテゴリを紐付け
+        $item->categories()->attach($categories->pluck('id')->toArray());
+
+        // 商品詳細ページにアクセス
+        $response = $this->get('/item/' . $item->id);
+
+        // ステータス確認
+        $response->assertStatus(200);
+
+        // カテゴリ名がすべて表示されているか確認
+        foreach ($categories as $category) {
+            $response->assertSee($category->name);
+        }
+    }
+
     /**
      * お気に入り機能
      */
