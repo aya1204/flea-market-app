@@ -7,6 +7,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Item;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Condition;
+use App\Models\Brand;
 
 /**
  * 商品一覧取得、マイリスト一覧取得、商品検索機能、商品詳細情報取得、いいね機能、コメント送信機能のテスト
@@ -62,7 +65,7 @@ class ItemTest extends TestCase
         // 購入済み商品(purchase_user_idが設定されている)
         $item = Item::factory()->create([
             'title' => '購入済み商品',
-            'purchase_user_id' => \App\Models\User::factory()->create()->id, //実在するユーザーのIDを指定
+            'purchase_user_id' => User::factory()->create()->id, //実在するユーザーのIDを指定
         ]);
 
         // recommendタブにアクセス
@@ -109,17 +112,17 @@ class ItemTest extends TestCase
         /** @var \App\Models\User $user */
 
         // ログインユーザーを作成
-        $user = \App\Models\User::factory()->create();
+        $user = User::factory()->create();
 
         // ログインユーザーが出品した商品(非表示)
-        \App\Models\Item::factory()->create([
+        Item::factory()->create([
             'seller_user_id' => $user->id,
             'title' => '自分の商品',
         ]);
 
         // 他人が出品した商品(表示)
-        \App\Models\Item::factory()->create([
-            'seller_user_id' => \App\Models\User::factory()->create()->id,
+        Item::factory()->create([
+            'seller_user_id' => User::factory()->create()->id,
             'title' => '他人の商品',
         ]);
 
@@ -145,8 +148,8 @@ class ItemTest extends TestCase
         /** @var \App\Models\User $user */
 
         // ログインユーザーと商品を作成
-        $user = \App\Models\User::factory()->create();
-        $item = \App\Models\Item::factory()->create([
+        $user = User::factory()->create();
+        $item = Item::factory()->create([
             'title' => 'お気に入りの商品',
         ]);
 
@@ -170,10 +173,10 @@ class ItemTest extends TestCase
         /** @var \App\Models\User $user */
 
         // ログインユーザーを作成
-        $user = \App\Models\User::factory()->create();
+        $user = User::factory()->create();
 
         // 購入済み商品(purchase_user_idが設定されている)
-        $soldItem = \App\Models\Item::factory()->create([
+        $soldItem = Item::factory()->create([
             'title' => '購入済み商品',
             'is_sold' => true,
             'purchase_user_id' => $user->id,
@@ -198,17 +201,17 @@ class ItemTest extends TestCase
         /** @var \App\Models\User $user */
 
         // ログインユーザーを作成
-        $user = \App\Models\User::factory()->create();
+        $user = User::factory()->create();
 
         // ログインユーザーが出品した商品(非表示)
-        \App\Models\Item::factory()->create([
+        Item::factory()->create([
             'seller_user_id' => $user->id,
             'title' => '自分の商品',
         ]);
 
         // 他人が出品した商品(表示)
-        $otherItem = \App\Models\Item::factory()->create([
-            'seller_user_id' => \App\Models\User::factory()->create()->id,
+        $otherItem = Item::factory()->create([
+            'seller_user_id' => User::factory()->create()->id,
             'title' => '他人の商品',
         ]);
 
@@ -246,9 +249,9 @@ class ItemTest extends TestCase
     public function testCanSearchItemsByPartialMatchInTitle()
     {
         // 商品を複数作成（部分一致のものと一致しないもの）
-        \App\Models\Item::factory()->create(['title' => '青森のりんご']);
-        \App\Models\Item::factory()->create(['title' => 'りんごジュース']);
-        \App\Models\Item::factory()->create(['title' => '完熟バナナ']);
+        Item::factory()->create(['title' => '青森のりんご']);
+        Item::factory()->create(['title' => 'りんごジュース']);
+        Item::factory()->create(['title' => '完熟バナナ']);
 
         // 検索リクエスト（セッションにキーワードを保存する形式ならPOSTで）
         $response = $this->get('/search?item_name=りんご');
@@ -270,12 +273,12 @@ class ItemTest extends TestCase
         /** @var \App\Models\User $user */
 
         // ログインユーザー作成
-        $user = \App\Models\User::factory()->create();
+        $user = User::factory()->create();
 
         // 商品を複数作成(部分一致のものと一致しないもの)
-        $item1 = \App\Models\Item::factory()->create(['title' => '青森のりんご']);
-        $item2 = \App\Models\Item::factory()->create(['title' => 'りんごジュース']);
-        $item3 = \App\Models\Item::factory()->create(['title' => '完熟バナナ']);
+        $item1 = Item::factory()->create(['title' => '青森のりんご']);
+        $item2 = Item::factory()->create(['title' => 'りんごジュース']);
+        $item3 = Item::factory()->create(['title' => '完熟バナナ']);
 
         $user->favorites()->detach(); // 念のため全削除
         // ユーザーのお気に入りにitem1,item3を登録
@@ -324,12 +327,12 @@ class ItemTest extends TestCase
     public function testItemDetailDisplaysAllNecessaryInformation()
     {
         // ユーザーとカテゴリと商品を作成
-        $user = \App\Models\User::factory()->create(['name' => 'テストユーザー', 'image' => 'test_user_icon.jpg']);
-        $category = \App\Models\Category::factory()->create(['name' => 'テストカテゴリー']);
-        $condition = \App\Models\Condition::factory()->create(['name' => '良好']);
-        $brand = \App\Models\Brand::factory()->create(['name' => 'ブランド名']);
+        $user = User::factory()->create(['name' => 'テストユーザー', 'image' => 'test_user_icon.jpg']);
+        $category = Category::factory()->create(['name' => 'テストカテゴリー']);
+        $condition = Condition::factory()->create(['name' => '良好']);
+        $brand = Brand::factory()->create(['name' => 'ブランド名']);
 
-        $item = \App\Models\Item::factory()->create([
+        $item = Item::factory()->create([
             'title' => 'テスト商品',
             'price' => 3000,
             'description' => 'これはテスト用の商品説明文です。',
@@ -388,8 +391,8 @@ class ItemTest extends TestCase
         /** @var \App\Models\User $user */
 
         // ログインユーザーと商品を作成
-        $user = \App\Models\User::factory()->create();
-        $item = \App\Models\Item::factory()->create();
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
 
         // お気に入り登録前は0件
         $this->assertEquals(0, $item->favoritedByUsers()->count());
@@ -418,8 +421,8 @@ class ItemTest extends TestCase
         /** @var \App\Models\User $user */
 
         // ログインユーザーと商品を作成
-        $user = \App\Models\User::factory()->create();
-        $item = \App\Models\Item::factory()->create();
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
 
         // お気に入り登録
         $user->favorites()->attach($item->id);
@@ -444,8 +447,8 @@ class ItemTest extends TestCase
         /** @var \App\Models\User $user */
 
         // ログインユーザーと商品を作成
-        $user = \App\Models\User::factory()->create();
-        $item = \App\Models\Item::factory()->create();
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
 
         // 事前にお気に入り追加しておく
         $user->favorites()->attach($item->id);
