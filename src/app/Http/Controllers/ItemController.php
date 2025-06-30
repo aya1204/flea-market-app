@@ -66,12 +66,17 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
+        // 今はどのタブか？(recommend/mylist)
         $tab = $request->query('tab', 'recommend');
+        // 検索したキーワードが保存されているか？
         $keyword = session('search_keyword');
 
+        // どのタブで検索キーワードを使って商品を探すか
         $result = $this->getFilteredItems($tab, $keyword);
 
+        // 商品一覧を取り出す
         $items = $result['items'];
+        // 「マイリストを表示するにはログインしてください」のメッセージを取り出す
         $show_message = $result['show_message'];
 
         return view('items.mylist', [
