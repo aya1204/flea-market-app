@@ -65,6 +65,7 @@ class ItemTest extends TestCase
         // 購入済み商品(purchase_user_idが設定されている)
         $item = Item::factory()->create([
             'title' => '購入済み商品',
+            'is_sold' => true,
             'purchase_user_id' => User::factory()->create()->id, //実在するユーザーのIDを指定
         ]);
 
