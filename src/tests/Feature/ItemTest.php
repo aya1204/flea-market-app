@@ -223,10 +223,13 @@ class ItemTest extends TestCase
         ]);
 
         // 他人が出品した商品(表示)
-        \App\Models\Item::factory()->create([
+        $otherItem = \App\Models\Item::factory()->create([
             'seller_user_id' => \App\Models\User::factory()->create()->id,
             'title' => '他人の商品',
         ]);
+
+        // 他人の商品をお気に入りに追加
+        $user->favorites()->attach($otherItem);
 
         // ログイン状態でrecommendタブにアクセス
         $response = $this->actingAs($user)->get('/?tab=mylist');
