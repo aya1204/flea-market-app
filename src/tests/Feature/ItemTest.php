@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Item;
+use App\Models\User;
 
 /**
  * 商品一覧取得、マイリスト一覧取得、商品検索機能、商品詳細情報取得、いいね機能、コメント送信機能のテスト
@@ -80,11 +81,12 @@ class ItemTest extends TestCase
         /** @var \App\Models\User $user */
 
         // ログインユーザーを作成
-        $user = \App\Models\User::factory()->create();
+        $user = User::factory()->create();
 
         // 購入済み商品(purchase_user_idが設定されている)
-        $item = \App\Models\Item::factory()->create([
+        $item = Item::factory()->create([
             'title' => '購入済み商品',
+            'is_sold' => true,
             'purchase_user_id' => $user->id,
         ]);
 
