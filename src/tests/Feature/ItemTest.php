@@ -190,13 +190,14 @@ class ItemTest extends TestCase
         $user = \App\Models\User::factory()->create();
 
         // 購入済み商品(purchase_user_idが設定されている)
-        $item = \App\Models\Item::factory()->create([
+        $soldItem = \App\Models\Item::factory()->create([
             'title' => '購入済み商品',
+            'is_sold' => true,
             'purchase_user_id' => $user->id,
         ]);
 
         // お気に入りに追加
-        $user->favorites()->attach($item->id);
+        $user->favorites()->attach($soldItem->id);
 
         // mylistタブにアクセス
         $response = $this->actingAs($user)->get('/?tab=mylist');
