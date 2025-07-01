@@ -534,4 +534,30 @@ class ItemTest extends TestCase
         // リダイレクト確認(任意)
         $response->assertRedirect();
     }
+
+    /**
+     * ログイン前のユーザーはコメントを送信できないテスト
+     */
+    public function testGuestCannotPostComment()
+    {
+        // 商品を用意
+        $item = Item::factory()->create();
+
+        // コメントをPOST(ログインしていない状態)
+        $response = $this->post(route('item.comment', ['item' => $item->id]), [
+            'comment' => 'ゲストのコメント',
+        ]);
+
+        // コメントが保存されていないことを確認
+        $this->assertDatabaseMissing('comments', [
+            'item_id' => $item->id,
+            'comment' => 'ゲストのコメント',
+        ]);
+
+        // コメント数が0件であること
+        $this->assertEquals(0, Comment::count());
+
+        // ログイン画面にリダイレクトされていること(ゲストは認証が必要なページにアクセス不可)
+        $response->assertRedirect(route('login'));
+    }
 }
