@@ -562,6 +562,31 @@ class ItemTest extends TestCase
     }
 
     /**
+     * コメントが入力されていない場合、バリデーションメッセージが表示されるテスト
+     */
+    public function testCommentValidationFailsWhenEmpty()
+    {
+        /** @var \App\Models\User $user */
+        // ユーザーと商品を用意
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('item.comment', ['item' => $item->id]), [
+            'comment' => '', // 空で送信
+        ]);
+
+        //バリデーションエラーがあることを確認
+        $response->assertSessionHasErrors(['comment']);
+
+        // データベースに保存されていないことを確認
+        $this->assertDatabaseMissing('comments', [
+            'item_id' => $item->id,
+            'user_id' => $user->id,
+            'comment' => '',
+        ]);
+    }
+
+    /**
      * 256文字以上のコメントはバリデーションエラーメッセージが表示されるテスト
      */
     public function testCommentValidationFailsWhenCommentIsTooLong()
