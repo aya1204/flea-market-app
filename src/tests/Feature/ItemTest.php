@@ -560,4 +560,32 @@ class ItemTest extends TestCase
         // ログイン画面にリダイレクトされていること(ゲストは認証が必要なページにアクセス不可)
         $response->assertRedirect(route('login'));
     }
+
+    /**
+     * 256文字以上のコメントはバリデーションエラーメッセージが表示されるテスト
+     */
+    public function testCommentValidationFailsWhenCommentIsTooLong()
+    {
+        /** @var \App\Models\User $user */
+        // ユーザーと商品を作成
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
+
+        // 256文字のコメントを作成
+        $longComment = str_repeat('あ', 256); // 256文字
+
+        // ログイン状態でコメント送信
+        $response = $this->actingAs($user)->post(route('item.comment', ['item' => $item->id]), [
+            'comment' => $longComment,
+        ]);
+
+        // バリデーションエラーが発生していること
+        $response->assertSessionHasErrors(['comment']);
+
+        // コメントが保存されてないことを確認
+        $this->assertDatabaseMissing('comments', [
+            'item_id' => $item->id,
+            'comment' => $longComment,
+        ]);
+    }
 }
