@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Condition;
 use App\Models\Brand;
+use App\Models\Comment;
 
 /**
  * 商品一覧取得、マイリスト一覧取得、商品検索機能、商品詳細情報取得、いいね機能、コメント送信機能のテスト
@@ -497,5 +498,40 @@ class ItemTest extends TestCase
 
         // お気に入り解除後は0件に減っているかチェック
         $this->assertEquals(0, $item->fresh()->favoritedByUsers()->count());
+    }
+
+    /**
+     * コメント送信機能
+     */
+
+    /**
+     * ログイン済みのユーザーはコメントを送信できる
+     */
+    public function testLoggedInUserCanPostComment()
+    {
+        /** @var \App\Models\User $user */
+
+        // ユーザーと商品を用意
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
+
+        // ログインしてコメント投稿
+        $response = $this->actingAs($user)->post(route('item.comment', ['item' => $item->id]), // ←ここでコメント送信のURLのitemパラメータを返す
+        [
+            'comment' => 'テストコメントです。',
+        ]);
+
+        // コメントがデータベースに保存されているか
+        $this->assertDatabaseHas('comments', [
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+            'comment' => 'テストコメントです。',
+        ]);
+
+        // コメント数が1件であること
+        $this->assertEquals(1, Comment::count());
+
+        // リダイレクト確認(任意)
+        $response->assertRedirect();
     }
 }
