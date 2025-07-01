@@ -31,7 +31,7 @@ class ItemTest extends TestCase
     }
 
     /**
-     * 商品一覧ページ表示
+     * 商品一覧取得
      */
 
     /**
@@ -407,7 +407,7 @@ class ItemTest extends TestCase
     }
 
     /**
-     * お気に入り機能
+     * いいね機能
      */
 
     /**
