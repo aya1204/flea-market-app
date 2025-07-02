@@ -20,10 +20,13 @@ class PurchaseController extends Controller
         $paymentmethods = Paymentmethod::all();
         $item = Item::find($item->id);
 
-        $selectedPaymentMethod = request()->query('paymentmethod_id');
+        $selectedPaymentMethod = intval(request()->query('paymentmethod_id'));
 
         // 支払い方法の名前を取得
         $methodName = optional($paymentmethods->firstWhere('id', $selectedPaymentMethod))->name;
+
+        // ログインユーザーを取得する
+        $user = Auth::user();
 
         return view('purchase.purchase', compact('item', 'paymentmethods', 'user', 'selectedPaymentMethod', 'methodName'));
     }
