@@ -23,6 +23,10 @@ class PurchaseTest extends TestCase
      */
 
     /**
+     * 商品購入機能
+     */
+
+    /**
      * 「購入する」ボタンを押下すると購入が完了するテスト
      */
     public function testUserCanPurchaseItemAndRedirectToStripe()
@@ -122,5 +126,38 @@ class PurchaseTest extends TestCase
         // 購入した商品が含まれていることを確認
         $response->assertStatus(200);
         $response->assertSee($item->title);
+    }
+
+
+    /**
+     * 支払い方法選択機能
+     */
+
+    /**
+     * 小計画面で変更が即時反映されるテスト
+     */
+    public function testPaymentMethodIsReflectedOnPurchasePage()
+    {
+        /** @var \App\Models\User $user */
+        // ユーザーと商品を作成
+        $user = User::factory()->create();
+        $item = Item::factory()->create();
+
+        // 支払い方法を2つ作成してデータベースに保存
+        $paymentMethods = Paymentmethod::factory()->count(2)->create();
+
+        // 作成した支払い方法2件の中から最初の1件を取り出す
+        $selectedPaymentMethod = $paymentMethods->first();
+
+        // ログインして購入画面を表示(支払い方法を指定する)
+        $response = $this->actingAs($user)->get(route('purchase.index', [
+            'item' => $item->id,
+            'paymentmethod_id' => $selectedPaymentMethod->id,
+        ]));
+
+        $response->assertStatus(200);
+
+        // ビューに選択した支払い方法の名前が含まれているか確認
+        $response->assertSee($selectedPaymentMethod->name);
     }
 }
