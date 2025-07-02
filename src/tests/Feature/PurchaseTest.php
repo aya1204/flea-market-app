@@ -11,7 +11,7 @@ use Mockery;
 use Stripe\Checkout\Session as StripeSession;
 
 /**
- * 商品購入機能テスト
+ * 商品購入機能・支払い方法選択機能・配送先変更機能のテスト
  */
 class PurchaseTest extends TestCase
 {
