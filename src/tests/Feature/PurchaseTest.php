@@ -204,4 +204,68 @@ class PurchaseTest extends TestCase
         $response->assertSee('新住所');
         $response->assertSee('新ビル');
     }
+
+    /**
+     * 購入した商品に送付先住所が紐づいて登録されるテスト
+     */
+    public function testPurchasedItemHasCorrectDeliveryAddress(): void
+    {
+        // 支払い方法を選択して購入ボタンを押すとStripe画面に遷移するか？
+        Mockery::mock('alias:' . StripeSession::class)
+            ->shouldReceive('create')
+            ->once()
+            ->andReturn((object)[
+                'url' => 'http://fake.url',
+            ]);
+
+        /** @var \App\Models\User $user */
+        // テスト用ユーザーを作成(初期住所を設定)
+        $user = User::factory()->create([
+            'postal_code' => '200-0002',
+            'address' => '旧住所',
+            'building' => '旧ビル',
+        ]);
+
+        // テスト用ユーザーとしてログインする
+        $this->actingAs($user);
+
+        // 購入画面で使用する商品を作成(未購入状態)
+        $item = Item::factory()->create([
+            'is_sold' => false,
+        ]);
+
+        // 新しい住所を登録(送付先変更)
+        $newAddress = [
+            'postal_code' => '123-4566',
+            'address' => '東京都新宿区新宿',
+            'building' => '新宿ビル5F',
+        ];
+
+        // 送付先住所を更新(POSTリクエスト送信)
+        $response = $this->post(route('purchase.update', ['item' => $item->id]), $newAddress);
+        $response->assertRedirect(route('purchase.index', ['item' => $item->id]));
+
+        // 消費納入処理のPOSTリクエスト送信
+        $paymentMethod = Paymentmethod::factory()->create(['name' => 'カード払い']);
+
+        // 商品を購入する
+        $response = $this->post(route('purchase.create', ['item' => $item->id]), [
+            'paymentmethod_id' => $paymentMethod->id,
+            'postal_code' => $newAddress['postal_code'],
+            'address' => $newAddress['address'],
+            'building' => $newAddress['building'],
+        ]);
+
+        // StripeのリダイレクトURLに遷移するためリダイレクト確認
+        $response->assertStatus(302);
+
+        // データベースの最新状態を反映
+        $item->refresh();
+
+        // 送付先住所が商品に正しく保存されているか
+        $this->assertEquals($user->id, $item->purchase_user_id);
+        $this->assertEquals('123-4566', $item->postal_code);
+        $this->assertEquals('東京都新宿区新宿', $item->address);
+        $this->assertEquals('新宿ビル5F', $item->building);
+    }
 }
