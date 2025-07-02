@@ -62,4 +62,22 @@ class PurchaseTest extends TestCase
             'building' => 'テストビル',
         ]);
     }
+
+    /**
+     * 購入した商品は商品一覧画面にて「Sold」と表示されるテスト
+     */
+    public function testPurchasedItemShowsSoldLabelOnItemList()
+    {
+        /** @var \App\Models\User $user */
+        // ユーザーと商品を作成
+        $user = User::factory()->create();
+        $item = Item::factory()->create(['is_sold' => true]);
+
+        // 商品一覧ページにアクセス
+        $response = $this->actingAs($user)->get(route('items.index'));
+
+        // 「Sold」の表示があることを確認
+        $response->assertStatus(200);
+        $response->assertSee('Sold');
+    }
 }
