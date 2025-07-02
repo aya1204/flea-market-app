@@ -160,4 +160,48 @@ class PurchaseTest extends TestCase
         // ビューに選択した支払い方法の名前が含まれているか確認
         $response->assertSee($selectedPaymentMethod->name);
     }
+
+
+    /**
+     * 配送先変更機能
+     */
+
+    /**
+     * 送付先住所変更画面にて登録した住所が商品購入画面に反映されているテスト
+     */
+    public function testUpdateDeliveryAddressIsReflectedOnPurchasePage(): void
+    {
+        /** @var \App\Models\User $user */
+        // テスト用ユーザーを作成(初期住所を設定)
+        $user = User::factory()->create([
+            'postal_code' => '100-0001',
+            'address' => '旧住所',
+            'building' => '旧ビル',
+        ]);
+
+        // テスト用ユーザーとしてログインする
+        $this->actingAs($user);
+
+        // 購入画面で使用する商品を作成
+        $item = Item::factory()->create();
+
+        // フォームから送信する新しい住所の情報を定義
+        $newAddress = [
+            'postal_code' => '150-0001',
+            'address' => '新住所',
+            'building' => '新ビル',
+        ];
+
+        // 送付先住所を更新(POSTリクエスト送信)
+        $response = $this->post(route('purchase.update', ['item' => $item->id]), $newAddress);
+        // 正常の購入画面にリダイレクトされつことを確認
+        $response->assertRedirect(route('purchase.index', ['item' => $item->id]));
+
+        // 商品購入ページにアクセスして更新した住所情報が反映されているか確認
+        $response = $this->get(route('purchase.index', ['item' => $item->id]));
+        $response->assertStatus(200);
+        $response->assertSee('150-0001');
+        $response->assertSee('新住所');
+        $response->assertSee('新ビル');
+    }
 }
