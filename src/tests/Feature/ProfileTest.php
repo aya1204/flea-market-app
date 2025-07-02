@@ -89,4 +89,33 @@ class ProfileTest extends TestCase
             $response->assertSee($item->title);
         }
     }
+
+    /**
+     * 変更項目が初期値として過去設定されているかテスト（プロフィール画像、ユーザー名、郵便番号、住所）
+     */
+    public function testProfileEditPageDisplaysUserInitialValues()
+    {
+        /** @var \App\Models\User $user */
+        // ユーザー作成(プロフィール画像・名前・住所情報を含む)
+        $user = User::factory()->create([
+            'name' => 'テストユーザー',
+            'image' => 'images/test_user_icon.png',
+            'postal_code' => '111-1111',
+            'address' => '東京都渋谷区1-1-1'
+        ]);
+
+        // ログイン
+        $this->actingAs($user);
+
+        // プロフィール編集ページにアクセス
+        $response = $this->get(route('profile.edit'));
+
+        $response->assertStatus(200);
+
+        // 各フォームの初期値が表示されていることを確認
+        $response->assertSee('テストユーザー', false);
+        $response->assertSee('111-1111', false);
+        $response->assertSee('東京都渋谷区1-1-1', false);
+        $response->assertSee('images/test_user_icon.png', false);
+    }
 }
