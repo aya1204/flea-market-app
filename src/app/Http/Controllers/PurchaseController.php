@@ -53,7 +53,15 @@ class PurchaseController extends Controller
             'building' => $request->input('building'),
         ]);
 
-        // 2. Stripeセッション作成
+        // 2. 商品に購入者情報と住所を保存
+        $item->update([
+            'purchase_user_id' => $user->id,
+            'postal_code' => $request->input('postal_code'),
+            'address' => $request->input('address'),
+            'building' => $request->input('building'),
+        ]);
+
+        // 3. Stripeセッション作成
         // Stripe APIキーをセット
         Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -135,7 +143,6 @@ class PurchaseController extends Controller
         // 購入者を設定し、商品側にも住所を保存
         /** @var \App\Models\Item $item */
         $item->update([
-            'purchase_user_id' => Auth::id(),
             'postal_code' => $request->input('postal_code'),
             'address' => $request->input('address'),
             'building' => $request->input('building'),
