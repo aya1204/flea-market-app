@@ -70,7 +70,7 @@
                 </div>
                 <div class="row_box">
                     <p class="purchases_table_paymentmethod_title">支払い方法</p>
-                    <p class="selected-method">{{ $method_name ?? '選択してください' }}</p>
+                    <p class="selected-method">{{ $methodName ?? '選択してください' }}</p>
                 </div>
             </div>
             @if (!$item->is_sold)
