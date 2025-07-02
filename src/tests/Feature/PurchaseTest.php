@@ -43,7 +43,7 @@ class PurchaseTest extends TestCase
                 'url' => 'https://fake.stripe.session/checkout',
             ]);
 
-        // ユーザーとしてログインし、POSTリクエスト
+        // ユーザーとしてログインし、購入処理を実行
         $response = $this->actingAs($user)->post(route('purchase.create', ['item' => $item->id]), [
             'postal_code' => '111-1111',
             'address' => '東京都渋谷区',
@@ -79,5 +79,48 @@ class PurchaseTest extends TestCase
         // 「Sold」の表示があることを確認
         $response->assertStatus(200);
         $response->assertSee('Sold');
+    }
+
+    /**
+     * 「プロフィール/購入した商品一覧」に追加されているテスト
+     */
+    public function testPurchasedItemAppearsInUserProfileBuyTab()
+    {
+        /** @var \App\Models\User $user */
+        // ユーザーと商品と支払い方法を作成
+        $user = User::factory()->create();
+        $item = Item::factory()->create(['is_sold' => false]);
+        $paymentMethod = Paymentmethod::factory()->create([
+            'name' => 'カード払い'
+        ]);
+
+        // 支払い方法を選択して購入ボタンを押すとStripe画面に遷移するか？
+        Mockery::mock('alias:' . StripeSession::class)
+            ->shouldReceive('create')
+            ->once()
+            ->andReturn((object)[
+                'url' => 'https://fake.stripe.session/checkout',
+            ]);
+
+        // ユーザーとしてログインし、購入処理を実行
+        $response = $this->actingAs($user)->post(route('purchase.create', ['item' => $item->id]), [
+            'postal_code' => '111-1111',
+            'address' => '東京都渋谷区',
+            'building' => 'テストビル',
+            'paymentmethod_id' => $paymentMethod->id,
+        ]);
+
+        // 商品の購入者IDとis_soldを手動で更新(Stripe経由の成功はこのテストでは再現できないため)
+        $item->update([
+            'purchase_user_id' => $user->id,
+            'is_sold' => true,
+        ]);
+
+        // マイページの購入した商品タブにアクセス
+        $response = $this->actingAs($user)->get(route('mypage', ['tab' => 'buy']));
+
+        // 購入した商品が含まれていることを確認
+        $response->assertStatus(200);
+        $response->assertSee($item->title);
     }
 }
