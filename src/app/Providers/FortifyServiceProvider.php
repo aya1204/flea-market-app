@@ -25,13 +25,23 @@ use function PHPUnit\Framework\returnSelf;
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        // Fortifyの登録機能を無効にする
+        config(['fortify.features' => array_diff(config('fortify.features'), [
+            Features::registration(),
+            ])]);
+    }
+
+    /**
      * Bootstrap any application services.
      */
     public function boot()
     {
         Fortify::ignoreRoutes();
 
-        Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::registerView(function () {
             return view('auth.register');
         });
