@@ -43,9 +43,9 @@ class ItemTest extends TestCase
         /** @var \Illuminate\Support\Collection $items */
         // 複数件商品作成(タイトルを個別に設定)
         $items = collect([
-            \App\Models\Item::factory()->create(['title' => 'テスト商品1']),
-            \App\Models\Item::factory()->create(['title' => 'テスト商品2']),
-            \App\Models\Item::factory()->create(['title' => 'テスト商品3']),
+            Item::factory()->create(['title' => 'テスト商品1']),
+            Item::factory()->create(['title' => 'テスト商品2']),
+            Item::factory()->create(['title' => 'テスト商品3']),
         ]);
 
         // 商品一覧ページにアクセス
