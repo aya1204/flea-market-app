@@ -34,6 +34,8 @@ class SellController extends Controller
         $item->condition_id = $request->input('condition_id');
         $item->image = $image_path;
         $item->save();
+        // カテゴリーの中間テーブルへ保存(多対多リレーション)
+        $item->categories()->attach($request->input('categories'));
         return redirect()->route('mypage', ['tab' => 'sell'])->with('success', '商品を出品しました。');
     }
 }
