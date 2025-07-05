@@ -36,14 +36,12 @@ Route::middleware(['auth'])->group(function () {
         ->middleware(['auth', 'signed', 'throttle:6,1']) // ログインしているか、改ざんされていないか、1時間に６回までのアクセス制限
         ->name('verification.verify');
 
-    //プロフィール設定とログイン処理（認証とメール認証が必要）
+    //プロフィール設定（認証とメール認証が必要）
     Route::middleware(['auth', 'verified'])->group(function () {
         // プロフィール設定画面表示
         Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         // プロフィール設定完了処理
         Route::post('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
-        // ログイン処理
-        Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
     });
 
     //マイページ（タブ切り替え：出品した商品｜購入した商品）
@@ -83,7 +81,8 @@ Route::post('/register', [AuthController::class, 'create'])->middleware('guest')
 // ログイン画面表示
 Route::get('/login', [AuthController::class, 'index'])->middleware('guest')->name('login');
 
-
+// ログイン処理
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 
 //ログアウト機能
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
