@@ -53,11 +53,12 @@ class Item extends Model
         return $this->belongsToMany(Category::class, 'category_item');
     }
 
-    // itemが売り切れかチェック
-    public function isSold(): bool
+    // is_soldを取得
+    public function getIsSoldAttribute(): bool
     {
-        return $this->is_sold;
+        return !is_null($this->purchase_user_id);
     }
+
 
     // conditionsテーブルと多対1の関係
     public function condition()
