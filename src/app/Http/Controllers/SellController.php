@@ -15,7 +15,7 @@ class SellController extends Controller
     public function index()
     {
         $categories = Category::all(); // 全カテゴリを取得
-        return view('sell.sell'); // resources/views/sell/sell.blade.php を表示
+        return view('sell.sell', compact('categories')); // resources/views/sell/sell.blade.php を表示
     }
 
     /**
@@ -38,9 +38,10 @@ class SellController extends Controller
         $item->save();
 
         // カテゴリ名を探して見つかったら多対多リレーションを通じて中間テーブルに保存
-        $category = Category::where('name', 'ファッション')->first();
-        if ($category) {
-            $item->categories()->attach($category->id);
+        $categoryIds = $request->input('categories', []);
+
+        if (!empty($categoryIds)) {
+            $item->categories()->attach($categoryIds);
         }
 
         return redirect()->route('items.index')->with('success', '商品を出品しました。');
