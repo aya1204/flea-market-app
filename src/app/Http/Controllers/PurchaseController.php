@@ -53,9 +53,8 @@ class PurchaseController extends Controller
             'building' => $request->input('building'),
         ]);
 
-        // 2. 商品に購入者情報と住所を保存
+        // 2. 商品に住所を保存
         $item->update([
-            'purchase_user_id' => $user->id,
             'postal_code' => $request->input('postal_code'),
             'address' => $request->input('address'),
             'building' => $request->input('building'),
