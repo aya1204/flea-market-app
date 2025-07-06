@@ -17,7 +17,6 @@ class Item extends Model
         'description',
         'paymentmethod_id',
         'purchase_user_id',
-        'is_sold',
         'brand_id',
         'condition_id',
         'seller_user_id',
@@ -53,12 +52,11 @@ class Item extends Model
         return $this->belongsToMany(Category::class, 'category_item');
     }
 
-    // itemが売り切れかチェック
-    public function isSold(): bool
+    // purchase_user_id(購入者ID)がnullじゃなければ購入済み商品だと判断する
+    public function getIsSoldAttribute(): bool
     {
-        return $this->is_sold;
+        return !is_null($this->purchase_user_id);
     }
-
 
     // conditionsテーブルと多対1の関係
     public function condition()
