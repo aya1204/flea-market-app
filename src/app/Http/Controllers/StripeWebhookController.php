@@ -56,7 +56,6 @@ class StripeWebhookController extends Controller
             // 売れたことにして住所や購入者の情報も更新する
             if ($item && !$item->is_sold) {
                 $item->update([
-                    'is_sold' => true,
                     'purchase_user_id' => $user_id,
                     'postal_code' => $postal_code,
                     'address' => $address,
