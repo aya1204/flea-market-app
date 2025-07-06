@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ExhibitionRequest;
 use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 
 class SellController extends Controller
 {
@@ -13,6 +14,7 @@ class SellController extends Controller
      */
     public function index()
     {
+        $categories = Category::all(); // 全カテゴリを取得
         return view('sell.sell'); // resources/views/sell/sell.blade.php を表示
     }
 
@@ -34,8 +36,13 @@ class SellController extends Controller
         $item->condition_id = $request->input('condition_id');
         $item->image = $image_path;
         $item->save();
-        // カテゴリーの中間テーブルへ保存(多対多リレーション)
-        $item->categories()->attach($request->input('categories'));
-        return redirect()->route('mypage', ['tab' => 'sell'])->with('success', '商品を出品しました。');
+
+        // カテゴリ名を探して見つかったら多対多リレーションを通じて中間テーブルに保存
+        $category = Category::where('name', 'ファッション')->first();
+        if ($category) {
+            $item->categories()->attach($category->id);
+        }
+
+        return redirect()->route('items.index')->with('success', '商品を出品しました。');
     }
 }
