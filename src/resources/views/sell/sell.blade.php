@@ -38,16 +38,11 @@
             <div class="category-group">
                 <label class="category">カテゴリー</label>
                 <div class="checkboxes">
-                    @php
-                    $categories = [
-                    'ファッション', '家電', 'インテリア', 'レディース', 'メンズ', 'コスメ', '本', 'ゲーム', 'スポーツ', 'キッチン', 'ハンドメイド', 'アクセサリー', 'おもちゃ', 'ベビー・キッズ'
-                    ];
-                    @endphp
                     @foreach($categories as $category)
                     <label class="checkbox-label">
-                        <input type="checkbox" name="categories[]" value="{{ $category }}">
+                        <input type="checkbox" name="categories[]" value="{{ $category->id }}">
                         <span class="category-check_button">
-                            {{ $category }}
+                            {{ $category->name }}
                         </span>
                     </label>
                     @endforeach
