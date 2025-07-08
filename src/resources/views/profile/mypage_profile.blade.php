@@ -9,7 +9,7 @@
 
 
 <div class="profile-container">
-    <h2 class="title">プロフィール設定</h2>
+    <h2 class="profile-title">プロフィール設定</h2>
     <div class="profile-detail">
         <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="profile_form">
             @csrf
@@ -25,20 +25,20 @@
                 <label for="image" class="user-icon_select">画像を選択する</label>
                 <input type="file" id="image" name="image" accept="image/*" class="hidden-file-input">
             </div>
-                <!-- JavaScriptによるリアルタイムプレビュー -->
-                <script>
-                    document.getElementById('image').addEventListener('change', function(event) {
-                        const reader = new FileReader();
-                        const file = event.target.files[0];
+            <!-- JavaScriptによるリアルタイムプレビュー -->
+            <script>
+                document.getElementById('image').addEventListener('change', function(event) {
+                    const reader = new FileReader();
+                    const file = event.target.files[0];
 
-                        if (file) {
-                            reader.onload = function(e) {
-                                document.getElementById('preview').src = e.target.result;
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    });
-                </script>
+                    if (file) {
+                        reader.onload = function(e) {
+                            document.getElementById('preview').src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            </script>
 
             <div class="profile-detail_form">
                 <div class="profile">
