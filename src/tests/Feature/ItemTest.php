@@ -66,7 +66,6 @@ class ItemTest extends TestCase
         // 購入済み商品(purchase_user_idが設定されている)
         $item = Item::factory()->create([
             'title' => '購入済み商品',
-            'is_sold' => true,
             'purchase_user_id' => User::factory()->create()->id, //実在するユーザーのIDを指定
         ]);
 
@@ -91,7 +90,6 @@ class ItemTest extends TestCase
         // 購入済み商品(purchase_user_idが設定されている)
         $item = Item::factory()->create([
             'title' => '購入済み商品',
-            'is_sold' => true,
             'purchase_user_id' => $user->id,
         ]);
 
@@ -180,7 +178,6 @@ class ItemTest extends TestCase
         // 購入済み商品(purchase_user_idが設定されている)
         $soldItem = Item::factory()->create([
             'title' => '購入済み商品',
-            'is_sold' => true,
             'purchase_user_id' => $user->id,
         ]);
 
@@ -516,10 +513,12 @@ class ItemTest extends TestCase
         $item = Item::factory()->create();
 
         // ログインしてコメント投稿
-        $response = $this->actingAs($user)->post(route('item.comment', ['item' => $item->id]), // ←ここでコメント送信のURLのitemパラメータを返す
-        [
-            'comment' => 'テストコメントです。',
-        ]);
+        $response = $this->actingAs($user)->post(
+            route('item.comment', ['item' => $item->id]), // ←ここでコメント送信のURLのitemパラメータを返す
+            [
+                'comment' => 'テストコメントです。',
+            ]
+        );
 
         // コメントがデータベースに保存されているか
         $this->assertDatabaseHas('comments', [
