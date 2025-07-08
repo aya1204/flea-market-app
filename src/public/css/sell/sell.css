@@ -153,21 +153,6 @@ input:checked + span {
     border-width: 1px;
 }
 
-/* 商品の状態を選択するセレクトボックス */
-.condition-select {
-    font-size: 16px;
-    vertical-align: middle;
-    border: 1px solid #5F5F5F;
-    padding: 10px;
-    width: 100%;
-    height: 45px;
-    border-radius: 4px;
-    position: relative;
-        user-select: none;
-        /* width: 100%;
-        margin: 20px 0; */
-}
-
 /* カスタムセレクト全体 */
 .custom-select-wrapper {
     position: relative;
@@ -212,7 +197,6 @@ input:checked + span {
     padding: 10px;
     cursor: pointer;
     background-color: #636769;
-    /* ← ここが背景色 */
     color: #EAEAEA;
     font-weight: 600;
     font-size: 14px;
