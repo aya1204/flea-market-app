@@ -40,6 +40,7 @@ class UsersTableSeeder extends Seeder
             'name' => '鈴木 一郎',
             'email' => 'test3@example.com',
             'password' => Hash::make('password'),
+            'email_verified_at' => Carbon::now(),
             'image' => 'user3_icon.png',
             'postal_code' => '123-4567',
             'address' => '東京都渋谷区千駄ヶ谷1-2-3',
