@@ -143,7 +143,6 @@ class ItemController extends Controller
     public function search(Request $request)
     {
         $tab = $request->query('tab', 'recommend');
-        // $show_message = false;
         $keyword = null;
 
         // 1. キーワードが入力されている場合
