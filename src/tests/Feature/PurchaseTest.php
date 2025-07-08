@@ -34,7 +34,7 @@ class PurchaseTest extends TestCase
         /** @var \App\Models\User $user */
         // ユーザーと商品と支払い方法を作成
         $user = User::factory()->create();
-        $item = Item::factory()->create(['is_sold' => false]);
+        $item = Item::factory()->create(['purchase_user_id' => null]);
         $paymentMethod = Paymentmethod::factory()->create([
             'name' => 'カード払い'
         ]);
@@ -75,7 +75,7 @@ class PurchaseTest extends TestCase
         /** @var \App\Models\User $user */
         // ユーザーと商品を作成
         $user = User::factory()->create();
-        $item = Item::factory()->create(['is_sold' => true]);
+        $item = Item::factory()->create(['purchase_user_id' => $user->id,]);
 
         // 商品一覧ページにアクセス
         $response = $this->actingAs($user)->get(route('items.index'));
@@ -93,7 +93,7 @@ class PurchaseTest extends TestCase
         /** @var \App\Models\User $user */
         // ユーザーと商品と支払い方法を作成
         $user = User::factory()->create();
-        $item = Item::factory()->create(['is_sold' => false]);
+        $item = Item::factory()->create(['purchase_user_id' => null]);
         $paymentMethod = Paymentmethod::factory()->create([
             'name' => 'カード払い'
         ]);
@@ -117,7 +117,7 @@ class PurchaseTest extends TestCase
         // 商品の購入者IDとis_soldを手動で更新(Stripe経由の成功はこのテストでは再現できないため)
         $item->update([
             'purchase_user_id' => $user->id,
-            'is_sold' => true,
+            'purchase_user_id' => $user->id,
         ]);
 
         // マイページの購入した商品タブにアクセス
@@ -231,7 +231,7 @@ class PurchaseTest extends TestCase
 
         // 購入画面で使用する商品を作成(未購入状態)
         $item = Item::factory()->create([
-            'is_sold' => false,
+            'purchase_user_id' => null,
         ]);
 
         // 新しい住所を登録(送付先変更)
