@@ -16,7 +16,7 @@ body {
 }
 
 /* プロフィール設定 */
-.title {
+.profile-title {
     font-size: 36px;
     width: 299px;
     height: 47px;
@@ -110,7 +110,7 @@ body {
     }
 
     /* プロフィール設定 */
-    .title {
+    .profile-title {
         font-size: 18px;
         width: auto;
         margin: 0 auto 24px auto;
