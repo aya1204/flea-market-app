@@ -17,7 +17,7 @@
 
 @section('content')
 <div class="sell-container">
-    <h1 class="title">商品の出品</h1>
+    <h1 class="item-sell-title">商品の出品</h1>
 
     <form action="{{ route('sell') }}" method="POST" enctype="multipart/form-data" class="sell_form">
         @csrf
