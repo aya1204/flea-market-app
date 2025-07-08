@@ -18,7 +18,6 @@ class PurchaseController extends Controller
     public function index(Item $item)
     {
         $paymentmethods = Paymentmethod::all();
-        $item = Item::find($item->id);
 
         $selectedPaymentMethod = intval(request()->query('paymentmethod_id'));
 
@@ -37,7 +36,6 @@ class PurchaseController extends Controller
      */
     public function create(PurchaseRequest $request, Item $item)
     {
-
         // すでに売れているかチェック
         if ($item->is_sold) {
             return redirect()->route('items.show', $item)->with('error', 'この商品はすでに購入されています。');
@@ -107,7 +105,7 @@ class PurchaseController extends Controller
                     'price_data' => [
                         'currency' => 'jpy',
                         'product_data' => [
-                            'name' => $item->title,
+                        'name' => $item->title,
                         ],
                         'unit_amount' => $item->price,
                     ],
@@ -138,7 +136,6 @@ class PurchaseController extends Controller
      */
     public function update(AddressRequest $request, Item $item)
     {
-
         // 購入者を設定し、商品側にも住所を保存
         /** @var \App\Models\Item $item */
         $item->update([
