@@ -60,26 +60,19 @@ body {
     border-bottom: 2px solid #5F5F5F;
     display: flex;
     justify-content: left;
-    padding: 0 129px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 100%;
+    text-align: right;
 }
 
 /* 出品した商品、購入した商品（選択した方） */
 .item__button-submit-second.active {
     color: #FF0000;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 100%;
-    text-align: right;
-    text-decoration: none;
-    padding: 20px 30px;
 }
 
 /* 出品した商品、購入した商品（選択していない方） */
 .item__button-submit-second {
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 100%;
-    text-align: right;
     color: #5F5F5F;
     text-decoration: none;
     padding: 20px 30px;
