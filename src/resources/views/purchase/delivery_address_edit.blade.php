@@ -8,7 +8,7 @@
 @section('content')
 
 <div class="profile-container">
-    <h2 class="title">住所の変更</h2>
+    <h2 class="delivery_address_edit_title">住所の変更</h2>
     <div class="profile-detail_form">
         <form method="POST" action="{{ route('purchase.update', ['item' => $item->id]) }}" enctype="multipart/form-data">
             @csrf
