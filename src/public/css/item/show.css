@@ -277,7 +277,7 @@ body {
 /* タブレット（768px〜850px）対応 */
 @media screen and (max-width: 850px) and (min-width: 768px) {
     /* 全体 */
-    .item-detail {
+    .item_detail {
         flex-direction: column;
         align-items: center;
         margin: 20px auto;
@@ -446,7 +446,7 @@ body {
 /* スマホ（767px以下）対応 */
 @media screen and (max-width: 767px) {
     /* 全体 */
-    .item-detail {
+    .item_detail {
         flex-direction: column;
         align-items: center;
         margin: 20px auto;
