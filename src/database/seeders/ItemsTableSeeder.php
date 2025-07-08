@@ -14,6 +14,7 @@ class ItemsTableSeeder extends Seeder
      */
     public function run()
     {
+        $createdItems = [];
         $items = [
             // 腕時計
             [
@@ -22,7 +23,6 @@ class ItemsTableSeeder extends Seeder
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
                 'image' => 'images/Armani+Mens+Clock.jpg',
                 'condition_id' => '1',
-                'seller_user_id' => rand(1, 3),
                 'categories' => [1, 5, 12],
             ],
 
@@ -33,7 +33,6 @@ class ItemsTableSeeder extends Seeder
                 'description' => '高速で信頼性の高いハードディスク',
                 'image' => 'images/HDD+Hard+Disk.jpg',
                 'condition_id' => '2',
-                'seller_user_id' => rand(1, 3),
                 'categories' => [2, 8],
             ],
 
@@ -44,7 +43,6 @@ class ItemsTableSeeder extends Seeder
                 'description' => '新鮮な玉ねぎ3束のセット',
                 'image' => 'images/iLoveIMG+d.jpg',
                 'condition_id' => '3',
-                'seller_user_id' => rand(1, 3),
                 'categories' => [10],
             ],
 
@@ -55,7 +53,6 @@ class ItemsTableSeeder extends Seeder
                 'description' => 'クラシックなデザインの革靴',
                 'image' => 'images/Leather+Shoes+Product+Photo.jpg',
                 'condition_id' => '4',
-                'seller_user_id' => rand(1, 3),
                 'categories' => [1, 5],
             ],
 
@@ -66,7 +63,6 @@ class ItemsTableSeeder extends Seeder
                 'description' => '高性能なノートパソコン',
                 'image' => 'images/Living+Room+Laptop.jpg',
                 'condition_id' => '1',
-                'seller_user_id' => rand(1, 3),
                 'categories' => [2, 8],
             ],
 
@@ -77,7 +73,6 @@ class ItemsTableSeeder extends Seeder
                 'description' => '高音質のレコーディング用マイク',
                 'image' => 'images/Music+Mic+4632231.jpg',
                 'condition_id' => '2',
-                'seller_user_id' => rand(1, 3),
                 'categories' => [2],
             ],
 
@@ -88,7 +83,6 @@ class ItemsTableSeeder extends Seeder
                 'description' => 'おしゃれなショルダーバッグ',
                 'image' => 'images/Purse+fashion+pocket.jpg',
                 'condition_id' => '3',
-                'seller_user_id' => rand(1, 3),
                 'categories' => [1, 4, 12],
             ],
 
@@ -99,7 +93,6 @@ class ItemsTableSeeder extends Seeder
                 'description' => '使いやすいタンブラー',
                 'image' => 'images/Tumbler+souvenir.jpg',
                 'condition_id' => '4',
-                'seller_user_id' => rand(1, 3),
                 'categories' => [10],
             ],
 
@@ -110,7 +103,6 @@ class ItemsTableSeeder extends Seeder
                 'description' => '手動のコーヒーミル',
                 'image' => 'images/Waitress+with+Coffee+Grinder.jpg',
                 'condition_id' => '1',
-                'seller_user_id' => rand(1, 3),
                 'categories' => [10],
             ],
 
@@ -121,7 +113,6 @@ class ItemsTableSeeder extends Seeder
                 'description' => '便利なメイクアップセット',
                 'image' => 'images/外出メイクアップセット.jpg',
                 'condition_id' => '2',
-                'seller_user_id' => rand(1, 3),
                 'categories' => [1, 4, 6],
             ],
         ];
