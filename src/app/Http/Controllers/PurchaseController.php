@@ -68,7 +68,7 @@ class PurchaseController extends Controller
 
 
         // 支払いタイプ判定
-        $payment_type = empty($paymentmethod) ?: $paymentmethod->name;
+        $payment_type = $paymentmethod ? $paymentmethod->name : null;
 
         $common_metadata = [
             'item_id' => (string) $item->id,
