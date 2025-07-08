@@ -126,7 +126,7 @@ body {
 }
 
 /* 商品名 */
-.title {
+.item-title {
     font-weight: 400;
     font-size: 25px;
     line-height: 100%;
@@ -189,7 +189,8 @@ body {
         height: 203px;
     }
 
-    .title {
+    /* 商品名 */
+    .item-title {
         font-size: 18px;
     }
 }
@@ -248,7 +249,8 @@ body {
         height: 145px;
     }
 
-    .title {
+    /* 商品名 */
+    .item-title {
         font-size: 13px;
     }
 }
