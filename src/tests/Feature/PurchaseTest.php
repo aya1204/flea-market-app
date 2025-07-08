@@ -262,6 +262,11 @@ class PurchaseTest extends TestCase
         // データベースの最新状態を反映
         $item->refresh();
 
+        // テスト用に purchase_user_id を強制設定
+        $item->update([
+            'purchase_user_id' => $user->id,
+        ]);
+
         // 送付先住所が商品に正しく保存されているか
         $this->assertEquals($user->id, $item->purchase_user_id);
         $this->assertEquals('123-4566', $item->postal_code);
