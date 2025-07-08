@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-
 use App\Models\Item;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Support\Facades\Auth;
@@ -129,7 +127,6 @@ class ItemController extends Controller
      */
     public function comment(CommentRequest $request, Item $item)
     {
-
         $item->comments()->create([
             'user_id' => Auth::id(),
             'comment' => $request->input('comment'),
