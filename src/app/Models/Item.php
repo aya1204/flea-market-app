@@ -46,7 +46,7 @@ class Item extends Model
         return $this->belongsTo(User::class, 'purchase_user_id');
     }
 
-    // favoritesテーブルと1対多の関係
+    // お気に入り登録者(favoritedByUsers)と1対多の関係
     public function favoritedByUsers()
     {
         return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
