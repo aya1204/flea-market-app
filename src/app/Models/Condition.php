@@ -12,7 +12,7 @@ class Condition extends Model
     protected $fillable = ['name'];
 
     // itemsテーブルと多対1の関係
-    public function item()
+    public function items()
     {
         return $this->hasMany(Item::class);
     }
