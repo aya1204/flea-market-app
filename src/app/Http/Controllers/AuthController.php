@@ -34,7 +34,6 @@ class AuthController extends Controller
      */
     public function create(RegisterRequest $request)
     {
-
         // テストならメール認証スキップ後プロフィール編集画面へ遷移
         if (app()->environment('testing')) {
             $user = User::create([
