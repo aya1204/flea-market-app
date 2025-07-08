@@ -17,7 +17,7 @@ body {
 }
 
 /* 住所の変更 */
-.title {
+.delivery_address_edit_title {
     font-size: 36px;
     width: 180px;
     height: 44px;
@@ -110,7 +110,7 @@ body {
     }
 
     /* プロフィール設定 */
-    .title {
+    .delivery_address_edit_title {
         font-size: 18px;
         width: auto;
         margin: 0 auto 24px auto;
