@@ -20,9 +20,9 @@ class CreateItemsTable extends Migration
             $table->foreignId('seller_user_id')->constrained('users')->OnDelete('cascade');
             // 購入者
             $table->foreignId('purchase_user_id')->nullable()->constrained('users');
-            $table->foreignId('condition_id')->constrained('conditions')->OnDelete('cascade');
-            $table->foreignId('brand_id')->nullable()->constrained('brands')->OnDelete('cascade');
-            $table->foreignId('paymentmethod_id')->nullable()->constrained('paymentmethods')->OnDelete('cascade');
+            $table->foreignId('condition_id')->constrained('conditions')->onDelete('cascade');
+            $table->foreignId('brand_id')->nullable()->constrained('brands')->onDelete('cascade');
+            $table->foreignId('paymentmethod_id')->nullable()->constrained('paymentmethods')->onDelete('cascade');
             $table->string('image');
             $table->string('title');
             $table->text('description');
