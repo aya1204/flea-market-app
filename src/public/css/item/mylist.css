@@ -33,7 +33,6 @@
     text-decoration: none;
     margin-left: 90px;
     margin-right: -50px;
-
     font-family: Inter;
     font-weight: 700;
     font-size: 24px;
@@ -67,7 +66,6 @@
 /* 商品カードの全体フォーム */
 .item {
     width: 100%;
-    /* height: 793px; */
     margin-left: 20px;
     margin-top: 30px;
 }
@@ -103,7 +101,7 @@
 }
 
 /* 商品名 */
-.title {
+.item-title {
     width: 100%;
     color: #000000;
     font-family: Inter;
@@ -230,7 +228,7 @@
     }
 
     /* 商品名 */
-    .title {
+    .item-title {
         font-size: 18px;
         color: #000000;
     }
