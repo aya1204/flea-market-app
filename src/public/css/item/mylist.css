@@ -127,7 +127,6 @@
     padding: 10px 20px;
     border-radius: 5px;
     z-index: 10;
-    pointer-events: none;
 }
 
 /* タブレット（768-850px）対応 */
