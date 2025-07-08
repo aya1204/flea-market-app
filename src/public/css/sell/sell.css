@@ -26,7 +26,7 @@ main {
 }
 
 /* 商品の出品 */
-.title {
+.item-sell-title {
     text-align: center;
     font-size: 36px;
 }
@@ -314,7 +314,7 @@ input:checked + span {
     }
 
     /* 商品の出品 */
-    .title {
+    .item-sell-title {
         font-size: 18px;
     }
 
