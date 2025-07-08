@@ -41,7 +41,7 @@
                 <div class="item-card">
                     <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="item-image">
                     <h5 class="title-header">
-                        <span class="title">{{ $item->title }}</span>
+                        <span class="item-title">{{ $item->title }}</span>
                     </h5>
                 </div>
             </a>
