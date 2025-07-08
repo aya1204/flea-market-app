@@ -131,9 +131,9 @@ class ItemsTableSeeder extends Seeder
             // 画像パスを取得
             $imagePath = $data['image'];
             // 画像が存在するか確認し、なければデフォルト画像を使用
-            $image = Storage::disk('public')->exists($imagePath)
-            ? $imagePath
-            : 'images/default.png';
+            $image = file_exists(storage_path('app/public/' . $imagePath))
+                ? $imagePath
+                : 'images/default.png';
 
             $item = Item::create([
                 'title' => $data['title'],
