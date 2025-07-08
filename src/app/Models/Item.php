@@ -28,6 +28,12 @@ class Item extends Model
     // テーブル名の指定
     protected $table = 'items';
 
+    // purchase_user_id(購入者ID)がnullじゃなければ購入済み商品だと判断する
+    public function getIsSoldAttribute(): bool
+    {
+        return !is_null($this->purchase_user_id);
+    }
+
     // 出品者(sellerUser)と多対1の関係
     public function sellerUser()
     {
@@ -50,12 +56,6 @@ class Item extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_item');
-    }
-
-    // purchase_user_id(購入者ID)がnullじゃなければ購入済み商品だと判断する
-    public function getIsSoldAttribute(): bool
-    {
-        return !is_null($this->purchase_user_id);
     }
 
     // conditionsテーブルと多対1の関係
