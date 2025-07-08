@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Brand extends Model
 {
     use HasFactory;
+    // itemsテーブルと1対多の関係
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }
