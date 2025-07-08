@@ -42,7 +42,7 @@ $keyword = request('item_name') ?? session('search_keyword');
                     <span class="sold_label">Sold</span>
                     @endif
                     <h5 class="title-header">
-                        <span class="title">{{ $item->title }}</span>
+                        <span class="item-title">{{ $item->title }}</span>
                     </h5>
                 </div>
             </a>
