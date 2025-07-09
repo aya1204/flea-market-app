@@ -52,10 +52,10 @@
                 </div>
                 <div class="form__error">
                     @error('password')
-                    <!-- 「一致」系以外（必須、8文字以上）ここに表示 -->
-                        @if (!Str::contains($message, '一致'))
-                            {{ $message }}
-                        @endif
+                    <!-- 「パスワードと一致しません」以外（必須、8文字以上）ここに表示 -->
+                    @if ($message !== 'パスワードと一致しません'))
+                    {{ $message }}
+                    @endif
                     @enderror
                 </div>
             </div>
@@ -70,10 +70,10 @@
                 </div>
                 <div class="form__error">
                     @error('password')
-                    <!-- 「一致」系エラーだけここに表示 -->
-                        @if (Str::contains($message, '一致'))
-                        {{ $message }}
-                        @endif
+                    <!-- 「パスワードと一致しません」エラーだけここに表示 -->
+                    @if ($message === 'パスワードと一致しません'))
+                    {{ $message }}
+                    @endif
                     @enderror
                 </div>
             </div>
