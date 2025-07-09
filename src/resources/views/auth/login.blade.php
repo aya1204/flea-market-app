@@ -35,9 +35,6 @@
                     @if ($errors->has('email') && $errors->first('email') !== 'ログイン情報が登録されていません。')
                         {{ $errors->first('email') }}
                     @endif
-                <!-- @error('email')
-                {{ $message }}
-                @enderror -->
                 </div>
             </div>
         </div>
@@ -59,8 +56,7 @@
             </div>
         </div>
         <div class="form__button">
-            <button class="form__button-submit" type="submit">ログインする
-            </button>
+            <button class="form__button-submit" type="submit">ログインする</button>
         </div>
     </form>
     <div class="register__link">
