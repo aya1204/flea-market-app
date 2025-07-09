@@ -27,7 +27,6 @@
     </form>
 
     {{-- 再送信のためのフォーム --}}
-    <a href="#"></a>
     <form method="POST" action="{{ route('verification.send') }}">
         @csrf
         <button type="submit" class="btn btn-link">
