@@ -21,7 +21,7 @@
 @endif
 
 <div class="profile">
-    <img src="{{ asset('storage/images/' . $user->image) }}" alt="ユーザー画像" class="user_icon">
+    <img src="{{ asset('storage/images/' . $user->image) }}" alt="ユーザーのプロフィール画像" class="user_icon">
     <p class="user_name">{{ $user->name }}</p>
     <a class="edit_link" href="{{ route('profile.edit') }}">
         <button class="profile_edit_button">プロフィールを編集</button>
