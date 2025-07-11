@@ -8,7 +8,6 @@ use App\Models\Condition;
 use App\Models\Item;
 use App\Models\Brand;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -75,8 +74,8 @@ class SellTest extends TestCase
         ]);
 
         $item = Item::where('title', 'テスト商品')
-        ->where('seller_user_id', $user->id)
-        ->first();
+            ->where('seller_user_id', $user->id)
+            ->first();
 
         $this->assertNotNull($item);
         $this->assertDatabaseHas('category_item', [
