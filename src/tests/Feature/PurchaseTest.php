@@ -16,11 +16,6 @@ use Stripe\Checkout\Session as StripeSession;
 class PurchaseTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
 
     /**
      * 商品購入機能
@@ -116,7 +111,6 @@ class PurchaseTest extends TestCase
 
         // 商品の購入者IDとis_soldを手動で更新(Stripe経由の成功はこのテストでは再現できないため)
         $item->update([
-            'purchase_user_id' => $user->id,
             'purchase_user_id' => $user->id,
         ]);
 
@@ -245,10 +239,9 @@ class PurchaseTest extends TestCase
         $response = $this->post(route('purchase.update', ['item' => $item->id]), $newAddress);
         $response->assertRedirect(route('purchase.index', ['item' => $item->id]));
 
-        // 消費納入処理のPOSTリクエスト送信
+        // 購入処理のPOSTリクエスト送信
         $paymentMethod = Paymentmethod::factory()->create(['name' => 'カード払い']);
 
-        // 商品を購入する
         $response = $this->post(route('purchase.create', ['item' => $item->id]), [
             'paymentmethod_id' => $paymentMethod->id,
             'postal_code' => $newAddress['postal_code'],
