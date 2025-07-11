@@ -11,6 +11,11 @@ use Tests\TestCase;
 class ProfileTest extends TestCase
 {
     use RefreshDatabase;
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
 
     /**
      * プロフィールページ出品した商品タブで必要な情報が表示されるテスト(プロフィール画像、ユーザー名、出品した商品)
