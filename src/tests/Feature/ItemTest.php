@@ -24,13 +24,6 @@ class ItemTest extends TestCase
      */
     use RefreshDatabase;
 
-    public function test_example()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     /**
      * 商品一覧取得
      */
@@ -41,7 +34,7 @@ class ItemTest extends TestCase
     public function testGuestCanViewAllItemsInRecommendTab()
     {
         /** @var \Illuminate\Support\Collection $items */
-        // 複数件商品作成(タイトルを個別に設定)
+        // 商品を複数作成する(タイトルを個別に設定)
         $items = collect([
             Item::factory()->create(['title' => 'テスト商品1']),
             Item::factory()->create(['title' => 'テスト商品2']),
@@ -51,7 +44,7 @@ class ItemTest extends TestCase
         // 商品一覧ページにアクセス
         $response = $this->get('/');
 
-        // ステータスと画面内に商品名が表示されていることを確認
+        // ステータスと画面内に商品名が表示されていることを確認する
         $response->assertStatus(200);
         foreach ($items as $item) {
             $response->assertSee($item->title);
@@ -63,7 +56,7 @@ class ItemTest extends TestCase
      */
     public function testGuestCanSeeSoldLabelInRecommendTab()
     {
-        // 購入済み商品(purchase_user_idが設定されている)
+        // 購入済み商品を作成(purchase_user_idが設定されている)
         $item = Item::factory()->create([
             'title' => '購入済み商品',
             'purchase_user_id' => User::factory()->create()->id, //実在するユーザーのIDを指定
@@ -114,13 +107,13 @@ class ItemTest extends TestCase
         // ログインユーザーを作成
         $user = User::factory()->create();
 
-        // ログインユーザーが出品した商品(非表示)
+        // ログインユーザーが出品した商品を作成(自分には非表示)
         Item::factory()->create([
             'seller_user_id' => $user->id,
             'title' => '自分の商品',
         ]);
 
-        // 他人が出品した商品(表示)
+        // 他人が出品した商品(表示する)
         Item::factory()->create([
             'seller_user_id' => User::factory()->create()->id,
             'title' => '他人の商品',
@@ -153,7 +146,7 @@ class ItemTest extends TestCase
             'title' => 'お気に入りの商品',
         ]);
 
-        // お気に入りに登録
+        // お気に入りに登録する
         $user->favorites()->attach($item->id);
 
         // ログインしてmylistタブにアクセス
@@ -161,7 +154,7 @@ class ItemTest extends TestCase
 
         $response->assertStatus(200);
 
-        // ←商品名が表示されている確認
+        // ←商品名が表示されているか確認
         $response->assertSee('お気に入りの商品');
     }
 
@@ -175,19 +168,19 @@ class ItemTest extends TestCase
         // ログインユーザーを作成
         $user = User::factory()->create();
 
-        // 購入済み商品(purchase_user_idが設定されている)
+        // 購入済み商品を作成(purchase_user_idが設定されている)
         $soldItem = Item::factory()->create([
             'title' => '購入済み商品',
             'purchase_user_id' => $user->id,
         ]);
 
-        // お気に入りに追加
+        // お気に入りに追加する
         $user->favorites()->attach($soldItem->id);
 
         // mylistタブにアクセス
         $response = $this->actingAs($user)->get('/?tab=mylist');
 
-        // 「Sold」が表示されていることを確認
+        // 「Sold」が表示されていることを確認する
         $response->assertStatus(200);
         $response->assertSee('Sold');
     }
@@ -202,19 +195,19 @@ class ItemTest extends TestCase
         // ログインユーザーを作成
         $user = User::factory()->create();
 
-        // ログインユーザーが出品した商品(非表示)
+        // ログインユーザーが出品した商品を作成(自分には非表示)
         Item::factory()->create([
             'seller_user_id' => $user->id,
             'title' => '自分の商品',
         ]);
 
-        // 他人が出品した商品(表示)
+        // 他人が出品した商品を作成(表示)
         $otherItem = Item::factory()->create([
             'seller_user_id' => User::factory()->create()->id,
             'title' => '他人の商品',
         ]);
 
-        // 他人の商品をお気に入りに追加
+        // 他人の商品をお気に入りに追加する
         $user->favorites()->attach($otherItem);
 
         // ログイン状態でrecommendタブにアクセス
@@ -325,7 +318,7 @@ class ItemTest extends TestCase
      */
     public function testItemDetailDisplaysAllNecessaryInformation()
     {
-        // ユーザーとカテゴリと商品を作成
+        // ユーザーとカテゴリと商品の状態とブランドと商品を作成
         $user = User::factory()->create(['name' => 'テストユーザー', 'image' => 'test_user_icon.jpg']);
         $category = Category::factory()->create(['name' => 'テストカテゴリー']);
         $condition = Condition::factory()->create(['name' => '良好']);
@@ -340,7 +333,7 @@ class ItemTest extends TestCase
             'condition_id' => $condition->id,
         ]);
 
-        // カテゴリー登録
+        // カテゴリーを登録する
         $item->categories()->attach($category->id);
 
         // お気に入り追加(いいね)
@@ -357,7 +350,7 @@ class ItemTest extends TestCase
 
         $response->assertStatus(200);
 
-        // 商品に関する必要な情報が画面に表示されているか確認
+        // 商品に関する必要な情報が画面に表示されているか
         $response->assertSee('テスト商品');
         $response->assertSee('¥3,000');
         $response->assertSee('ブランド名');
@@ -365,11 +358,11 @@ class ItemTest extends TestCase
         $response->assertSee('テストカテゴリー');
         $response->assertSee('良好');
 
-        // いいね・コメント数
+        // いいね・コメント数が表示されるか
         $response->assertSee('class="favorite_count"', false);
         $response->assertSee('class="comment_count"', false);
 
-        // コメント情報
+        // コメント情報が表示されるか
         $response->assertSee('コメント(1)');
         $response->assertSee('テストユーザー');
         $response->assertSee('これはテストコメントです。');
@@ -389,7 +382,7 @@ class ItemTest extends TestCase
             'title' => 'テスト商品',
         ]);
 
-        // 商品にカテゴリを紐付け
+        // 商品にカテゴリを紐付ける
         $item->categories()->attach($categories->pluck('id')->toArray());
 
         // 商品詳細ページにアクセス
@@ -428,7 +421,7 @@ class ItemTest extends TestCase
         // リダイレクト確認(通常は元のページへ)
         $response->assertRedirect();
 
-        // お気に入り登録されたかデータベースで確認
+        // お気に入り登録されたかデータベースで確認する
         $this->assertDatabaseHas('favorites', [
             'user_id' => $user->id,
             'item_id' => $item->id,
@@ -449,7 +442,7 @@ class ItemTest extends TestCase
         $user = User::factory()->create();
         $item = Item::factory()->create();
 
-        // お気に入り登録
+        // お気に入りに登録する
         $user->favorites()->attach($item->id);
 
         // 再度リレーションをロードしておく(特にfavorites)
@@ -457,8 +450,6 @@ class ItemTest extends TestCase
 
         // ログイン状態で商品詳細ページにアクセス
         $response = $this->actingAs($user)->get("/item/{$item->id}");
-
-        $response->dump();
 
         // 色付きアイコン(例: class="favorited_icon")が表示されていることを確認
         $response->assertSee('class="favorited_icon"', false);
@@ -478,7 +469,7 @@ class ItemTest extends TestCase
         // 事前にお気に入り追加しておく
         $user->favorites()->attach($item->id);
 
-        // お気に入り登録済みで1件
+        // お気に入り登録済みが1件あるか確認する
         $this->assertEquals(1, $item->favoritedByUsers()->count());
 
         // ログイン状態でお気に入り解除リクエストを送る
@@ -508,11 +499,11 @@ class ItemTest extends TestCase
     {
         /** @var \App\Models\User $user */
 
-        // ユーザーと商品を用意
+        // ユーザーと商品を作成する
         $user = User::factory()->create();
         $item = Item::factory()->create();
 
-        // ログインしてコメント投稿
+        // ログインしてコメント投稿する
         $response = $this->actingAs($user)->post(
             route('item.comment', ['item' => $item->id]), // ←ここでコメント送信のURLのitemパラメータを返す
             [
@@ -539,10 +530,10 @@ class ItemTest extends TestCase
      */
     public function testGuestCannotPostComment()
     {
-        // 商品を用意
+        // 商品を作成する
         $item = Item::factory()->create();
 
-        // コメントをPOST(ログインしていない状態)
+        // ログインしていない状態でコメントを送信する（POST）
         $response = $this->post(route('item.comment', ['item' => $item->id]), [
             'comment' => 'ゲストのコメント',
         ]);
@@ -566,10 +557,11 @@ class ItemTest extends TestCase
     public function testCommentValidationFailsWhenEmpty()
     {
         /** @var \App\Models\User $user */
-        // ユーザーと商品を用意
+        // ユーザーと商品を作成する
         $user = User::factory()->create();
         $item = Item::factory()->create();
 
+        // 何も書かない状態でコメントを送信する
         $response = $this->actingAs($user)->post(route('item.comment', ['item' => $item->id]), [
             'comment' => '', // 空で送信
         ]);
@@ -598,12 +590,12 @@ class ItemTest extends TestCase
         // 256文字のコメントを作成
         $longComment = str_repeat('あ', 256); // 256文字
 
-        // ログイン状態でコメント送信
+        // ログイン状態でコメント送信する
         $response = $this->actingAs($user)->post(route('item.comment', ['item' => $item->id]), [
             'comment' => $longComment,
         ]);
 
-        // バリデーションエラーが発生していること
+        // バリデーションエラーが発生しているか
         $response->assertSessionHasErrors(['comment']);
 
         // コメントが保存されてないことを確認
