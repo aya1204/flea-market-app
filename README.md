@@ -28,11 +28,11 @@
 
 ### Laravel環境構築
 
-1. Laravelのパッケージのインストール
+1. PHPコンテナに移動してLaravelのパッケージのインストール
+    docker-compose exec php bash
     composer install
 
-2. PHPコンテナに移動して'.env.example'の内容をコピーして'.env'を作成
-    docker-compose exec php bash
+2. '.env.example'の内容をコピーして'.env'を作成
     cp .env.example .env
 
 3. .envファイルを編集し、以下の環境変数を設定してください。
@@ -72,14 +72,16 @@
     curl -o src/storage/app/public/images/外出メイクアップセット.jpg "https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/%E5%A4%96%E5%87%BA%E3%83%A1%E3%82%A4%E3%82%AF%E3%82%A2%E3%83%83%E3%83%95%E3%82%9A%E3%82%BB%E3%83%83%E3%83%88.jpg"
 
 8. ユーザーアイコン、favoriteアイコン、commentアイコン、COACHTECHロゴを保存する
-画像はsrc/storage/app/public/images フォルダに保存してください。
-必要な画像ファイルは以下URLからダウンロード可能です。
-    - https://www.dropbox.com/scl/fi/h33nr2bl9qmeb5d97c93b/user1_icon.png?rlkey=dlqan9c4c8v6cxible504hrcl&st=1228s52v&dl=0（user1_icon.pngとして保存）
-    - https://www.dropbox.com/scl/fi/jkiscepmcxodstxitoici/user2_icon.png?rlkey=3dm5zqv5ho6qqxmmtr0yfn5cf&st=q4gn2q2g&dl=0（user2_icon.pngとして保存）
-    - https://www.dropbox.com/scl/fi/7obivehya19de01uctsb9/user3_icon.png?rlkey=vrmha6ofqt51fhl6m0ub33ecf&st=ur9ru88r&dl=0（user3_icon.pngとして保存）
-    - https://www.dropbox.com/scl/fi/5w4uykyiu607ancm2u5u9/favorite_icon.png?rlkey=5dci5ufi4g6w47nx1qjv6lv7g&st=186k0hw8&dl=0（favorite_icon.pngとして保存する）
-    - https://www.dropbox.com/scl/fi/0woeu6q6wdc93c5o2xecs/comment_icon.png?rlkey=m6ea6gsboc4yllvlllsqua4en&st=jong8q3m&dl=0（comment_icon.pngとして保存）
-    https://www.dropbox.com/scl/fi/3lldzhq91bo2ytzkel6nf/logo.svg?rlkey=b5185j7e9pmpmdb965f49h3ye&st=4sgoqg8q&dl=0（logo.svgとして保存する）
+
+画像は下記URLよりダウンロードの上、`src/storage/app/public/images`フォルダに保存してください。
+※ ファイル名は必ず指定された名前で保存してください。
+
+- [user1_icon.png] (https://www.dropbox.com/scl/fi/h33nr2bl9qmeb5d97c93b/user1_icon.png?rlkey=dlqan9c4c8v6cxible504hrcl&st=1228s52v&dl=0)
+- [user2_icon.png] (https://www.dropbox.com/scl/fi/jkiscepmcxodstxitoici/user2_icon.png?rlkey=3dm5zqv5ho6qqxmmtr0yfn5cf&st=q4gn2q2g&dl=0)
+- [user3_icon.png] (https://www.dropbox.com/scl/fi/7obivehya19de01uctsb9/user3_icon.png?rlkey=vrmha6ofqt51fhl6m0ub33ecf&st=ur9ru88r&dl=0)
+- [favorite_icon.png] (https://www.dropbox.com/scl/fi/5w4uykyiu607ancm2u5u9/favorite_icon.png?rlkey=5dci5ufi4g6w47nx1qjv6lv7g&st=186k0hw8&dl=0)
+- [comment_icon.png] (https://www.dropbox.com/scl/fi/0woeu6q6wdc93c5o2xecs/comment_icon.png?rlkey=m6ea6gsboc4yllvlllsqua4en&st=jong8q3m&dl=0)
+- [logo.svg] (https://www.dropbox.com/scl/fi/3lldzhq91bo2ytzkel6nf/logo.svg?rlkey=b5185j7e9pmpmdb965f49h3ye&st=4sgoqg8q&dl=0)
 
 9. 新規登録ユーザーや出品する商品の画像保存について
 
@@ -87,11 +89,11 @@
 画像は下記URLよりダウンロードの上、`src/storage/app/public/images`フォルダに保存してください。
 ※ ファイル名は必ず指定された名前で保存してください。
 
-- [kiwi.png](https://www.dropbox.com/scl/fi/yv6ad46qho8o9x9t2jb4w/kiwi.png?rlkey=62v6zy2adubnnawk2xgxi4iln&st=vg99k2xf&dl=0)
-- [hoodie.png](https://www.dropbox.com/scl/fi/g5uxp753tosipuu0n3bq4/hoodie.png?rlkey=yvp1w6iil50ezibb4sna0fj6v&st=woz6086r&dl=0)
-- [みかん.png](https://www.dropbox.com/scl/fi/em7ppanps29pwh9km3cci/.png?rlkey=2rsx9q97srsyxcsbafxdi3ed6&st=kb85fwum&dl=0)
-- [sneakers_red.png](https://www.dropbox.com/scl/fi/23trl2x4lwlbh5hrxhvoo/sneakers_red.png?rlkey=zm6o1mcbyeru7dci0v8rkcx5w&st=c3pupn3d&dl=0)
--[sandwich.png](https://www.dropbox.com/scl/fi/kdg0vbwtthecbtwazc0kz/sandwich.png?rlkey=onmz6ig0yzdnacb2se4rfyc5h&st=jnpgxfxj&dl=0)
+- [kiwi.png] (https://www.dropbox.com/scl/fi/yv6ad46qho8o9x9t2jb4w/kiwi.png?rlkey=62v6zy2adubnnawk2xgxi4iln&st=vg99k2xf&dl=0)
+- [hoodie.png] (https://www.dropbox.com/scl/fi/g5uxp753tosipuu0n3bq4/hoodie.png?rlkey=yvp1w6iil50ezibb4sna0fj6v&st=woz6086r&dl=0)
+- [みかん.png] (https://www.dropbox.com/scl/fi/em7ppanps29pwh9km3cci/.png?rlkey=2rsx9q97srsyxcsbafxdi3ed6&st=kb85fwum&dl=0)
+- [sneakers_red.png] (https://www.dropbox.com/scl/fi/23trl2x4lwlbh5hrxhvoo/sneakers_red.png?rlkey=zm6o1mcbyeru7dci0v8rkcx5w&st=c3pupn3d&dl=0)
+-[sandwich.png] (https://www.dropbox.com/scl/fi/kdg0vbwtthecbtwazc0kz/sandwich.png?rlkey=onmz6ig0yzdnacb2se4rfyc5h&st=jnpgxfxj&dl=0)
 
 ご自由にアプリの動作確認用としてご利用ください。
 
@@ -101,20 +103,22 @@
     exit
 
 
-
 ## 単体テスト環境構築
 1. MySQLにログインする
     mysql -u root -p
     root
+
 2. MySqlコンテナ内でflea_market_testデータベースを作成
     CREATE DATABASE flea_market_test;
     SHOW DATABASES;
     (flea_market_testが表示されたらOK)
     exit
     exit
+
 3. PHPコンテナ内で.env.testingファイルを作成
     docker-compose exec php bash
     cp .env .env.testing
+
 4. 作成できたら編集する
     APP_ENV=testing
     APP_KEY=
@@ -122,8 +126,10 @@
     DB_DATABASE=flea_market_test
     DB_USERNAME=root
     DB_PASSWORD=root
+
 5. APP_KEYに新たなテスト用のアプリケーションキーを加える
     php artisan key:generate --env=testing
+
 6. キャッシュの削除をする
     php artisan config:clear
 
@@ -136,10 +142,12 @@
 - Composer version 2.8.9
 - MySQL 8.0.26
 
+
 ## メール認証について
 本アプリではユーザー登録後、メール認証を行うことでログインが完了します。
 ローカル開発環境では Mailhog を使用し、 http://localhost:8025 で確認可能です。
 テストユーザーはすでにメール認証済みにしています。
+
 
 ## ER図
 - users ↔︎ items：１対多
@@ -169,8 +177,10 @@
 - プロフィール画面_購入した商品一覧：http://localhost/mypage?tab=buy
 - プロフィール画面_出品した商品一覧：http://localhost/mypage?tab=sell
 
+
 ## シーディングされたユーザー情報
 ユーザーアイコンはsrc/storage/app/public/imagesの中にあります。
+
 - **ユーザー1**
     - メールアドレス：`test@example.com`
     - パスワード：`password`
@@ -178,6 +188,7 @@
     - 郵便番号：123-4567
     - 住所：東京都渋谷区千駄ヶ谷1-2-3
     - 建物名：千駄ヶ谷マンション101
+
 - **ユーザー2**
     - メールアドレス：`test2@example.com`
     - パスワード：`password`
@@ -185,6 +196,7 @@
     - 郵便番号：123-4567
     - 住所：東京都渋谷区千駄ヶ谷1-2-3
     - 建物名：千駄ヶ谷マンション102
+
 - **ユーザー3**
     - メールアドレス：`test3@example.com`
     - パスワード：`password`
@@ -196,6 +208,7 @@
 
 ## 新規登録ユーザーの例
 ユーザーアイコンはsrc/storage/app/public/imagesの中にあります。
+
 - **新規登録ユーザー**
     - メールアドレス：`kiwi@example.com`
     - パスワード：`password`
