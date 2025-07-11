@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Database\Schema\ForeignIdColumnDefinition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -118,7 +117,7 @@ class AuthTest extends TestCase
      */
     public function testUserCanCreate()
     {
-        $response = $this->withMiddleware()->post('/register', [
+        $response = $this->post('/register', [
             'name' => 'テストユーザー',
             'email' => 'testabc@example.com',
             'password' => 'password123',
