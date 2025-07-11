@@ -16,6 +16,11 @@ use Stripe\Checkout\Session as StripeSession;
 class PurchaseTest extends TestCase
 {
     use RefreshDatabase;
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
 
     /**
      * 商品購入機能
