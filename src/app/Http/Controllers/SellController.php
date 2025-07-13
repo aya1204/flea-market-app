@@ -44,6 +44,6 @@ class SellController extends Controller
             $item->categories()->attach($categoryIds);
         }
 
-        return redirect()->route('items.index')->with('success', '商品を出品しました。');
+        return redirect()->route('mypage', ['tab' => 'sell'])->with('success', '商品を出品しました。');
     }
 }
