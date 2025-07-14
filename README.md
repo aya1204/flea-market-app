@@ -179,7 +179,10 @@
 
 
 ## 単体テストの手順
+※ UserFactory、ItemFactory、CategoryFactory、ConditionFactory、BrandFactory などは、テストコード内でダミーデータ生成のために使用しています。アプリケーション本体では主にSeeder（例：ConditionsTableSeeder）を使用しています。
+
 ※そのままPHPコンテナ内でコマンド入力を行ってください。
+例）OK (1 test, 7 assertions) こんな感じで表示されたらテスト成功です。
 
 ### 1. AuthTestの単体テスト確認
     vendor/bin/phpunit tests/Feature/AuthTest.php
@@ -191,6 +194,19 @@
     vendor/bin/phpunit tests/Feature/PurchaseTest.php
 
 ### 4. SellTestの単体テスト確認
+SellTest実行前に、以下のコマンドでGD拡張をインストールしてください。
+①必要なパッケージをインストール
+    apt update
+    apt install -y libpng-dev libjpeg-dev libfreetype6-dev
+②GDの設定とインストール
+    docker-php-ext-configure gd --with-freetype --with-jpeg
+    docker-php-ext-install gd
+    exit
+③PHPモジュールにgdが含まれているか確認
+    php -m | grep gd
+(gdと表示されたらOK)
+④PHPコンテナに入ってSellTest実行
+    docker-compose exec php bash
     vendor/bin/phpunit tests/Feature/SellTest.php
 
 
