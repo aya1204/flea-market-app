@@ -53,7 +53,7 @@
                 <div class="form__error">
                     @error('password')
                     <!-- 「パスワードと一致しません」以外（必須、8文字以上）ここに表示 -->
-                    @if ($message !== 'パスワードと一致しません'))
+                    @if ($message !== 'パスワードと一致しません')
                     {{ $message }}
                     @endif
                     @enderror
@@ -71,7 +71,7 @@
                 <div class="form__error">
                     @error('password')
                     <!-- 「パスワードと一致しません」エラーだけここに表示 -->
-                    @if ($message === 'パスワードと一致しません'))
+                    @if ($message === 'パスワードと一致しません')
                     {{ $message }}
                     @endif
                     @enderror
