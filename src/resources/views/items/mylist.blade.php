@@ -29,25 +29,27 @@ $keyword = request('item_name') ?? session('search_keyword');
     <!-- 商品一覧 -->
     <div class="item">
         <div class="item-row">
-
             @if ($tab === 'mylist' && $show_message)
             <p class="show_message">マイリストを表示するにはログインしてください。</p>
             @endif
-            @foreach($items as $item)
-            <a href="{{ route('items.show', $item->id) }}" class="item-card-link">
-                <div class="item-card">
-                    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="item-image">
-                    {{-- 購入済みならSold表示 --}}
-                    @if ($item->is_sold)
-                    <span class="sold_label">Sold</span>
-                    @endif
-                    <h5 class="title-header">
-                        <span class="item-title">{{ $item->title }}</span>
-                    </h5>
-                </div>
-            </a>
-            @endforeach
+            <div class="right_column">
+                @foreach($items as $item)
+                <a href="{{ route('items.show', $item->id) }}" class="item-card-link">
+                    <div class="item-card">
+                        <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="item-image">
+                        {{-- 購入済みならSold表示 --}}
+                        @if ($item->is_sold)
+                        <span class="sold_label">Sold</span>
+                        @endif
+                        <h5 class="title-header">
+                            <span class="item-title">{{ $item->title }}</span>
+                        </h5>
+                    </div>
+                </a>
+                @endforeach
+            </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
