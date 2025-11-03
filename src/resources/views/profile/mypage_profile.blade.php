@@ -32,6 +32,25 @@
                     <input type="text" name="name" value="{{ old('name', Auth::user()->name) }}" class="text-box">
                 </div>
                 <div class="profile">
+                    <label class="birth_year" for="birth_year">生年月日</label>
+                    <select name="birth_year" id="birth_year" class="birth_year">
+                        @for ($year = now()->year; $year >= 1900; $year--)
+                        <option value="{{ $year }}" {{ old('birth_year', Auth::user()->birth_year) == $year ? 'selected' : ''}}>{{ $year }}</option>
+                        @endfor
+                    </select>年
+                    <select name="birth_month" id="birth_month" class="birth_month">
+                        @for ($month = 1; $month <= 12; $month++)
+                            <option value="{{ $month }}" {{ old('birth_month', Auth::user()->birth_month) == $month ? 'selected' : ''}}>{{ $month }}</option>
+                            @endfor
+                    </select>月
+                    <select name="birth_day" id="birth_day" class="birth_day">
+                        @for ($day = 1; $day <= 31; $day++)
+                            <option value="{{ $day }}" {{ old('birth_day', Auth::user()->birth_day) == $day ? 'selected' : ''}}>{{ $day }}</option>
+                            @endfor
+                    </select>日
+                    <!-- <input id="birthday_year" type="text" name="postal_code" value="{{ old('postal_code', Auth::user()->postal_code) }}" class="text-box"> -->
+                </div>
+                <div class="profile">
                     <label class="postal_code" for="postal_code">郵便番号</label>
                     <input id="postal_code" type="text" name="postal_code" value="{{ old('postal_code', Auth::user()->postal_code) }}" class="text-box">
                 </div>

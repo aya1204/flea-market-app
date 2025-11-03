@@ -52,6 +52,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'postal_code',
         'address',
         'building',
+        'birthday_year',
+        'birthday_month',
+        'birthday_day',
     ];
 
     /**

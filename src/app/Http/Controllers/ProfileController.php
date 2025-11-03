@@ -61,6 +61,11 @@ class ProfileController extends Controller
 
         //住所情報の更新
         $user->fill(array_merge($image_data, $address_data));
+
+        // 生年月日を登録する
+        $user->birth_year = $profileRequest->input('birth_year');
+        $user->birth_month = $profileRequest->input('birth_month');
+        $user->birth_day = $profileRequest->input('birth_day');
         $user->save();
 
         return redirect()->route('items.index', ['tab' => 'recommend'])->with('success', 'プロフィールを更新しました');

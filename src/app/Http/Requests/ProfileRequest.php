@@ -25,7 +25,10 @@ class ProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png'
+            'image' => 'nullable|image|mimes:jpeg,png',
+            'birth_year' => 'nullable|integer|min:1900|max:' . now()->year,
+            'birth_month' => 'nullable|integer|between:1,12',
+            'birth_day' => 'nullable|integer|between:1,31',
         ];
     }
 }
