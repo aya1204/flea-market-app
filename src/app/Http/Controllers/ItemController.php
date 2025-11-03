@@ -18,27 +18,30 @@ class ItemController extends Controller
      */
     private function getFilteredItems($tab, $keyword)
     {
-        $items = collect(); // 空のコレクション
+        // $items = collect(); // 空のコレクション
         $show_message = false;
+        $query = Item::query();
 
         // mylistタブの場合
         if ($tab === 'mylist') {
             // ログイン済みかチェック
             if (!auth()->check()) {
                 $show_message = true;
+                $query = Item::whereNull('id');
             } else {
                 /** @var \App\Models\User $user */
                 $user = auth()->user();
-                $query = $user->favorites()->with('categories');
+                // $query = $user->favorites()->with('categories');
+                $query = $user->favorites();
 
-                if (!empty($keyword)) {
-                    $query->where('title', 'like', '%' . $keyword . '%');
-                }
-                $items = $query->get();
+                // if (!empty($keyword)) {
+                //     $query->where('title', 'like', '%' . $keyword . '%');
+                // }
+                // $items = $query->get();
             }
         // 4. recommendタブ（デフォルト）
         } else {
-            $query = Item::query();
+            // $query = Item::query();
 
             // ログインしているかチェック
             if (auth()->check()) {
@@ -50,11 +53,12 @@ class ItemController extends Controller
                 $query->where('title', 'like', '%' . $keyword . '%');
             }
 
-            $items = $query->get();
+            // $items = $query->get();
         }
 
         return [
-            'items' => $items,
+            // 'items' => $items,
+            'items' => $query,
             'show_message' => $show_message,
         ];
     }
@@ -73,9 +77,22 @@ class ItemController extends Controller
         $result = $this->getFilteredItems($tab, $keyword);
 
         // 商品一覧を取り出す
-        $items = $result['items'];
+        // $items = $result['items'];
+        $query = $result['items'];
         // 「マイリストを表示するにはログインしてください」のメッセージを取り出す
         $show_message = $result['show_message'];
+
+        //価格で並び替え
+        if ($request->filled('sort_price')) {
+            $query->orderBy('price', $request->sort_price);
+        }
+
+        // 売り切れの商品は除外
+        if ($request->filled('only_available') && $request->only_available == 1) {
+            $query->available();
+        }
+
+        $items = $query->get();
 
         return view('items.mylist', [
         'items' => $items,
@@ -161,7 +178,7 @@ class ItemController extends Controller
         $result = $this->getFilteredItems($tab, $keyword);
 
         return view('items.mylist', [
-            'items' => $result['items'],
+            'items' => $result['items']->get(),
             'tab' => $tab,
             'show_message' => $result['show_message'],
         ]);

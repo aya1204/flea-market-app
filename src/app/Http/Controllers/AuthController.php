@@ -36,10 +36,16 @@ class AuthController extends Controller
     {
         // テストならメール認証スキップ後プロフィール編集画面へ遷移
         if (app()->environment('testing')) {
+            $birthday_year = $request->input('birthday_year');
+            $birthday_month = $request->input('birthday_month');
+            $birthday_day = $request->input('birthday_day');
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'birthday_year' => $birthday_year,
+                'birthday_month' => $birthday_month,
+                'birthday_day' => $birthday_day,
                 'email_verified_at' => now(),
             ]);
 
@@ -54,6 +60,9 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'birth_year' => $request->input('birth_year'),
+            'birth_month' => $request->input('birth_month'),
+            'birth_day' => $request->input('birth_day'),
         ]);
 
         Auth::login($user);

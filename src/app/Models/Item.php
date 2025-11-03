@@ -75,4 +75,10 @@ class Item extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    // 売り切れていない商品だけを表示
+    public function scopeAvailable($query)
+    {
+        return $query->whereNull('purchase_user_id');
+    }
 }
