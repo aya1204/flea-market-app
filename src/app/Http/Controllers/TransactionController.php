@@ -68,4 +68,20 @@ class TransactionController extends Controller
 
         return redirect()->route('transaction.show', $transactionId)->withInput();
     }
+
+    // 取引メッセージ削除
+    public function deleteMessage($messageId)
+    {
+        $message = TransactionMessage::findOrFail($messageId);
+
+        // 自分のメッセージか確認
+        if ($message->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $transaction = $message->transaction;
+        $message->delete();
+
+        return redirect()->route('transaction.show', $transaction->id)->with('success', 'メッセージを削除しました');
+    }
 }
