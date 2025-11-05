@@ -84,4 +84,36 @@ class TransactionController extends Controller
 
         return redirect()->route('transaction.show', $transaction->id)->with('success', 'メッセージを削除しました');
     }
+
+    // 取引完了
+    public function complete($transactionId)
+    {
+        $transaction = Transaction::findOrFail($transactionId);
+
+        // 取引の関係あるユーザーか確認
+        if ($transaction->seller_user_id !== auth()->id() &&
+            $transaction->purchase_user_id !== auth()->id()) {
+                abort(403);
+            }
+
+            $transaction->update(['status' => 'completed']);
+
+            return redirect()->route('mypage', ['tab' => 'transaction'])->with('success', '取引が完了しました');
+    }
+
+    // 送信済みメッセージを編集する
+    public function updateMessage(TransactionMessageRequest $request, $messageId)
+    {
+        $message = TransactionMessage::findOrFail($messageId);
+
+        if ($message->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $message->update([
+            'message' => $request->message
+        ]);
+
+        return redirect()->back();
+    }
 }
