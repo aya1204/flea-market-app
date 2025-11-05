@@ -8,6 +8,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sell', [SellController::class, 'index'])->name('sell');
     // 出品処理
     Route::post('/sell', [SellController::class, 'create'])->name('sell.create');
+
+    // 取引チャットページ表示
+    Route::get('/transaction/{item}', [TransactionController::class, 'show'])->name('transaction.show');
 });
 
 
