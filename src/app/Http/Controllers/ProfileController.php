@@ -31,7 +31,7 @@ class ProfileController extends Controller
 
         if ($tab === 'buy') {
             /** @var \App\Models\User $user */
-            $items = $user->purchases()->with('item')->get();
+            $items = $user->purchases()->with('transaction.item')->get();
         } elseif ($tab === 'sell') {
             /** @var \App\Models\User $user */
             $items = $user->itemsForSale()->with('transaction.messages')->get();
