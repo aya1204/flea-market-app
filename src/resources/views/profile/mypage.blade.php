@@ -30,7 +30,6 @@
 
 <div class="item__tab-buttons">
     <!-- 未読の取引メッセージがある場合通知マークを表示する -->
-    @if ($transactionTabUnread > 0)
     <a href="{{ url('/mypage?tab=sell') }}" class="item__button-submit-second {{ $tab === 'sell' ? 'active' : '' }}">出品した商品</a>
     <a href="{{ url('/mypage?tab=buy') }}" class="item__button-submit-second {{ $tab === 'buy' ? 'active' : ''}}">購入した商品</a>
     <a href="{{ url('/mypage?tab=transaction') }}" class="item__button-submit-second {{ $tab === 'transaction' ? 'active' : ''}}">取引中の商品
@@ -60,9 +59,9 @@
 
     <a href="{{ $link }}" class="item-card-link">
         <div class="item-card">
-            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="item-image">
+            <img src="{{ asset('storage/' . ($tab === 'buy' ? $item->item->image : $item->image)) }}" alt="{{ $tab === 'buy' ? $item->item->image : $item->image }}" class="item-image">
             <h5 class="title-header">
-                <span class="item-title">{{ $item->title }}</span>
+                <span class="item-title">{{ $tab === 'buy' ? $item->item->title : $item->title }}</span>
             </h5>
             {{-- 未読バッジは取引中タグの時だけ表示 --}}
             @if ($tab === 'transaction')
