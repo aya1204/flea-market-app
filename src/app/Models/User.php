@@ -52,6 +52,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Transaction::class, 'purchase_user_id');
     }
 
+    // 出品・購入両方の取引をまとめて取得
+    public function transactions()
+    {
+        return $this->transactionsAsSeller->merge($this->transactionsAsBuyer);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
