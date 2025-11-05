@@ -8,6 +8,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sell', [SellController::class, 'index'])->name('sell');
     // 出品処理
     Route::post('/sell', [SellController::class, 'create'])->name('sell.create');
+
+    // 取引チャットページ表示
+    Route::get('/transaction/{item}', [TransactionController::class, 'show'])->name('transaction.show');
+    // 取引メッセージ送信
+    Route::post('/transaction/{item}', [TransactionController::class, 'sendMessage'])->name('transaction.message.send');
+    // 取引メッセージ完了
+    Route::post('/transaction/{transaction}/complete', [TransactionController::class, 'complete'])->name('transaction.complete');
+    // 取引メッセージ編集
+    Route::put('/transaction/message/{message}', [TransactionController::class, 'updateMessage'])->name('transaction.message.update');
+    // 取引メッセージ削除
+    Route::delete('/transaction/message/{message}', [TransactionController::class, 'deleteMessage'])->name('transaction.message.delete');
 });
 
 

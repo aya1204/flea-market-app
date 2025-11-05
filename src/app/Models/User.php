@@ -8,13 +8,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Item;
+use App\Models\Transaction;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'users';
-    
+
     // itemsテーブル(出品)と多対１の関係
     public function itemsForSale()
     {
@@ -37,6 +38,24 @@ class User extends Authenticatable implements MustVerifyEmail
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    // 出品者としての取引
+    public function transactionsAsSeller()
+    {
+        return $this->hasMany(Transaction::class, 'seller_user_id');
+    }
+
+    // 購入者としての取引
+    public function transactionsAsBuyer()
+    {
+        return $this->hasMany(Transaction::class, 'purchase_user_id');
+    }
+
+    // 出品・購入両方の取引をまとめて取得
+    public function transactions()
+    {
+        return $this->transactionsAsSeller->merge($this->transactionsAsBuyer);
     }
 
     /**

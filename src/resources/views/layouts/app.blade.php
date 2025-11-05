@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <header class="header {{ Route::is('login') || Route::is('register') || Route::is('verification.notice') ? 'header--centered' : ''}}">
+    <header class="header {{ Route::is('login') || Route::is('register') || Route::is('verification.notice') || Route::is('transaction.show') ? 'header--centered' : ''}}">
         <div class="header__container">
             <!-- ロゴ -->
             <div class="header__logo">
@@ -28,6 +28,7 @@
             'login', // ログイン画面
             'register', // 新規登録画面
             'verification.notice', // メール認証画面
+            'transaction.show', // 取引チャット画面
             ]);
             @endphp
 
@@ -39,9 +40,9 @@
                 @endphp
                 <form action="{{ route('items.search') }}" method="GET">
                     @if(request('tab') === 'mylist')
-                        <input type="hidden" name="tab" value="mylist">
+                    <input type="hidden" name="tab" value="mylist">
                     @endif
-                        <input class="keyword" type="text" name="item_name" value="{{ request('item_name') }}" placeholder="なにをお探しですか？">
+                    <input class="keyword" type="text" name="item_name" value="{{ request('item_name') }}" placeholder="なにをお探しですか？">
                 </form>
             </div>
 
