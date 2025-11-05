@@ -59,9 +59,9 @@
 
     <a href="{{ $link }}" class="item-card-link">
         <div class="item-card">
-            <img src="{{ asset('storage/' . ($tab === 'buy' ? $item->item->image : $item->image)) }}" alt="{{ $tab === 'buy' ? $item->item->image : $item->image }}" class="item-image">
+            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="item-image">
             <h5 class="title-header">
-                <span class="item-title">{{ $tab === 'buy' ? $item->item->title : $item->title }}</span>
+                <span class="item-title">{{ $item->title }}</span>
             </h5>
             {{-- 未読バッジは取引中タグの時だけ表示 --}}
             @if ($tab === 'transaction')
