@@ -75,4 +75,10 @@ class Item extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    // 商品に紐づいた取引情報を取得
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class, 'item_id');
+    }
 }
