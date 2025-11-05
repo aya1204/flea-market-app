@@ -31,8 +31,6 @@
 <div class="item__tab-buttons">
     <!-- 未読の取引メッセージがある場合通知マークを表示する -->
     @if ($transactionTabUnread > 0)
-    <span class="tab-notification-badge">{{ $transactionTabUnread}}</span>
-    @endif
     <a href="{{ url('/mypage?tab=sell') }}" class="item__button-submit-second {{ $tab === 'sell' ? 'active' : '' }}">出品した商品</a>
     <a href="{{ url('/mypage?tab=buy') }}" class="item__button-submit-second {{ $tab === 'buy' ? 'active' : ''}}">購入した商品</a>
     <a href="{{ url('/mypage?tab=transaction') }}" class="item__button-submit-second {{ $tab === 'transaction' ? 'active' : ''}}">取引中の商品
