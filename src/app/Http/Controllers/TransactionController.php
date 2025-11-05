@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\TransactionMessage;
+use App\Http\Requests\TransactionMessageRequest;
 
 class TransactionController extends Controller
 {
@@ -38,5 +40,32 @@ class TransactionController extends Controller
         $items = $transactions->pluck('item');
 
         return view('transaction.message', compact('transactions', 'currentTransaction', 'items'));
+    }
+
+    // 取引メッセージ送信
+    public function sendMessage(TransactionMessageRequest $request, $transactionId)
+    {
+        $transaction = Transaction::findOrFail($transactionId);
+
+        if ($transaction->seller_user_id !== auth()->id() &&
+            $transaction->purchase_user_id !== auth()->id()) {
+                abort(403);
+        }
+
+        $data = [
+            'transaction_id' => $transactionId,
+            'user_id' => auth()->id(),
+            'message' => $request->message,
+            'is_read' => false,
+        ];
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('transaction_images', 'public');
+            $data['image'] = $path;
+        }
+
+        TransactionMessage::create($data);
+
+        return redirect()->route('transaction.show', $transactionId)->withInput();
     }
 }
