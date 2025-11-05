@@ -7,6 +7,7 @@ use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Transaction;
 
 class ProfileController extends Controller
 {
@@ -19,18 +20,33 @@ class ProfileController extends Controller
 
         $tab = $request->query('tab', 'sell');
 
+        $allTransactions = Transaction::where('seller_user_id', $user->id)
+            ->orWhere('purchase_user_id', $user->id)
+            ->with('messages')
+            ->get();
+
+        $transactionTabUnread = $allTransactions->sum(function ($t) use ($user) {
+            return $t->messages->where('user_id', '!=', $user->id)->where('is_read', false)->count();
+        });
+
         if ($tab === 'buy') {
-            $items = $user->purchases;
+            /** @var \App\Models\User $user */
+            $items = $user->purchases()->with('item')->get();
         } elseif ($tab === 'sell') {
-            $items = $user->itemsForSale;
+            /** @var \App\Models\User $user */
+            $items = $user->itemsForSale()->with('transaction.messages')->get();
+        } elseif ($tab === 'transaction') {
+            // 取引中の商品を取得（購入者または出品者が関与している商品）
+            $transactions = $allTransactions->sortByDesc(fn($t) => optional($t->messages->first())->created_at); // 最新メッセージ順
+            $items = $transactions->pluck('item');
         } else {
-            $items = null;
+            $items = collect(); // 空のコレクション
         }
 
         if ($request->query('status') === 'success' && $request->query('session_id')) {
             session()->flash('success', '商品を購入しました。');
         }
-        return view('profile.mypage', compact('user', 'tab', 'items'));
+        return view('profile.mypage', compact('user', 'tab', 'items', 'transactionTabUnread'));
     }
 
     /**
