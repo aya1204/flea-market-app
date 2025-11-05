@@ -77,6 +77,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/transaction/{item}', [TransactionController::class, 'sendMessage'])->name('transaction.message.send');
     // 取引メッセージ完了
     Route::post('/transaction/{transaction}/complete', [TransactionController::class, 'complete'])->name('transaction.complete');
+    // 取引メッセージ編集
+    Route::put('/transaction/message/{message}', [TransactionController::class, 'updateMessage'])->name('transaction.message.update');
+    // 取引メッセージ削除
+    Route::delete('/transaction/message/{message}', [TransactionController::class, 'deleteMessage'])->name('transaction.message.delete');
 });
 
 
