@@ -22,7 +22,8 @@ class Item extends Model
         'seller_user_id',
         'postal_code',
         'address',
-        'building'
+        'building',
+        'is_sold',
     ];
 
     // テーブル名の指定
