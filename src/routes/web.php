@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/transaction/message/{message}', [TransactionController::class, 'updateMessage'])->name('transaction.message.update');
     // 取引メッセージ削除
     Route::delete('/transaction/message/{message}', [TransactionController::class, 'deleteMessage'])->name('transaction.message.delete');
+    // 取引の評価完了
+    Route::post('/transactions/{transaction}/review', [TransactionController::class, 'storeReview'])->name('transaction.review.store');
 });
 
 
