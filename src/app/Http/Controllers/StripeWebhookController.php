@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Transaction;
+use Illuminate\Support\Facades\Log;
+
 
 class StripeWebhookController extends Controller
 {
@@ -30,9 +33,11 @@ class StripeWebhookController extends Controller
                 $endpointSecret
             );
         } catch (\UnexpectedValueException $e) {
+            Log::error('Webhook payload error: ' . $e->getMessage());
             // 無効な payload
             return response()->json(['error' => 'Invalid payload'], 400);
         } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            Log::error('Webhook signature error: ' . $e->getMessage());
             // 署名の検証失敗
             return response()->json(['error' => 'Invalid signature'], 400);
         }
@@ -44,7 +49,7 @@ class StripeWebhookController extends Controller
 
             // セッションに保存した商品IDを取得
             $item_id = $session->metadata->item_id;
-            $user_id = $session->metadata->purchase_user_id;
+            $user_id = $session->metadata->user_id;
             $postal_code = $session->metadata->postal_code;
             $address = $session->metadata->address;
             $building = $session->metadata->building;
@@ -61,6 +66,16 @@ class StripeWebhookController extends Controller
                     'address' => $address,
                     'building' => $building,
                 ]);
+
+                // Transactionも作成
+                if (!$item->transaction) {
+                    Transaction::create([
+                        'item_id' => $item->id,
+                        'seller_user_id' => $item->seller_user_id,
+                        'purchase_user_id' => $user_id,
+                        'status' => 'in_progress',
+                    ]);
+                }
             }
         }
 
