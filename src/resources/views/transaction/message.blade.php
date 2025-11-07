@@ -13,7 +13,6 @@
         @foreach ($items as $item)
         <a href="{{ route('transaction.show', $item->transaction->id) }}" class="item-card-link">
             <div class="item-card">
-                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="item-image">
                 <h5 class="title-header">
                     <span class="item-title">{{ $item->title }}</span>
                 </h5>
@@ -31,17 +30,17 @@
         @endforeach
         {{-- @forelse($transactions as $transaction)
         <a href="{{ route('transaction.show', $transaction->id) }}">
-            <div class="item-info">
-                <h3 class="item-name">{{ $transaction->item->title }}</h3>
-                @php
-                $lastMessage = $transaction->messages->first();
-                $unread = $transaction->unreadCountForUser(auth()->id());
-                @endphp
-            </div>
+        <div class="item-info">
+            <h3 class="item-name">{{ $transaction->item->title }}</h3>
+            @php
+            $lastMessage = $transaction->messages->first();
+            $unread = $transaction->unreadCountForUser(auth()->id());
+            @endphp
+        </div>
 
-            @if ($unread > 0)
-            <span class="badge">{{ $unread }}</span>
-            @endif
+        @if ($unread > 0)
+        <span class="badge">{{ $unread }}</span>
+        @endif
         </a>
         @empty
         <p class="no-transactions">取引中の商品はありません</p>
@@ -59,29 +58,38 @@
         </div>
         <!-- 相手のユーザー名を表示 -->
         @php
-        $otherUser = $currentTransaction->seller_user_id === auth()->id()
-        ? $currentTransaction->purchase
-        : $currentTransaction->seller;
+        $otherUser = $transaction->seller_user_id === auth()->id()
+        ? $transaction->purchase
+        : $transaction->seller;
         @endphp
-        <h2 class="transaction-title">「 {{$otherUser->name }} 」さんとの取引画面</h2>
+        <h2 class="transaction-title">
+            「 {{$otherUser->name }} 」さんとの取引画面
 
-        <form action="{{ route('transaction.complete', $currentTransaction->id) }}" method="POST" class="finish-button">
-            <button type="submit">取引を完了する</button>
-        </form>
+            {{-- 購入者が未評価の場合、購入者のみに取引完了ボタン表示 --}}
+            @if ($isBuyer && !$buyerHasReviewed)
+            <button type="button" id="open-rating-modal" class="finish-button">取引を完了する</button>
+
+            {{-- 購入者が評価済・出品者が未評価の場合、出品者にのみ完了ボタン表示 --}}
+            @elseif ($isSeller && $buyerHasReviewed && !$sellerHasReviewed)
+            <button type="button" id="open-rating-modal" class="finish-button">取引を完了する</button>
+
+            @endif
+
+        </h2>
     </div>
     <div class="chat-area">
-        @if($currentTransaction)
+        @if($transaction)
         <!-- 商品情報ヘッダー -->
         <div class="chat-header">
-            <img src="{{ asset('storage/' . $currentTransaction->item->image) }}">
+            <img src="{{ asset('storage/' . $transaction->item->image) }}">
             <div class="header-info">
-                <h2>{{ $currentTransaction->item->title}}</h2>
-                <p>¥{{ number_format($currentTransaction->item->price) }}</p>
+                <h2>{{ $transaction->item->title}}</h2>
+                <p>¥{{ number_format($transaction->item->price) }}</p>
             </div>
 
             <!-- メッセージ表示エリア -->
             <div class="messages-container">
-                @forelse($currentTransaction->messages->reverse() as $message)
+                @forelse($transaction->messages->reverse() as $message)
                 <div class="message" {{ $message->user_id === auth()->id() ? 'my-message' : 'other-message'}}>
                     <!-- ユーザーアイコンとユーザー名を横並び -->
                     <div class="message-user">
@@ -120,7 +128,7 @@
         </div>
 
         <!-- メッセージ送信フォーム -->
-        <form action="{{ route('transaction.message.send', $currentTransaction->id) }}" method="POST" class="message-form" enctype="multipart/form-data">
+        <form action="{{ route('transaction.message.send', $transaction->id) }}" method="POST" class="message-form" enctype="multipart/form-data">
             @csrf
 
             <!-- バリデーションエラー -->
@@ -131,7 +139,7 @@
             </div>
             @endif
 
-            <input type="file" name="image">
+            <input type="file" name="image" placeholder="画像を追加">
             @if ($errors->has('image'))
             <div class="alert-danger">
                 {{ $errors->first('image') }}
@@ -144,6 +152,26 @@
     </div>
     @endif
 </div>
+</div>
+
+<div id="rating-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <h3 class="modal-message">取引が完了しました。</h3>
+        <p class="modal-questions">今回の取引相手はどうでしたか？</p>
+
+        <form action="{{ route('transaction.review.store', $transaction->id) }}" method="POST" class="review-form">
+            @csrf
+
+            <div class="rating">
+                @for ($i = 5; $i >= 1; $i--)
+                <input type="radio" id="star{{$i}}" name="rating" value="{{$i}}">
+                <label for="star{{$i}}" title="{{$i}}つ星">★</label>
+                @endfor
+            </div>
+
+            <button type="submit" class="submit-rating">送信する</button>
+        </form>
+    </div>
 </div>
 
 @endsection
@@ -198,6 +226,16 @@
                 editForm.style.display = 'none';
                 messageContent.style.display = 'block';
             });
+        });
+        // モーダル開閉処理
+        document.getElementById('open-rating-modal').addEventListener('click', function() {
+            document.getElementById('rating-modal').style.display = 'block';
+        });
+
+        document.getElementById('rating-modal').addEventListener('click', function(event) {
+            if (event.target.classList.constains('modal-overlay')) {
+                document.getElementById('rating-modal'), style.display = none;
+            }
         });
     });
 </script>
