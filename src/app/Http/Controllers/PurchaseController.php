@@ -90,7 +90,7 @@ class PurchaseController extends Controller
             $session_data ['payment_method_types'] = ['konbini'];
             $session_data ['success_url'] = route('mypage', ['tab' => 'buy']) . '?session_id={CHECKOUT_SESSION_ID}&status=success'; // 成功後プロフィール画面へ
         } elseif ($payment_type === 'カード払い') {
-            $session_data['payment_method_types'] = ['konbini'];
+            $session_data['payment_method_types'] = ['card'];
             $session_data['success_url'] = route('items.show', ['item' => $item->id]) . '?status=success'; // 成功後商品詳細画面へ
         } else {
             return redirect()->back()->with('error', '支払い方法が選択されていません。');
