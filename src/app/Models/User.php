@@ -58,6 +58,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->transactionsAsSeller->merge($this->transactionsAsBuyer);
     }
 
+    public function averageRating()
+    {
+        // 自分がレビューされた評価の平均を計算
+        return $this->reviewsGiven()->avg('rating');
+    }
+
+    // ユーザーが受けたレビュー
+    public function reviewsGiven()
+    {
+        return $this->hasMany(TransactionReview::class, 'reviewee_id');
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *

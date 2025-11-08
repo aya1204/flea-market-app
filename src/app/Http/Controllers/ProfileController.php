@@ -16,7 +16,11 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
+        /** @var User $user */
         $user = auth()->user();
+
+        // 平均評価を計算して渡す
+        $averageRating = $user->averageRating();
 
         $tab = $request->query('tab', 'sell');
 
@@ -30,23 +34,29 @@ class ProfileController extends Controller
         });
 
         if ($tab === 'buy') {
-            /** @var \App\Models\User $user */
-            $items = $user->purchases()->with('transaction.item')->get();
+            $items = $user->purchases()->with('item')->get();
         } elseif ($tab === 'sell') {
-            /** @var \App\Models\User $user */
             $items = $user->itemsForSale()->with('transaction.messages')->get();
         } elseif ($tab === 'transaction') {
-            // 取引中の商品を取得（購入者または出品者が関与している商品）
-            $transactions = $allTransactions->sortByDesc(fn($t) => optional($t->messages->first())->created_at); // 最新メッセージ順
-            $items = $transactions->pluck('item');
+            $transactions = Transaction::where(function ($q) use ($user) {
+                $q->where('seller_user_id', $user->id)
+                    ->orWhere('purchase_user_id', $user->id);
+            })
+                ->where('status', Transaction::STATUS_IN_PROGRESS)
+                ->with(['item', 'messages'])
+                ->get()
+                ->sortByDesc(fn($t) => optional($t->messages->first())->created_at);
+
+            $items = $transactions->map(fn($t) => $t->item)->filter();
         } else {
-            $items = collect(); // 空のコレクション
+            $items = collect();
         }
 
         if ($request->query('status') === 'success' && $request->query('session_id')) {
             session()->flash('success', '商品を購入しました。');
         }
-        return view('profile.mypage', compact('user', 'tab', 'items', 'transactionTabUnread'));
+
+        return view('profile.mypage', compact('user', 'tab', 'items', 'transactionTabUnread', 'averageRating'));
     }
 
     /**
