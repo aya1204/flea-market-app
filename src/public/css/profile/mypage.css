@@ -91,22 +91,47 @@ body {
     text-align: right;
 }
 
-/* 出品した商品、購入した商品（選択した方） */
+/* 出品した商品、購入した商品、取引中の商品（選択したもの） */
 .item__button-submit-second.active {
     color: #FF0000;
 }
 
-/* 出品した商品、購入した商品（選択していない方） */
+/* 出品した商品、購入した商品、取引中の商品（選択していないもの） */
 .item__button-submit-second {
     color: #5F5F5F;
     text-decoration: none;
     padding: 20px 30px;
+    display: flex;
+}
+
+/* 新着通知バッジのform */
+.tab-notification-badge-form {
+    width: 27px;
+    height: 26px;
+    opacity: 1;
+    margin-left: 10px;
+    border-radius: 10px;
+    background: #FF0000;
+}
+
+/* 新着通知バッジ */
+.tab-notification-badge {
+    font-family: Inter;
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 24px;
+    color: #FFFFFF;
+    width: 27px;
+    height: 26px;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* 商品一覧1列のフォーム */
 .item-row {
     width: 100%;
-    /* height: 320px; */
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
@@ -157,9 +182,9 @@ body {
     /* ユーザー画像、名前、プロフィールを編集ボタンのフォーム */
     .profile {
         display: flex;
-        width: 100%;
+        width: 80%;
         justify-content: center;
-        margin: 50px 0;
+        margin: 67px auto;
     }
 
     /* ユーザー画像 */
@@ -168,11 +193,22 @@ body {
         height: 105px;
     }
 
+    /* 名前と評価部分 */
+    .user-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-grow: 1;
+        /* 名前と評価部分がスペースを埋めるようにする */
+        flex-direction: column;
+    }
+
     /* 名前 */
     .user_name {
         font-size: 25px;
         width: 175px;
-        height: 46px;
+        height: 16px;
+        margin: 11px auto;
     }
 
     /* プロフィールを編集ボタン */
@@ -184,7 +220,7 @@ body {
 
     /* タブのフォーム */
     .item__tab-buttons {
-        padding: 0 90px;
+        padding: 0 60px;
     }
 
     /* 選択済みタブ、未選択タブ */
@@ -192,6 +228,25 @@ body {
     .item__button-submit-second {
         font-size: 17px;
         padding: 14px 21px;
+        text-decoration: none;
+        padding: 16px 24px;
+        display: flex;
+    }
+
+    /* 新着通知バッジのform */
+    .tab-notification-badge-form {
+        width: 20px;
+        height: 20px;
+        margin-left: 6px;
+        margin-top: 2px;
+        border-radius: 8px;
+    }
+
+    /* 新着通知バッジ */
+    .tab-notification-badge {
+        font-size: 16px;
+        width: 20px;
+        height: 22px;
     }
 
     /* 商品カードのフォーム */

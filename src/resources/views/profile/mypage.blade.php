@@ -44,7 +44,9 @@
     <a href="{{ url('/mypage?tab=buy') }}" class="item__button-submit-second {{ $tab === 'buy' ? 'active' : ''}}">購入した商品</a>
     <a href="{{ url('/mypage?tab=transaction') }}" class="item__button-submit-second {{ $tab === 'transaction' ? 'active' : ''}}">取引中の商品
         @if ($transactionTabUnread > 0)
-        <span class="tab-notification-badge">{{ $transactionTabUnread }}</span>
+        <div class="tab-notification-badge-form">
+            <span class="tab-notification-badge">{{ $transactionTabUnread }}</span>
+        </div>
         @endif
     </a>
 </div>
