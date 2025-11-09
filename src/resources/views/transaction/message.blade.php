@@ -104,7 +104,7 @@
             <!-- メッセージ送信フォーム -->
             <form action="{{ route('transaction.message.send', $transaction->id) }}" method="POST" class="message-form" enctype="multipart/form-data">
                 @csrf
-                <textarea id="message-input" name="message" placeholder="メッセージを入力" rows="3"></textarea>
+                <textarea id="message-input" name="message" placeholder="取引メッセージを入力してください" rows="3" class="message-input"></textarea>
                 @if ($errors->has('message'))
                 <div class="alert-danger">{{ $errors->first('message') }}</div>
                 @endif
