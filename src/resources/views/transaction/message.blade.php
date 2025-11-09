@@ -45,7 +45,7 @@
                 「{{ $otherUser->name }}」さんとの取引画面
 
                 {{-- 購入者が未評価の場合のみボタン表示 --}}
-                @if ($isBuyer && !$buyerHasReviewed)
+                @if ($isBuyerLoggedIn && $transaction->status !== 'completed')
                 <button type="button" id="open-rating-modal" class="finish-button">取引を完了する</button>
                 @endif
             </h2>
