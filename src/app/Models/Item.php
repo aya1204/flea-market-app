@@ -82,4 +82,10 @@ class Item extends Model
     {
         return $this->hasOne(Transaction::class, 'item_id');
     }
+
+    // 最新の進行中取引を取得
+    public function latestTransaction()
+    {
+        return $this->hasOne(Transaction::class)->latestOfMany();
+    }
 }
