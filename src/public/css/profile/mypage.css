@@ -153,6 +153,28 @@ body {
     border-radius: 4px;
 }
 
+/* 商品画像と新着通知バッジのフォーム */
+.item-image-container {
+    position: relative;
+}
+
+/* 新着通知バッジ */
+.notification-badge {
+    position: absolute; /* 画像内で絶対位置に配置 */
+    top: 5px;
+    left: 5px;
+    background-color: #FF0000;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center; /* 中央にテキストを配置 */
+    align-items: center; /* 中央にテキストを配置 */
+}
+
 /* 商品画像 */
 .item-image {
     width: 290px;
@@ -254,6 +276,13 @@ body {
         width: 203px;
         height: 224px;
         margin: 17px;
+    }
+
+    .notification-badge {
+        font-size: 10px;
+        /* バッジのフォントサイズを調整 */
+        width: 18px;
+        height: 18px;
     }
 
     /* 商品画像 */

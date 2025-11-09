@@ -55,19 +55,33 @@
 @if (in_array($tab, ['buy', 'sell', 'transaction']) && isset($items))
 <div class="item-row">
     @foreach($items as $item)
+    {{-- 'transaction' タブの場合、取引詳細ページへのリンクを作成 --}}
+    @if ($tab === 'transaction')
     @php
-    // 'transaction' タブの場合、取引詳細ページへのリンクを作成
-    if ($tab === 'transaction') {
-    $link = route('transaction.show', $item->transaction->id);
-    } else {
-    // 'buy' または 'sell' タブの場合、商品詳細ページへのリンクを作成
-    $link = route('items.show', $item->id);
-    }
+    $transaction = $item->transaction;
+    // 取引IDを取得
+    $transactionId = $transaction ? $transaction->id : null;
     @endphp
 
-    <a href="{{ $link }}" class="item-card-link">
+    <a href="{{ route('transaction.show', ['transaction' => $transactionId]) }}" class="item-card-link">
         <div class="item-card">
-            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="item-image">
+            <div class="item-image-container">
+                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="item-image">
+
+                @if ($tab === 'transaction')
+                @php
+                $transaction = $item->transaction;
+                $unread = $transaction ? $transaction->unreadCountForUser(auth()->id()) : 0; // nullチェックを追加
+                @endphp
+
+                <p>Unread Count: {{ $unread }}</p> <!-- unreadの値を確認 -->
+
+                @if ($unread > 0)
+                <span class="notification-badge">{{ $unread }}</span>
+                @endif
+                @endif
+            </div>
+
             <h5 class="title-header">
                 <span class="item-title">{{ $item->title }}</span>
             </h5>
@@ -83,6 +97,7 @@
             @endif
         </div>
     </a>
+    @endif
     @endforeach
 </div>
 @endif

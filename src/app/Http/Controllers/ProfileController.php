@@ -14,6 +14,7 @@ class ProfileController extends Controller
     /**
      * プロフィール情報を表示（mypage含む）
      */
+    // ProfileController
     public function index(Request $request)
     {
         /** @var User $user */
@@ -29,8 +30,9 @@ class ProfileController extends Controller
             ->with('messages')
             ->get();
 
-        $transactionTabUnread = $allTransactions->sum(function ($t) use ($user) {
-            return $t->messages->where('user_id', '!=', $user->id)->where('is_read', false)->count();
+        // 取引メッセージの未読数を計算
+        $transactionTabUnread = $allTransactions->sum(function ($transaction) use ($user) {
+            return $transaction->messages->where('user_id', '!=', $user->id)->where('is_read', false)->count();
         });
 
         if ($tab === 'buy') {
@@ -52,10 +54,7 @@ class ProfileController extends Controller
             $items = collect();
         }
 
-        if ($request->query('status') === 'success' && $request->query('session_id')) {
-            session()->flash('success', '商品を購入しました。');
-        }
-
+        // ビューに渡すデータ
         return view('profile.mypage', compact('user', 'tab', 'items', 'transactionTabUnread', 'averageRating'));
     }
 
