@@ -49,16 +49,14 @@ class ProfileController extends Controller
                 $q->where('seller_user_id', $user->id)
                     ->orWhere('purchase_user_id', $user->id);
             })
-                // 2.さらにステータスが「取引中」のもののみに絞り込む
-                ->where('status', Transaction::STATUS_IN_PROGRESS)
+                // 2.キャンセル済みの取引は除外する
+                ->where('status', '!=', Transaction::STATUS_CANCELLED)
                 // 3.商品データとメッセージも事前に取得
                 ->with(['item', 'messages'])
                 ->get()
                 // 4.最新のメッセージ送信日時順で並び替え
                 ->sortByDesc(fn($t) => optional($t->messages->first())->created_at);
 
-            // 5.取得した取引リストから紐付く商品だけを抽出
-            // 取引が終わった商品は除外する
             $items = $transactions->map(fn($t) => $t->item)->filter();
         }
 
