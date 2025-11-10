@@ -22,7 +22,8 @@ class Item extends Model
         'seller_user_id',
         'postal_code',
         'address',
-        'building'
+        'building',
+        'is_sold',
     ];
 
     // テーブル名の指定
@@ -80,5 +81,11 @@ class Item extends Model
     public function transaction()
     {
         return $this->hasOne(Transaction::class, 'item_id');
+    }
+
+    // 最新の進行中取引を取得
+    public function latestTransaction()
+    {
+        return $this->hasOne(Transaction::class)->latestOfMany();
     }
 }

@@ -51,21 +51,13 @@ class PurchaseController extends Controller
             'building' => $request->input('building'),
         ]);
 
-        // 2. 商品に住所を保存
-        $item->update([
-            'postal_code' => $request->input('postal_code'),
-            'address' => $request->input('address'),
-            'building' => $request->input('building'),
-        ]);
-
-        // 3. Stripeセッション作成
+        // 2. Stripeセッション作成
         // Stripe APIキーをセット
         Stripe::setApiKey(config('services.stripe.secret'));
 
         // 支払い方法の取得
         $paymentmethod_id = $request->input('paymentmethod_id');
         $paymentmethod = Paymentmethod::find($paymentmethod_id);
-
 
         // 支払いタイプ判定
         $payment_type = $paymentmethod ? $paymentmethod->name : null;
@@ -78,48 +70,34 @@ class PurchaseController extends Controller
             'building' => (string) $request->input('building'),
         ];
 
+        // Stripe Checkout セッション作成
+        $session_data = [
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'product_data' => ['name' => $item->title],
+                    'unit_amount' => $item->price,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'metadata' => $common_metadata,
+            'cancel_url' => route('purchase.index', ['item' => $item->id]),
+            ];
+
         // Checkoutセッション作成
         if ($payment_type === 'コンビニ払い') {
-            $session = Session::create([
-                'payment_method_types' => ['konbini'],
-                'line_items' => [[
-                    'price_data' => [
-                        'currency' => 'jpy',
-                        'product_data' => [
-                            'name' => $item->title,
-                        ],
-                        'unit_amount' => $item->price,
-                    ],
-                    'quantity' => 1,
-                ]],
-                'mode' => 'payment',
-                'success_url' => route('mypage', ['tab' => 'buy']) . '?session_id={CHECKOUT_SESSION_ID}&status=success', // 成功後プロフィール画面へ
-                'cancel_url' => route('purchase.index', ['item' => $item->id]),
-                'metadata' => $common_metadata,
-            ]);
-            return redirect($session->url);
+            $session_data ['payment_method_types'] = ['konbini'];
+            $session_data ['success_url'] = route('mypage', ['tab' => 'buy']) . '?session_id={CHECKOUT_SESSION_ID}&status=success'; // 成功後プロフィール画面へ
         } elseif ($payment_type === 'カード払い') {
-            $session = Session::create([
-                'payment_method_types' => ['card'],
-                'line_items' => [[
-                    'price_data' => [
-                        'currency' => 'jpy',
-                        'product_data' => [
-                        'name' => $item->title,
-                        ],
-                        'unit_amount' => $item->price,
-                    ],
-                    'quantity' => 1,
-                ]],
-                'mode' => 'payment',
-                'success_url' => route('items.show', ['item' => $item->id]) . '?status=success', // 成功後商品詳細画面へ
-                'cancel_url' => route('purchase.index', ['item' => $item->id]),
-                'metadata' => $common_metadata,
-            ]);
-            return redirect($session->url);
+            $session_data['payment_method_types'] = ['card'];
+            $session_data['success_url'] = route('items.show', ['item' => $item->id]) . '?status=success'; // 成功後商品詳細画面へ
         } else {
             return redirect()->back()->with('error', '支払い方法が選択されていません。');
         }
+
+        $session = Session::create($session_data);
+        return redirect($session->url);
     }
 
     /**

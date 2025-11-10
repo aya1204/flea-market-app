@@ -72,7 +72,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sell', [SellController::class, 'create'])->name('sell.create');
 
     // 取引チャットページ表示
-    Route::get('/transaction/{item}', [TransactionController::class, 'show'])->name('transaction.show');
+    Route::get('/transaction/{transaction}', [TransactionController::class, 'show'])->name('transaction.show');
     // 取引メッセージ送信
     Route::post('/transaction/{item}', [TransactionController::class, 'sendMessage'])->name('transaction.message.send');
     // 取引メッセージ完了
@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/transaction/message/{message}', [TransactionController::class, 'updateMessage'])->name('transaction.message.update');
     // 取引メッセージ削除
     Route::delete('/transaction/message/{message}', [TransactionController::class, 'deleteMessage'])->name('transaction.message.delete');
+    // 取引の評価完了
+    Route::post('/transactions/{transaction}/review', [TransactionController::class, 'storeReview'])->name('transaction.review.store');
 });
 
 

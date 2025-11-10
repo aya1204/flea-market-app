@@ -14,39 +14,54 @@ class ProfileController extends Controller
     /**
      * プロフィール情報を表示（mypage含む）
      */
+    // ProfileController
     public function index(Request $request)
     {
+        /** @var User $user */
         $user = auth()->user();
 
+        // 平均評価を計算して渡す
+        $averageRating = $user->averageRating();
+
+        // URLから現在のタブ名を取得（デフォルト：出品した商品タブ）
         $tab = $request->query('tab', 'sell');
 
+        // 出品者・購入者になっている取引データ取得
         $allTransactions = Transaction::where('seller_user_id', $user->id)
             ->orWhere('purchase_user_id', $user->id)
-            ->with('messages')
+            ->with('messages') // 取引メッセージも事前に取得
             ->get();
 
-        $transactionTabUnread = $allTransactions->sum(function ($t) use ($user) {
-            return $t->messages->where('user_id', '!=', $user->id)->where('is_read', false)->count();
+        // 未読メッセージの合計数を計算する
+        $transactionTabUnread = $allTransactions->sum(function ($transaction) use ($user) {
+            // 取引メッセージ送信者が自分ではない、未読のメッセージを数える
+            return $transaction->messages->where('user_id', '!=', $user->id)->where('is_read', false)->count();
         });
 
+
         if ($tab === 'buy') {
-            /** @var \App\Models\User $user */
-            $items = $user->purchases()->with('transaction.item')->get();
+            $items = $user->purchases()->with('item')->get(); // 購入した商品タブ：ユーザーが購入したすべての商品を取得する
         } elseif ($tab === 'sell') {
-            /** @var \App\Models\User $user */
-            $items = $user->itemsForSale()->with('transaction.messages')->get();
+            $items = $user->itemsForSale()->with('transaction.messages')->get(); // 出品した商品タブ：ユーザーが出品したすべての商品を取得する
         } elseif ($tab === 'transaction') {
-            // 取引中の商品を取得（購入者または出品者が関与している商品）
-            $transactions = $allTransactions->sortByDesc(fn($t) => optional($t->messages->first())->created_at); // 最新メッセージ順
-            $items = $transactions->pluck('item');
-        } else {
-            $items = collect(); // 空のコレクション
+            // 1.ログインユーザーが関わるすべての取引を取得
+            $transactions = Transaction::where(function ($q) use ($user) {
+                $q->where('seller_user_id', $user->id)
+                    ->orWhere('purchase_user_id', $user->id);
+            })
+                // 2.キャンセル済みの取引は除外する
+                ->where('status', '!=', Transaction::STATUS_CANCELLED)
+                // 3.商品データとメッセージも事前に取得
+                ->with(['item', 'messages'])
+                ->get()
+                // 4.最新のメッセージ送信日時順で並び替え
+                ->sortByDesc(fn($t) => optional($t->messages->first())->created_at);
+
+            $items = $transactions->map(fn($t) => $t->item)->filter();
         }
 
-        if ($request->query('status') === 'success' && $request->query('session_id')) {
-            session()->flash('success', '商品を購入しました。');
-        }
-        return view('profile.mypage', compact('user', 'tab', 'items', 'transactionTabUnread'));
+        // ビューに渡すデータ
+        return view('profile.mypage', compact('user', 'tab', 'items', 'transactionTabUnread', 'averageRating'));
     }
 
     /**

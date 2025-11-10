@@ -11,6 +11,7 @@ class TransactionReview extends Model
     protected $fillable = [
         'transaction_id',
         'reviewer_id',
+        'reviewee_id',
         'rating',
         'comment',
     ];
