@@ -68,13 +68,12 @@
             <div class="item-image-container">
                 <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="item-image">
 
+                {{-- 未読バッジは取引中タグの時だけ表示 --}}
                 @if ($tab === 'transaction')
                 @php
                 $transaction = $item->transaction;
                 $unread = $transaction ? $transaction->unreadCountForUser(auth()->id()) : 0; // nullチェックを追加
                 @endphp
-
-                <p>Unread Count: {{ $unread }}</p> <!-- unreadの値を確認 -->
 
                 @if ($unread > 0)
                 <span class="notification-badge">{{ $unread }}</span>
@@ -85,16 +84,6 @@
             <h5 class="title-header">
                 <span class="item-title">{{ $item->title }}</span>
             </h5>
-            {{-- 未読バッジは取引中タグの時だけ表示 --}}
-            @if ($tab === 'transaction')
-            @php
-            $transaction = $item->transaction; // Itemモデルに transaction() リレーションが必要
-            $unread = $transaction->unreadCountForUser(auth()->id());
-            @endphp
-            @if ($unread > 0)
-            <span class="notification-badge">{{ $unread }}</span>
-            @endif
-            @endif
         </div>
     </a>
     @endif
