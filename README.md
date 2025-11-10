@@ -2,7 +2,7 @@
 
 ## プロジェクトの概要
 このプロジェクトは、商品の売買を行うフリーマーケットアプリケーションです。
-ユーザー登録（メール認証）、ログイン、商品一覧の確認、詳細ページ閲覧、購入、出品、ユーザープロフィール確認、編集などが可能です。
+ユーザー登録（メール認証）、ログイン、商品一覧の確認、詳細ページ閲覧、購入、出品、ユーザープロフィール確認、編集、取引画面でメッセージのやり取り、取引の評価などが可能です。
 
 メール認証には開発用メールサーバー「Mailhog」を使用し、購入処理は「Stripe（テスト用API）」と連携しています。
 
@@ -133,17 +133,46 @@
 
 ### 2. テストAPIキーの取得
 - Stripeダッシュボードにログインする
-- 右上にある３本線「メニュー」→ 一番下の「開発者」→ 下から３番目の「APIキー」に移動
-- 以下のようなキーをコピーして`.env`ファイルに設定してください。
+- 右下にある「開発者」→ 一番下の「開発者」→ 下から３番目の「APIキー」に移動
+- 公開可能キーとシークレットキーをコピーして以下のように`.env`ファイルに設定してください。
     STRIPE_KEY=pk_test_************************
     STRIPE_SECRET=sk_test_***************
 
 ※ 上記は一例です。実際にはご自身のテスト用キーを使用してください。
-※ Stripe連携には「公開キー」と「シークレットキー」の両方が必要です。
+※ Stripe連携には「公開可能キー」と「シークレットキー」の両方が必要です。
 
 ### 3. 変更を反映する
     php artisan config:clear
+    php artisan cache:clear
     exit
+
+### 4. Stripe CLIをインストールして、正しいキーを設定する
+    brew install stripe/stripe-cli/stripe
+    export STRIPE_API_KEY=sk_test***************
+    ※ 上記は一例です。実際にはご自身のテスト用キーを使用してください。
+
+
+### 5. Webhookを受信するコマンドを起動する
+    stripe listen --forward-to http://127.0.0.1/api/stripe/webhook
+    whsec_***************をコピーする
+    Control+zで終了する
+
+    ※必ず購入テストの前に実行してください
+    ※ターミナルを閉じた場合も再度実行してください
+
+### 6. 5を.envに設定する
+    STRIPE_WEBHOOK_SECRET=whsec_***************
+
+### 7. キャッシュクリアする
+    - docker-compose exec php bash
+    - php artisan config:clear
+    - php artisan cache:clear
+    - exit
+
+### 8. Webhookを受信するコマンドを再度機能する
+    stripe listen --forward-to http://127.0.0.1/api/stripe/webhook
+
+    ※時間が経ってしまった場合、再度stripeCLIにログインしてから5~8を実行してください
 
 
 ## 単体テスト環境構築
@@ -228,16 +257,24 @@ SellTest実行前に、以下のコマンドでGD拡張をインストールし�
 - users ↔︎ items：１対多
 - users ↔︎ comments：１対多
 - users ↔︎ favorites：多対多
+- users ↔︎ transactions：１対多
+- users ↔︎ transaction_messages：１対多
+- users ↔︎ transaction_reviews：１対多
 - items ↔︎ comments：１対多
 - items ↔︎ conditions：多対１
 - items ↔︎ brands：多対１
 - items ↔︎ categories：多対多
 - items ↔︎ category_item：１対多
+- items ↔︎ favorites：１対多
 - categories ↔︎ category_item：１対多
+- transaction ↔︎ transaction_messages：１対多
+- transaction ↔︎ transaction_reviews：１対多
+
 
 ![ER図](docs/er_diagram.png)
 
 ※ ER図が表示されない場合は `docs/er_diagram.png` を直接開いてください。
+※追加実装したものは時間の都合上、反映できておりません。
 
 
 ## URL
@@ -253,6 +290,8 @@ SellTest実行前に、以下のコマンドでGD拡張をインストールし�
 - プロフィール編集画面：http://localhost/mypage/profile
 - プロフィール画面_購入した商品一覧：http://localhost/mypage?tab=buy
 - プロフィール画面_出品した商品一覧：http://localhost/mypage?tab=sell
+- プロフィール画面_取引中の商品一覧：http://localhost/mypage?tab=transaction
+- 取引チャット画面：http://localhost/transaction/{transactionId}
 
 
 ## シーディングされたユーザー情報
@@ -265,12 +304,6 @@ SellTest実行前に、以下のコマンドでGD拡張をインストールし�
     - 郵便番号：123-4567
     - 住所：東京都渋谷区千駄ヶ谷1-2-3
     - 建物名：千駄ヶ谷マンション101
-    - 出品した商品：
-        - 腕時計(¥15,000)
-        - HDD(¥5,000)
-        - 玉ねぎ3束(¥300)
-        - 革靴(¥4,000)
-        - ノートPC(¥45,000)
 
 - **ユーザー2**
     - メールアドレス：`test2@example.com`
@@ -279,12 +312,6 @@ SellTest実行前に、以下のコマンドでGD拡張をインストールし�
     - 郵便番号：123-4567
     - 住所：東京都渋谷区千駄ヶ谷1-2-3
     - 建物名：千駄ヶ谷マンション102
-    - 出品した商品：
-        - マイク(¥8,000)
-        - ショルダーバッグ(¥3,500)
-        - タンブラー(¥500)
-        - コーヒーミル(¥4,000)
-        - メイクセット(¥2,500)
 
 - **ユーザー3**
     - メールアドレス：`test3@example.com`
@@ -293,7 +320,6 @@ SellTest実行前に、以下のコマンドでGD拡張をインストールし�
     - 郵便番号：123-4567
     - 住所：東京都渋谷区千駄ヶ谷1-2-3
     - 建物名：千駄ヶ谷マンション103
-    - 出品した商品：なし
 
 ※テストユーザーはすでにメール認証済みにしています。
 
@@ -308,3 +334,8 @@ SellTest実行前に、以下のコマンドでGD拡張をインストールし�
     - 郵便番号：000-0000
     - 住所：北海道北見市田端町123
     - 建物名：（建物名はnullです）
+
+
+## メール送信について
+購入者が取引評価をした後のメール送信は、LaravelのMailableクラス（App\Mail\ReviewRequestMail）を利用しています。
+Bladeテンプレートresources/views/emails/review_request.blade.php にて本文を定義していますが、本文表示までは実装できませんでした。
