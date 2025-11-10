@@ -40,6 +40,16 @@ class TransactionController extends Controller
         // 取引に関連する商品を取得
         $item = $transaction->item;
 
+        $currentUserId = auth()->id();
+        $otherTransactions = Transaction::where(function ($query) use ($currentUserId) {
+            // ログインユーザーが販売者または購入者である取引
+            $query->where('seller_user_id', $currentUserId)
+            ->orWhere('purchase_user_id', $currentUserId);
+        })
+        ->where('id', '!=', $transactionId) // 今見ている取引を除外
+        ->with('item') // 関連する商品情報も取得
+        ->get();
+
         // 購入者かどうか判定
         $isBuyerLoggedIn = $currentUserId === $transaction->purchase_user_id;
 
@@ -62,6 +72,7 @@ class TransactionController extends Controller
                 'buyerHasReviewed' => $buyerHasReviewed,
                 'sellerHasReviewed' => $sellerHasReviewed,
                 'isBuyerLoggedIn' => $isBuyerLoggedIn, // 取引完了ボタンの表示に使用
+                'otherTransactions' => $otherTransactions,
         ]);
     }
 
