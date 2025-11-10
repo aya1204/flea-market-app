@@ -10,7 +10,6 @@
     <!-- 左側：取引リスト -->
     <div class="transaction-list">
         <h2 class="list-title">その他の取引</h2>
-        @foreach ($items as $item)
         <a href="{{ route('transaction.show', $item->transaction->id) }}" class="item-card-link">
             <div class="other-item-card">
                 <h5 class="other-title-header">
@@ -23,7 +22,6 @@
                 @endphp
             </div>
         </a>
-        @endforeach
     </div>
 
     <!-- 右側：取引エリア全体 -->

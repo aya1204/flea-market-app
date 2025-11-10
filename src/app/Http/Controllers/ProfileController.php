@@ -23,35 +23,43 @@ class ProfileController extends Controller
         // 平均評価を計算して渡す
         $averageRating = $user->averageRating();
 
+        // URLから現在のタブ名を取得（デフォルト：出品した商品タブ）
         $tab = $request->query('tab', 'sell');
 
+        // 出品者・購入者になっている取引データ取得
         $allTransactions = Transaction::where('seller_user_id', $user->id)
             ->orWhere('purchase_user_id', $user->id)
-            ->with('messages')
+            ->with('messages') // 取引メッセージも事前に取得
             ->get();
 
-        // 取引メッセージの未読数を計算
+        // 未読メッセージの合計数を計算する
         $transactionTabUnread = $allTransactions->sum(function ($transaction) use ($user) {
+            // 取引メッセージ送信者が自分ではない、未読のメッセージを数える
             return $transaction->messages->where('user_id', '!=', $user->id)->where('is_read', false)->count();
         });
 
+
         if ($tab === 'buy') {
-            $items = $user->purchases()->with('item')->get();
+            $items = $user->purchases()->with('item')->get(); // 購入した商品タブ：ユーザーが購入したすべての商品を取得する
         } elseif ($tab === 'sell') {
-            $items = $user->itemsForSale()->with('transaction.messages')->get();
+            $items = $user->itemsForSale()->with('transaction.messages')->get(); // 出品した商品タブ：ユーザーが出品したすべての商品を取得する
         } elseif ($tab === 'transaction') {
+            // 1.ログインユーザーが関わるすべての取引を取得
             $transactions = Transaction::where(function ($q) use ($user) {
                 $q->where('seller_user_id', $user->id)
                     ->orWhere('purchase_user_id', $user->id);
             })
+                // 2.さらにステータスが「取引中」のもののみに絞り込む
                 ->where('status', Transaction::STATUS_IN_PROGRESS)
+                // 3.商品データとメッセージも事前に取得
                 ->with(['item', 'messages'])
                 ->get()
+                // 4.最新のメッセージ送信日時順で並び替え
                 ->sortByDesc(fn($t) => optional($t->messages->first())->created_at);
 
+            // 5.取得した取引リストから紐付く商品だけを抽出
+            // 取引が終わった商品は除外する
             $items = $transactions->map(fn($t) => $t->item)->filter();
-        } else {
-            $items = collect();
         }
 
         // ビューに渡すデータ
