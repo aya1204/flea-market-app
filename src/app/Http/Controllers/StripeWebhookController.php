@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
-use App\Models\Transaction;
 use Illuminate\Support\Facades\Log;
 
 
@@ -66,16 +65,6 @@ class StripeWebhookController extends Controller
                     'address' => $address,
                     'building' => $building,
                 ]);
-
-                // Transactionも作成
-                if (!$item->transaction) {
-                    Transaction::create([
-                        'item_id' => $item->id,
-                        'seller_user_id' => $item->seller_user_id,
-                        'purchase_user_id' => $user_id,
-                        'status' => 'in_progress',
-                    ]);
-                }
             }
         }
 
