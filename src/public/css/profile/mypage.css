@@ -16,7 +16,6 @@ body {
 
 /* ユーザー画像、名前、評価、プロフィールを編集ボタンのフォーム */
 .profile {
-    width: 130px;
     display: flex;
     align-items: center; /* 横並びにし、縦中央揃え */
     justify-content: space-between; /* ヘッダー部分を左右に分ける */
@@ -172,7 +171,11 @@ body {
     border-radius: 50%;
     display: flex;
     justify-content: center; /* 中央にテキストを配置 */
-    align-items: center; /* 中央にテキストを配置 */
+    align-items: center; /* 中央にテキストを配置 */font-family: Inter;
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 10px;
+    line-height: 100%;
 }
 
 /* 商品画像 */
@@ -200,44 +203,50 @@ body {
 
 /* タブレット（768-850px）対応 */
 @media screen and (min-width: 768px) and (max-width: 850px) {
-
     /* ユーザー画像、名前、プロフィールを編集ボタンのフォーム */
     .profile {
-        display: flex;
-        width: 80%;
-        justify-content: center;
-        margin: 67px auto;
+        margin: 40px auto;
+        width: 70%;
     }
 
     /* ユーザー画像 */
     .user_icon {
-        width: 105px;
-        height: 105px;
+        width: 80px;
+        /* アイコンのサイズ */
+        height: 80px;
+        border-radius: 50%;
+        /* 丸型にする */
+        margin-right: 8px;
+        /* アイコンと名前、評価の間隔を10px */
     }
 
     /* 名前と評価部分 */
     .user-form {
-        display: flex;
-        align-items: center;
         gap: 8px;
-        flex-grow: 1;
-        /* 名前と評価部分がスペースを埋めるようにする */
+        display: flex;
         flex-direction: column;
+        height: auto;
+        margin-right: 137px;
     }
 
     /* 名前 */
     .user_name {
-        font-size: 25px;
-        width: 175px;
-        height: 16px;
-        margin: 11px auto;
+        font-size: 24px;
+        margin-bottom: 0;
+    }
+
+    /* 評価 */
+    .rating {
+        font-size: 24px;
+        margin-top: -10px;
     }
 
     /* プロフィールを編集ボタン */
     .profile_edit_button {
-        font-size: 18px;
-        width: 217px;
-        height: 41px;
+        font-size: 14px;
+        width: 160px;
+        height: 40px;
+        border-radius: 8px;
     }
 
     /* タブのフォーム */
@@ -266,7 +275,7 @@ body {
 
     /* 新着通知バッジ */
     .tab-notification-badge {
-        font-size: 16px;
+        font-size: 15px;
         width: 20px;
         height: 22px;
     }
