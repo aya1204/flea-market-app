@@ -10,18 +10,24 @@
     <!-- 左側：取引リスト -->
     <div class="transaction-list">
         <h2 class="list-title">その他の取引</h2>
-        <a href="{{ route('transaction.show', $item->transaction->id) }}" class="item-card-link">
+        @forelse ($otherTransactions as $otherTransaction)
+        {{-- リスト内の個別の取引データ --}}
+        <a href="{{ route('transaction.show', $otherTransaction->id) }}" class="item-card-link">
             <div class="other-item-card">
+                {{-- 商品タイトルは $otherTransaction->item->titleから取得 --}}
                 <h5 class="other-title-header">
-                    <span class="other-item-title">{{ $item->title }}</span>
+                    <span class="other-item-title">{{ $otherTransaction->item->title }}</span>
                 </h5>
 
                 @php
                 $transaction = $item->transaction ?? null;
-                $unreadCount = $transaction ? $transaction->unreadCountForUser(auth()->id()) : 0;
+                $unreadCount = $otherTransaction->unreadCountForUser(auth()->id());
                 @endphp
             </div>
         </a>
+        @empty
+        <p class="no-other-transactions">他に取引中の商品はありません。</p>
+        @endforelse
     </div>
 
     <!-- 右側：取引エリア全体 -->
@@ -102,7 +108,7 @@
             <!-- メッセージ送信フォーム -->
             <form action="{{ route('transaction.message.send', $transaction->id) }}" method="POST" class="message-form" enctype="multipart/form-data">
                 @csrf
-                <textarea id="message-input" name="message" placeholder="取引メッセージを入力してください" rows="3" class="message-input"></textarea>
+                <textarea id="message-input" name="message" placeholder="取引メッセージを入力してください" rows="3" class="message-input">{{ old('message') }}</textarea>
                 @if ($errors->has('message'))
                 <div class="alert-danger">{{ $errors->first('message') }}</div>
                 @endif
@@ -146,64 +152,65 @@
 @section('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // ①本文を書いて他のページへ遷移しても保持
+
+        // ① 本文を書いて他のページへ遷移しても保持
         const textarea = document.getElementById('message-input');
+        // 取引IDを安全にJavaScript文字列として取得
         const transactionId = "{{ $transaction->id ?? '' }}";
         const storageKey = 'draft_message_' + transactionId;
 
-        // ページ読み込み時にlocalStorageから復元
-        if (textarea && localStorage.getItem(storageKey)) {
-            textarea.value = localStorage.getItem(storageKey);
-        }
+        // PHPの old('message') の値を安全に取得（空の場合は ' ' に展開される）
+        const oldMessageValue = "{{ old('message') }}";
 
-        // 入力が変わるたびに保存
         if (textarea) {
+            const savedMessage = localStorage.getItem(storageKey);
+
+            // 【修正】 old() が空文字列（トリム後）かつ localStorageにデータがある場合のみ復元
+            if (savedMessage && oldMessageValue.trim() === '') {
+                // textarea の現在の値（old('message') の値）が空の場合のみ上書き
+                if (textarea.value.trim() === '') {
+                    textarea.value = savedMessage;
+                }
+            }
+
+            // 入力が変わるたびに保存
             textarea.addEventListener('input', function() {
                 localStorage.setItem(storageKey, textarea.value);
             });
 
-            // 送信時にlocalStorageを削除
+            // フォーム送信時に削除
             const form = textarea.closest('form');
-            form.addEventListener('submit', function() {
-                localStorage.removeItem(storageKey);
-            });
+            if (form) {
+                form.addEventListener('submit', function() {
+                    localStorage.removeItem(storageKey);
+                });
+            }
         }
 
-        // ②送信済みのメッセージ編集フォーム
+        // ②③ 送信済みのメッセージ編集/キャンセル処理 (既存のロジックは省略)
         const editButtons = document.querySelectorAll('.edit-btn');
         editButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const messageDiv = button.closest('.sent-messages');
                 const messageContent = messageDiv.querySelector('.message-content');
                 const editForm = messageDiv.querySelector('.edit-form');
-
-                // 要素をコンソールに表示
-                // console.log('MessageDiv:', messageDiv);
-                // console.log('MessageContent:', messageContent);
-                // console.log('EditForm:', editForm);
-
-                // メッセージコンテンツを非表示にし、編集フォームを表示する
                 messageContent.style.display = 'none';
                 editForm.style.display = 'block';
             });
         });
 
-        // ③キャンセルボタンの処理
         const cancelButtons = document.querySelectorAll('.cancel-edit');
         cancelButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const messageDiv = button.closest('.sent-messages');
-                // それぞれそのメッセージの内容部分と編集フォームを取得
                 const messageContent = messageDiv.querySelector('.message-content');
                 const editForm = messageDiv.querySelector('.edit-form');
-
-                // 編集フォームを隠してメッセージコンテンツを再表示する
                 editForm.style.display = 'none';
                 messageContent.style.display = 'block';
             });
         });
 
-        // ④モーダル開閉処理
+        // ④ モーダル開閉処理
         const openModalButton = document.getElementById('open-rating-modal');
         const modal = document.getElementById('rating-modal');
 
@@ -213,21 +220,25 @@
             });
         }
 
-        // 出品者：購入者が評価済みなら自動でモーダル表示
-        const isSeller = {{ $isSeller ? 'true' : 'false'}};
+        // 🚨 修正後の正しい Blade 構文
+        const isSeller = {{ $isSeller ? 'true' : 'false' }};
         const buyerHasReviewed = {{ $buyerHasReviewed ? 'true' : 'false' }};
         const sellerHasReviewed = {{ $sellerHasReviewed ? 'true' : 'false' }};
 
         if (isSeller && buyerHasReviewed && !sellerHasReviewed) {
-            modal.style.display = 'block';
+            if (modal) {
+                modal.style.display = 'block';
+            }
         }
 
-        // モーダル外クリックで閉じる
-        modal.addEventListener('click', function(event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                modal.style.display = 'none';
-            }
-        });
+        if (modal) {
+            // モーダル外クリックで閉じる
+            modal.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal-overlay')) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
     });
 </script>
 @endsection
