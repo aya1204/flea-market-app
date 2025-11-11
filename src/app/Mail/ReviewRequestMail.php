@@ -31,7 +31,7 @@ class ReviewRequestMail extends Mailable
     public function build()
     {
         return $this->subject('購入者から取引評価が届きました')
-            ->view('emails.review_request')
+            ->markdown('emails.review_request')
             ->with([
                 'transaction' => $this->transaction,
             ]);
