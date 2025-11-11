@@ -97,6 +97,8 @@
 
 - [logo.svg](https://www.dropbox.com/scl/fi/3lldzhq91bo2ytzkel6nf/logo.svg?rlkey=b5185j7e9pmpmdb965f49h3ye&st=4sgoqg8q&dl=0)
 
+- [inputbuttun.png](https://www.dropbox.com/scl/fi/2g1xox47ql5azce3qge6a/inputbuttun.png?rlkey=mh79wpuvpsfw9ro5adtxr53qd&st=1n8hrs0u&dl=0)
+
 ### 3. 新規登録ユーザーや出品する商品の画像保存
 
 アプリの動作確認用に、以下のファイルを使用できます。
@@ -338,4 +340,7 @@ SellTest実行前に、以下のコマンドでGD拡張をインストールし�
 
 ## メール送信について
 購入者が取引評価をした後のメール送信は、LaravelのMailableクラス（App\Mail\ReviewRequestMail）を利用しています。
-Bladeテンプレートresources/views/emails/review_request.blade.php にて本文を定義していますが、本文表示までは実装できませんでした。
+
+## 注意事項：出品者の取引評価完了について
+出品者が取引完了後、まれに一時的に真っ白な画面が表示される場合があります。
+その際はページをリロードすると正常に商品一覧画面が表示されます。
