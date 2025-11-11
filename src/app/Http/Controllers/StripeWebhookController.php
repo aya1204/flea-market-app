@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Log;
 
 
@@ -65,6 +66,20 @@ class StripeWebhookController extends Controller
                     'address' => $address,
                     'building' => $building,
                 ]);
+
+                // すでにこの商品と購入者の組み合わせで取引が存在するか確認
+                $existingTransaction = Transaction::where('item_id', $item_id)
+                    ->where('purchase_user_id', $user_id)
+                    ->first();
+                // 取引が存在しない場合のみ新しいTransactionレコードを作成
+                if (!$existingTransaction) {
+                    Transaction::create([
+                        'item_id' => $item_id,
+                        'seller_user_id' => $item->seller_user_id,
+                        'purchase_user_id' => $user_id,
+                        'status' => 'in_progress', // 購入時点で取引進行中に設定
+                    ]);
+                }
             }
         }
 
