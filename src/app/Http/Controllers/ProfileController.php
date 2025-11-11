@@ -40,7 +40,7 @@ class ProfileController extends Controller
 
 
         if ($tab === 'buy') {
-            $items = $user->purchases()->with('item')->get(); // 購入した商品タブ：ユーザーが購入したすべての商品を取得する
+            $items = $user->purchases()->get(); // 購入した商品タブ：ユーザーが購入したすべての商品を取得する
         } elseif ($tab === 'sell') {
             $items = $user->itemsForSale()->with('transaction.messages')->get(); // 出品した商品タブ：ユーザーが出品したすべての商品を取得する
         } elseif ($tab === 'transaction') {
@@ -57,7 +57,7 @@ class ProfileController extends Controller
                 // 4.最新のメッセージ送信日時順で並び替え
                 ->sortByDesc(fn($t) => optional($t->messages->first())->created_at);
 
-            $items = $transactions->map(fn($t) => $t->item)->filter();
+            $items = $transactions;
         }
 
         // ビューに渡すデータ
