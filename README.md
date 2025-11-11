@@ -80,7 +80,7 @@
 
     curl -o src/storage/app/public/images/外出メイクアップセット.jpg "https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/%E5%A4%96%E5%87%BA%E3%83%A1%E3%82%A4%E3%82%AF%E3%82%A2%E3%83%83%E3%83%95%E3%82%9A%E3%82%BB%E3%83%83%E3%83%88.jpg"
 
-### 2. ユーザーアイコン、favoriteアイコン、commentアイコン、COACHTECHロゴを保存
+### 2. ユーザーアイコン、favoriteアイコン、commentアイコン、COACHTECHロゴ、送信マークを保存
 
 画像は下記URLよりダウンロードの上、`src/storage/app/public/images`フォルダに保存してください。
 ※ ファイル名は必ず指定された名前で保存してください。
@@ -148,11 +148,9 @@
     php artisan cache:clear
     exit
 
-### 4. Stripe CLIをインストールして、正しいキーを設定する
+### 4. Stripe CLIをインストールして、ログインする
     brew install stripe/stripe-cli/stripe
-    export STRIPE_API_KEY=sk_test***************
-    ※ 上記は一例です。実際にはご自身のテスト用キーを使用してください。
-
+    stripe login
 
 ### 5. Webhookを受信するコマンドを起動する
     stripe listen --forward-to http://127.0.0.1/api/stripe/webhook
@@ -166,10 +164,10 @@
     STRIPE_WEBHOOK_SECRET=whsec_***************
 
 ### 7. キャッシュクリアする
-    - docker-compose exec php bash
-    - php artisan config:clear
-    - php artisan cache:clear
-    - exit
+    docker-compose exec php bash
+    php artisan config:clear
+    php artisan cache:clear
+    exit
 
 ### 8. Webhookを受信するコマンドを再度機能する
     stripe listen --forward-to http://127.0.0.1/api/stripe/webhook
@@ -340,7 +338,14 @@ SellTest実行前に、以下のコマンドでGD拡張をインストールし�
 
 ## メール送信について
 購入者が取引評価をした後のメール送信は、LaravelのMailableクラス（App\Mail\ReviewRequestMail）を利用しています。
+メール本文はPlain textに表示されます。
 
-## 注意事項：出品者の取引評価完了について
-出品者が取引完了後、まれに一時的に真っ白な画面が表示される場合があります。
+
+## 注意事項1：出品者の取引評価表示について
+出品者がマイページから取引画面へ遷移した際、まれに取引完了モーダルが表示されないことがあります。
+その際はページをリロードしていただくか、届いたメールのリンクをクリックすると表示されます。
+
+
+## 注意事項2：出品者の取引評価完了について
+出品者が取引完了後、一時的に真っ白な画面が表示される場合があります。
 その際はページをリロードすると正常に商品一覧画面が表示されます。
