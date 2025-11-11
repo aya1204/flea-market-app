@@ -97,7 +97,7 @@
 
 - [logo.svg](https://www.dropbox.com/scl/fi/3lldzhq91bo2ytzkel6nf/logo.svg?rlkey=b5185j7e9pmpmdb965f49h3ye&st=4sgoqg8q&dl=0)
 
-- [inputbuttun.png](https://www.dropbox.com/scl/fi/2g1xox47ql5azce3qge6a/inputbuttun.png?rlkey=mh79wpuvpsfw9ro5adtxr53qd&st=1n8hrs0u&dl=0)
+- [inputbutton.png](https://www.dropbox.com/scl/fi/2g1xox47ql5azce3qge6a/inputbutton.png?rlkey=mh79wpuvpsfw9ro5adtxr53qd&st=gvjtw0j8&dl=0)
 
 ### 3. 新規登録ユーザーや出品する商品の画像保存
 
