@@ -54,30 +54,31 @@
 {{-- 出品・購入・取引中の商品タブのときだけ商品を表示 --}}
 @if (in_array($tab, ['buy', 'sell', 'transaction']) && isset($items))
 <div class="item-row">
-    @foreach($items as $item)
-    {{-- 'transaction' タブの場合、取引詳細ページへのリンクを作成 --}}
-    @if ($tab === 'transaction')
+    @foreach($items as $data)
+    {{-- リンク先の決定：transactionタブなら取引チャット画面へ、それ以外なら商品詳細へ --}}
     @php
-    $transaction = $item->transaction;
-    // 取引IDを取得
-    $transactionId = $transaction ? $transaction->id : null;
+    $item = ($tab === 'transaction') ? $data->item: $data;
+    // transactionタブの場合、取引詳細ページへのリンクを作成
+    $transaction = ($tab === 'transaction') ? $data :null;
+    $linkRoute = ($tab === 'transaction') ? 'transaction.show' : 'items.show';
+    $linkParam = ($tab === 'transaction') ? ['transaction' => $transaction->id] : ['item' => $item->id];
     @endphp
 
-    <a href="{{ route('transaction.show', ['transaction' => $transactionId]) }}" class="item-card-link">
+    {{-- リンクを作成 --}}
+    <a href="{{ route($linkRoute, $linkParam) }}" class="item-card-link">
         <div class="item-card">
             <div class="item-image-container">
                 <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}" class="item-image">
 
                 {{-- 未読バッジは取引中タグの時だけ表示 --}}
                 @if ($tab === 'transaction')
-                @php
-                $transaction = $item->transaction;
-                $unread = $transaction ? $transaction->unreadCountForUser(auth()->id()) : 0; // nullチェックを追加
-                @endphp
+                    @php
+                        $unread = $transaction ? $transaction->unreadCountForUser(auth()->id()) : 0; // nullチェックを追加
+                    @endphp
 
-                @if ($unread > 0)
-                <span class="notification-badge">{{ $unread }}</span>
-                @endif
+                    @if ($unread > 0)
+                        <span class="notification-badge">{{ $unread }}</span>
+                    @endif
                 @endif
             </div>
 
@@ -86,7 +87,6 @@
             </h5>
         </div>
     </a>
-    @endif
     @endforeach
 </div>
 @endif
