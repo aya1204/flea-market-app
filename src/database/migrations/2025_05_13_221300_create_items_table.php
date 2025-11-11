@@ -30,6 +30,7 @@ class CreateItemsTable extends Migration
             $table->string('postal_code')->nullable(); // 購入時郵便番号
             $table->string('address')->nullable();     // 購入時住所
             $table->string('building')->nullable();    // 購入時建物名
+            $table->boolean('is_sold')->default(false); // 商品が売れたかどうかを管理するカラム
             $table->timestamps();
         });
     }
