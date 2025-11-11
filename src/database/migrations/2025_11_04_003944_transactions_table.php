@@ -15,6 +15,8 @@ class TransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            // StripeセッションIDを保存し、unique制約で二重登録を防止
+            $table->string('stripe_session_id')->nullable()->unique();
             // 出品者
             $table->foreignId('seller_user_id')->constrained('users')->OnDelete('cascade');
             // 購入者
