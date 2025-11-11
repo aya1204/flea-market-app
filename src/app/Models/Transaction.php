@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
-    const STATUS_IN_PROGRESS = 1;
-    const STATUS_COMPLETED = 2;
-    const STATUS_CANCELLED = 3;
+    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_CANCELLED = 'cancelled';
     protected $fillable = [
         'seller_user_id',
         'purchase_user_id',
