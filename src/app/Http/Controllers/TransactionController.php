@@ -100,7 +100,7 @@ class TransactionController extends Controller
 
         TransactionMessage::create($data);
 
-        return redirect()->route('transaction.show', $transactionId)->withInput();
+        return redirect()->route('transaction.show', $transactionId);
     }
 
     // 取引メッセージ削除
@@ -132,8 +132,11 @@ class TransactionController extends Controller
             abort(403);
         }
 
-        // 取引完了後、マイページへリダイレクト
-        return redirect()->route('mypage', ['tab' => 'transaction'])->with('success', '取引が完了しました');
+        $transaction->status = 'completed';
+        $transaction->save();
+
+        // 取引完了後、商品一覧画面へリダイレクト
+        return redirect()->route('items.index')->with('success', '取引が完了しました');
     }
 
     // 送信済みメッセージを編集する
