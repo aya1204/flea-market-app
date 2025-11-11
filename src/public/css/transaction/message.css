@@ -327,7 +327,7 @@ main {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    background-image: url("/storage/images/inputbutton.jpg");
+    background-image: url("/storage/images/inputbutton.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
