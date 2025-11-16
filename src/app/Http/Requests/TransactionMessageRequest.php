@@ -44,7 +44,7 @@ class TransactionMessageRequest extends FormRequest
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
-            redirect()->route('transaction.show', $this->route('transactionId'))
+            redirect()->route('transaction.show', $this->route('transaction'))
                 ->withErrors($validator)
                 ->withInput()
         );
