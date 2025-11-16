@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
     // 取引チャットページ表示
     Route::get('/transaction/{transaction}', [TransactionController::class, 'show'])->name('transaction.show');
     // 取引メッセージ送信
-    Route::post('/transaction/{item}', [TransactionController::class, 'sendMessage'])->name('transaction.message.send');
+    Route::post('/transaction/{transaction}', [TransactionController::class, 'sendMessage'])->name('transaction.message.send');
     // 取引メッセージ完了
     Route::post('/transaction/{transaction}/complete', [TransactionController::class, 'complete'])->name('transaction.complete');
     // 取引メッセージ編集
