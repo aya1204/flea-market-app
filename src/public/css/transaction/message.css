@@ -9,7 +9,7 @@ main {
     max-width: 1512px;
     width: 100%;
     max-height: 902px;
-    height: 100%;
+    height: 902px;
     display: flex;
     background-color: #f7f8fa;
     overflow: hidden;
@@ -88,13 +88,14 @@ main {
     display: flex;
     flex-direction: row;
     border-bottom: 2px solid #5F5F5F;
+    margin-top: 0;
 }
 
 /* ユーザーアイコン */
 .profile-image {
-    max-width: 203px;
+    max-width: 79px;
     width: 100%;
-    max-height: 206px;
+    max-height: 79px;
     height: 100%;
     margin-left: 37px;
     opacity: 1;
@@ -102,12 +103,11 @@ main {
 
 /* 「ユーザー名」さんとの取引画面 */
 .transaction-title {
-    width: 83%;
-    padding: 15px 25px;
+    width: 88%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-left: 13px;
+    margin: 14px 13px;
     font-family: Inter;
     font-weight: 700;
     font-style: Bold;
@@ -128,6 +128,9 @@ main {
     opacity: 1;
     border: none;
     background-color: #FF8282;
+}
+
+.finish-button-text {
     font-family: Inter;
     font-weight: 700;
     font-style: Bold;
@@ -135,6 +138,7 @@ main {
     line-height: 100%;
     letter-spacing: 0%;
     color: #FFFFFF;
+    margin-top: 15px;
 }
 
 /* 商品画像・商品名 */
@@ -148,9 +152,9 @@ main {
 /* 商品画像 */
 .item-image {
     max-width: 203px;
-    width: 100%;
+    width: 90%;
     max-height: 206px;
-    height: 100%;
+    height: 90%;
     opacity: 1;
     margin: 0 40px;
 }
@@ -180,7 +184,7 @@ main {
 /* メッセージ表示エリア */
 .messages-container {
     padding: 28px 25px;
-    max-height: 300px;
+    max-height: 472px;
     /* 必要に応じて調整 */
     overflow-y: auto;
     /* 縦方向のスクロールを有効にする */
@@ -224,12 +228,18 @@ main {
 .my-message {
     width: 461px;
     margin: 0 0 0 auto;/* 右揃えに配置 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 /* 相手のメッセージ */
 .other-message {
     width: 461px;
     margin: auto 0 0 0; /* 左揃えに配置 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 /* 取引メッセージ */
@@ -247,9 +257,10 @@ main {
 /* 取引メッセージ画像 */
 .message-image {
     max-width: 461px;
-    width: 5%;
+    width: 30%;
     max-height: 461px;
-    height: 5%;
+    height: 30%;
+    margin-top: 5px;
 }
 
 /* 編集・削除ボタンのフォーム */
@@ -302,18 +313,33 @@ main {
     justify-content: flex-start;
 }
 
+.alert-danger {
+    color: red;
+        font-size: 14px;
+        margin: 5px 0 10px 5px;
+        width: 100%;
+}
+
 .add-image {
     max-width: 143px;
     width: 100%;
     height: 44px;
     border-radius: 10px;
-    opacity: 1;
-    color: #FF5555;
     border: 2px solid #FF5555;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #FF5555;
+    font-family: Inter;
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 20px;
+    line-height: 100%;
+    text-align: center;
+    vertical-align: middle;
+    opacity: 1;
 }
+
 
 /* メッセージ送信画像 */
 .sent-button {
@@ -344,8 +370,8 @@ main {
     justify-content: center;
     align-items: center;
     z-index: 999;
-    top: 401px;
-    left: 607px;
+    top: 378px;
+    left: 568px;
     border-radius: 15px;
     border-width: 1px;
 }
@@ -480,4 +506,101 @@ main {
 .review-form .rating {
     align-self: center;
     /* 星だけ中央寄せ */
+}
+
+/* タブレット（768-850px）対応 */
+@media screen and (max-width: 850px) and (min-width: 768px) {
+    .transaction-list {
+        padding: 15px;
+    }
+    .list-title,
+    .other-item-title {
+        font-size: 17px;
+    }
+    .profile-image {
+        width: 55px;
+        height: 55px;
+        margin-left: 11px;
+    }
+
+    .transaction-title {
+        margin-left: 0px;
+        font-size: 22px;
+    }
+
+    .finish-button {
+        width: 100px;
+        height: 28px;
+        margin: auto 18px auto auto;
+        border-radius: 23px;
+    }
+
+    .finish-button-text {
+        margin-top: 8px;
+        font-size: 10px;
+    }
+
+    .item-header {
+        padding: 8px 0;
+    }
+
+    .item-image {
+        width: 100px;
+        height: 104px;
+    }
+
+    .item-title {
+        margin: 17px 0 0 0;
+        font-size: 28px;
+    }
+
+    .item-price {
+        font-size: 28px;
+        margin: 15px 0;
+    }
+
+    .messages-container {
+        max-height: 600px;
+    }
+
+    .my-message {
+        width: 300px;
+    }
+    .user-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+    }
+
+    .user-name {
+        font-size: 15px;
+    }
+
+    .transaction-message {
+        width: 300px;
+        margin-bottom: -3px;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        font-size: 11px;
+    }
+
+    .message-input {
+        width: 80%;
+        height: 33px;
+        font-size: 15px;
+    }
+
+    .add-image {
+        width: 107px;
+        height: 33px;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    .sent-button {
+        width: 45px;
+        height: 33px;
+    }
 }
