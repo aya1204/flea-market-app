@@ -50,7 +50,9 @@
 
                 {{-- 購入者が未評価の場合のみボタン表示 --}}
                 @if ($isBuyerLoggedIn && $transaction->status !== 'completed')
-                <button type="button" id="open-rating-modal" class="finish-button">取引を完了する</button>
+                <button type="button" id="open-rating-modal" class="finish-button">
+                    <p class="finish-button-text">取引を完了する</p>
+                </button>
                 @endif
             </h2>
         </div>
@@ -106,18 +108,21 @@
             </div>
 
             <!-- メッセージ送信フォーム -->
+            @if ($errors->any())
+            <div class="alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <form action="{{ route('transaction.message.send', $transaction->id) }}" method="POST" class="message-form" enctype="multipart/form-data">
                 @csrf
                 <textarea id="message-input" name="message" placeholder="取引メッセージを入力してください" rows="3" class="message-input">{{ old('message') }}</textarea>
-                @if ($errors->has('message'))
-                <div class="alert-danger">{{ $errors->first('message') }}</div>
-                @endif
 
                 <label class="add-image">
-                    <input type="file" name="image" style="display: none;">
-                    @if ($errors->has('image'))
-                    <div class="alert-danger">{{ $errors->first('image') }}</div>
-                    @endif
+                    <input class="add-image-text" type="file" name="image" style="display: none;">
                     画像を追加
                 </label>
                 <button type="submit" class="sent-button"></button>
@@ -221,9 +226,21 @@
         }
 
         // 🚨 修正後の正しい Blade 構文
-        const isSeller = {{ $isSeller ? 'true' : 'false' }};
-        const buyerHasReviewed = {{ $buyerHasReviewed ? 'true' : 'false' }};
-        const sellerHasReviewed = {{ $sellerHasReviewed ? 'true' : 'false' }};
+        const isSeller = {
+            {
+                $isSeller ? 'true' : 'false'
+            }
+        };
+        const buyerHasReviewed = {
+            {
+                $buyerHasReviewed ? 'true' : 'false'
+            }
+        };
+        const sellerHasReviewed = {
+            {
+                $sellerHasReviewed ? 'true' : 'false'
+            }
+        };
 
         if (isSeller && buyerHasReviewed && !sellerHasReviewed) {
             if (modal) {
