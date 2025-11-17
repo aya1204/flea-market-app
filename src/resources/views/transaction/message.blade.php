@@ -109,13 +109,13 @@
 
             <!-- メッセージ送信フォーム -->
             @if ($errors->any())
-            <div class="alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+                <div class="alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li class="alert-danger-message">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
             <form action="{{ route('transaction.message.send', $transaction->id) }}" method="POST" class="message-form" enctype="multipart/form-data">
                 @csrf
@@ -226,21 +226,9 @@
         }
 
         // 🚨 修正後の正しい Blade 構文
-        const isSeller = {
-            {
-                $isSeller ? 'true' : 'false'
-            }
-        };
-        const buyerHasReviewed = {
-            {
-                $buyerHasReviewed ? 'true' : 'false'
-            }
-        };
-        const sellerHasReviewed = {
-            {
-                $sellerHasReviewed ? 'true' : 'false'
-            }
-        };
+        const isSeller = "{{ $isSeller ? 'true' : 'false' }}";
+        const buyerHasReviewed = "{{ $buyerHasReviewed ? 'true' : 'false' }}";
+        const sellerHasReviewed = "{{ $sellerHasReviewed ? 'true' : 'false' }}";
 
         if (isSeller && buyerHasReviewed && !sellerHasReviewed) {
             if (modal) {
