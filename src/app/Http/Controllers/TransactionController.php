@@ -67,8 +67,8 @@ class TransactionController extends Controller
         return view('transaction.message', [
                 'transaction' => $transaction,
                 'item' => $item,
-                'isBuyer' => $transaction->purchase_user_id,
-                'isSeller' => $transaction->seller_user_id,
+                'isBuyer' => auth()->id() === $transaction->purchase_user_id,
+                'isSeller' => auth()->id() === $transaction->seller_user_id,
                 'buyerHasReviewed' => $buyerHasReviewed,
                 'sellerHasReviewed' => $sellerHasReviewed,
                 'isBuyerLoggedIn' => $isBuyerLoggedIn, // 取引完了ボタンの表示に使用

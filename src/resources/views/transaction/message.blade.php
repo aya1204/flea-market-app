@@ -162,7 +162,9 @@
         const textarea = document.getElementById('message-input');
         // 取引IDを安全にJavaScript文字列として取得
         const transactionId = "{{ $transaction->id ?? '' }}";
-        const storageKey = 'draft_message_' + transactionId;
+        // 取引ID + ログイン中のユーザーID を key にする
+        const userId = "{{ auth()->id() }}";
+        const storageKey = 'draft_message_' + userId + '_' + transactionId;
 
         // PHPの old('message') の値を安全に取得（空の場合は ' ' に展開される）
         const oldMessageValue = "{{ old('message') }}";
@@ -226,9 +228,9 @@
         }
 
         // 🚨 修正後の正しい Blade 構文
-        const isSeller = "{{ $isSeller ? 'true' : 'false' }}";
-        const buyerHasReviewed = "{{ $buyerHasReviewed ? 'true' : 'false' }}";
-        const sellerHasReviewed = "{{ $sellerHasReviewed ? 'true' : 'false' }}";
+        const isSeller = @json($isSeller);
+        const buyerHasReviewed = @json($buyerHasReviewed);
+        const sellerHasReviewed = @json($sellerHasReviewed);
 
         if (isSeller && buyerHasReviewed && !sellerHasReviewed) {
             if (modal) {
