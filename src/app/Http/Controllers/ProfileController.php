@@ -49,8 +49,8 @@ class ProfileController extends Controller
                 $q->where('seller_user_id', $user->id)
                     ->orWhere('purchase_user_id', $user->id);
             })
-                // 2.キャンセル済みの取引は除外する
-                ->where('status', '!=', Transaction::STATUS_CANCELLED)
+                // 2.キャンセル済みと完了済みの取引は除外する
+                ->whereNotIn('status', ['cancelled', 'completed'])
                 // 3.商品データとメッセージも事前に取得
                 ->with(['item', 'messages'])
                 ->get()
