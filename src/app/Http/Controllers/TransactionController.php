@@ -47,6 +47,7 @@ class TransactionController extends Controller
             ->orWhere('purchase_user_id', $currentUserId);
         })
         ->where('id', '!=', $transactionId) // 今見ている取引を除外
+        ->where('status', '!=', 'completed') // 取引完了した商品を除外
         ->with('item') // 関連する商品情報も取得
         ->get();
 
@@ -183,13 +184,27 @@ class TransactionController extends Controller
             'rating' => $request->rating,
         ]);
 
-        // 取引が完了した場合は、ステータスを更新
+        // 購入者がレビュー済みかチェック
+        $buyerReviewed = TransactionReview::where('transaction_id', $transaction->id)
+        ->where('reviewer_id', $transaction->purchase_user_id)
+        ->exists();
+
+        // 出品者がレビュー済みかチェック
+        $sellerReviewed = TransactionReview::where('transaction_id', $transaction->id)
+        ->where('reviewer_id', $transaction->seller_user_id)
+        ->exists();
+
+        // 両者がレビュー済みなら取引を completed にする
+        if ($buyerReviewed && $sellerReviewed) {
+            $transaction->status = 'completed';
+            $transaction->save();
+        }
+
+        // メール送信（購入者 → 出品者のみ）
         if ($reviewerId === $transaction->purchase_user_id) {
             $seller = $transaction->seller;
             // メール送信
             Mail::to($seller->email)->send(new ReviewRequestMail($transaction));
-
-            if ($reviewerId === $transaction->purchase_user_id || $reviewerId === $transaction->seller_user_id) {}
 
             return redirect()->route('items.index')->with('message', '評価を送信しました');
         }
