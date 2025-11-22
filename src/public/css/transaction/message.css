@@ -379,7 +379,7 @@ main {
     align-items: center;
     z-index: 999;
     top: 378px;
-    left: 568px;
+    left: 525px;
     border-radius: 15px;
     border-width: 1px;
 }
@@ -615,7 +615,7 @@ main {
     .modal-overlay {
         width: 43%;
         height: 26%;
-        top: 338px;
+        top: 243px;
         left: 297px;
     }
 
