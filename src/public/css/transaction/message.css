@@ -62,15 +62,29 @@ main {
     transform: translateY(-2px);
 }
 
+/* その他の取引中の商品のボタン */
+.other-item-card {
+    max-width: 197px;
+    width: 100%;
+    max-height: 40px;
+    height: 100%;
+    border-radius: 5px;
+    background-color: #EEEFEB;
+}
+
+.other-title-header {
+    width: 100%;
+    height: 100%;
+}
+
 /* その他の取引の商品名 */
 .other-item-title {
     font-family: Inter;
     font-weight: 400;
-    font-style: Regular;
     font-size: 24px;
-    line-height: 100%;
-    letter-spacing: 0%;
     color: #000000;
+    display: block;
+    text-align: center;
 }
 
 /* 右側：取引エリア */
@@ -129,6 +143,7 @@ main {
     background-color: #FF8282;
 }
 
+/* 取引を完了する */
 .finish-button-text {
     font-family: Inter;
     font-weight: 700;
@@ -516,137 +531,187 @@ main {
     /* 星だけ中央寄せ */
 }
 
-/* タブレット（768-850px）対応 */
+
+
+/* タブレット（768〜850px） */
 @media screen and (max-width: 850px) and (min-width: 768px) {
+
+    /* 全体の横並びを少し広げる */
+    .transaction-container {
+        flex-direction: row;
+    }
+
+    /* 左側リスト */
     .transaction-list {
-        padding: 15px;
-    }
-    .list-title,
-    .other-item-title {
-        font-size: 17px;
-    }
-    .profile-image {
-        width: 55px;
-        height: 55px;
-        margin-left: 11px;
+        width: 22%;
+        padding: 10px;
     }
 
-    .transaction-title {
-        margin-left: 0px;
-        font-size: 22px;
+    /* その他の取引 */
+    .list-title {
+        font-size: 18px;
+        letter-spacing: 0.37em;
     }
 
-    .finish-button {
-        width: 100px;
-        height: 28px;
-        margin: auto 18px auto auto;
-        border-radius: 23px;
-    }
-
-    .finish-button-text {
-        margin-top: 8px;
-        font-size: 10px;
-    }
-
-    .item-header {
-        padding: 8px 0;
-    }
-
-    .item-image {
-        width: 100px;
-        height: 104px;
-    }
-
-    .item-title {
-        margin: 17px 0 0 0;
-        font-size: 28px;
-    }
-
-    .item-price {
-        font-size: 28px;
+    .other-title-header {
         margin: 15px 0;
     }
 
-    .messages-container {
-        max-height: 600px;
+    /* その他の取引の商品名 */
+    .other-item-title {
+        font-size: 14px;
     }
 
-    .my-message {
-        width: 300px;
+    /* その他の取引中の商品のボタン */
+    .other-item-card {
+        height: 25px;
+        border-radius: 5px;
     }
-    .user-icon {
-        width: 45px;
-        height: 45px;
+
+    /* 右側エリア */
+    .transaction-area {
+        width: 78%;
+    }
+
+    /* 上部プロフィールエリア */
+    .profile-image {
+        width: 50px;
+        height: 50px;
+        margin-left: 10px;
+    }
+
+    /* 「ユーザー名」さんとの取引画面 */
+    .transaction-title {
+        font-size: 22px;
+        margin-left: 10px;
         margin-right: 10px;
     }
 
-    .user-name {
-        font-size: 15px;
+    /* 取引を完了するボタン */
+    .finish-button {
+        width: 100px;
+        height: 30px;
+        border-radius: 20px;
     }
 
-    .transaction-message {
+    /* 取引を完了する */
+    .finish-button-text {
+        font-size: 12px;
+        margin-top: 8px;
+    }
+
+    /* 商品ヘッダー */
+    .item-header {
+        padding: 10px;
+    }
+
+    /* 商品画像 */
+    .item-image {
+        width: 110px;
+        height: 115px;
+    }
+
+    /* 商品名 */
+    .item-title {
+        font-size: 24px;
+        margin: 10px 0 5px;
+    }
+
+    /* 商品価格 */
+    .item-price {
+        font-size: 20px;
+    }
+
+    /* メッセージ一覧 */
+    .messages-container {
+        max-height: 550px;
+        padding: 20px;
+    }
+
+    /* 自分のメッセージと相手のメッセージ */
+    .my-message,
+    .other-message {
         width: 300px;
-        margin-bottom: -3px;
     }
 
+    /* 取引メッセージ */
+    .transaction-message {
+        width: 100%;
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    /* ユーザーアイコン */
+    .user-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* ユーザー名 */
+    .user-name {
+        font-size: 14px;
+    }
+
+    /* 編集・削除ボタン */
     .edit-btn,
     .delete-btn {
         font-size: 11px;
     }
 
+    /* メッセージ入力 */
+    .message-form {
+        padding: 10px 20px;
+    }
+
+    /* メッセージ入力欄 */
     .message-input {
-        width: 80%;
-        height: 33px;
-        font-size: 15px;
+        font-size: 16px;
+        height: 36px;
     }
 
     .add-image {
-        width: 107px;
-        height: 33px;
-        border-radius: 8px;
-        font-size: 15px;
+        width: 110px;
+        height: 36px;
+        font-size: 14px;
     }
 
+    /* 送信ボタン */
     .sent-button {
-        width: 45px;
-        height: 33px;
+        width: 40px;
+        height: 36px;
     }
 
+    /* モーダル */
     .modal-overlay {
-        width: 43%;
-        height: 26%;
-        top: 243px;
-        left: 297px;
+        width: 60%;
+        height: 35%;
+        top: 30%;
+        left: 20%;
     }
 
+    /* 取引が完了しました */
     .modal-message {
-        font-size: 18px;
-        margin: 20px 0;
-        padding-left: 12px;
-        padding-bottom: 16px;
+        font-size: 20px;
+        padding-left: 15px;
     }
 
+    /* 今回の取引はどうでしたか？ */
     .modal-questions {
-        font-size: 10px;
-        padding-left: 12px;
-        margin: 0;
+        font-size: 12px;
+        padding-left: 15px;
     }
 
-    .rating {
-        padding-bottom: 10px;
-    }
-
+    /* 評価する星 */
     .rating label {
-        font-size: 45px;
+        font-size: 40px;
         padding: 0 5px;
     }
 
+    /* 送信ボタン */
     .submit-rating {
-        width: 20%;
-        height: 50%;
-        border-radius: 3px;
         font-size: 12px;
-        margin: 7px;
+        width: 30%;
         padding: 6px;
+        margin: 10px auto;
     }
 }
