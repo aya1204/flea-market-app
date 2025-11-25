@@ -32,8 +32,9 @@ main {
     font-weight: 700;
     font-size: 30px;
     line-height: 100%;
-    letter-spacing: 10%;
+    letter-spacing: 0.1em;
     color: #FFFFFF;
+    margin: 13px auto 56px auto;
 }
 
 .item-card-link {
@@ -85,6 +86,7 @@ main {
     color: #000000;
     display: block;
     text-align: center;
+    margin: 43px auto;
 }
 
 /* 右側：取引エリア */
@@ -423,6 +425,7 @@ main {
     padding-left: 23px;
     padding-bottom: 19px;
     border-bottom: 1px solid #000000;
+    margin-bottom: 25px;
 }
 
 /* 読点 */
@@ -446,7 +449,7 @@ main {
     letter-spacing: 0%;
     color: #868686;
     padding-left: 23px;
-    margin-bottom: 0;
+    margin: 0 auto;
 }
 
 /* 評価のフォーム */
@@ -456,6 +459,7 @@ main {
     justify-content: center;
     flex-direction: row-reverse; /* 右から並べる */
     border-bottom: 1px solid #000000;
+    padding-bottom: 10px;
 }
 
 /* ラジオボタン非表示 */
@@ -550,7 +554,8 @@ main {
     /* その他の取引 */
     .list-title {
         font-size: 18px;
-        letter-spacing: 0.37em;
+        width: 119px;
+        margin: 7px auto 31px auto;
     }
 
     .other-title-header {
@@ -560,6 +565,7 @@ main {
     /* その他の取引の商品名 */
     .other-item-title {
         font-size: 14px;
+        margin: 24px auto;
     }
 
     /* その他の取引中の商品のボタン */
@@ -585,6 +591,14 @@ main {
         font-size: 22px;
         margin-left: 10px;
         margin-right: 10px;
+    }
+
+    /* モーダル */
+    .modal-overlay {
+        width: 45%;
+        height: 45%;
+        top: 38%;
+        left: 38%;
     }
 
     /* 取引を完了するボタン */
@@ -679,14 +693,6 @@ main {
     .sent-button {
         width: 40px;
         height: 36px;
-    }
-
-    /* モーダル */
-    .modal-overlay {
-        width: 60%;
-        height: 35%;
-        top: 30%;
-        left: 20%;
     }
 
     /* 取引が完了しました */
